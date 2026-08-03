@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>KDI Center - Executive Glass Edition</title>
+  <title>KDI Center - Gold White Glass Edition</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
@@ -12,29 +12,31 @@
   
   <style>
     :root {
-      --bg-body: #f8fafc;
+      --bg-body: #ffffff;
       --text-judul: #0f172a;
       --text-p: #475569;
-      --glass-bg: rgba(255, 255, 255, 0.85);
-      --glass-border: rgba(226, 232, 240, 0.9);
-      --glass-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+      --glass-bg: rgba(255, 255, 255, 0.90);
+      --glass-border: rgba(255, 215, 0, 0.35);
+      --glass-shadow: 0 12px 35px rgba(212, 175, 55, 0.12);
       --blob-opacity: 0.25;
       --input-bg: #ffffff;
-      --input-border: #cbd5e1;
-      --card-item-bg: rgba(241, 245, 249, 0.8);
+      --input-border: #e2e8f0;
+      --card-item-bg: rgba(255, 251, 235, 0.6);
+      --gold-primary: #FFD700;
+      --gold-dark: #B8860B;
     }
 
     [data-theme="dark"] {
-      --bg-body: #020617;
+      --bg-body: #0a0c10;
       --text-judul: #f8fafc;
       --text-p: #94a3b8;
-      --glass-bg: rgba(15, 23, 42, 0.75);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      --blob-opacity: 0.15;
-      --input-bg: rgba(15, 23, 42, 0.8);
-      --input-border: rgba(255, 255, 255, 0.15);
-      --card-item-bg: rgba(255, 255, 255, 0.03);
+      --glass-bg: rgba(18, 20, 26, 0.85);
+      --glass-border: rgba(255, 215, 0, 0.25);
+      --glass-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+      --blob-opacity: 0.18;
+      --input-bg: rgba(18, 20, 26, 0.9);
+      --input-border: rgba(255, 215, 0, 0.3);
+      --card-item-bg: rgba(255, 215, 0, 0.04);
     }
 
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -48,6 +50,8 @@
 
     .text-judul-theme { color: var(--text-judul); }
     .text-p-theme { color: var(--text-p); }
+    .text-gold { color: var(--gold-dark); }
+    [data-theme="dark"] .text-gold { color: #FFD700; }
 
     .glass-card {
       background: var(--glass-bg);
@@ -58,11 +62,17 @@
     }
 
     .glass-button-primary {
-      background: linear-gradient(135deg, #d97706, #b45309);
+      background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 20px rgba(217, 119, 6, 0.25);
-      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 22px rgba(255, 215, 0, 0.35);
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .glass-button-primary:hover {
+      box-shadow: 0 10px 28px rgba(255, 215, 0, 0.5);
+      transform: translateY(-1px);
     }
 
     .glass-button-secondary {
@@ -89,24 +99,24 @@
     }
 
     .glass-input:focus {
-      border-color: #d97706;
-      box-shadow: 0 0 10px rgba(217, 119, 6, 0.2);
+      border-color: #FFD700;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
       outline: none;
     }
 
     .header-pill {
       background: var(--card-item-bg);
-      padding: 6px 12px;
-      height: 34px;
+      padding: 6px 14px;
+      height: 36px;
       border-radius: 20px;
       border: 1px solid var(--glass-border); 
       display: flex; align-items: center; justify-content: center; gap: 6px;
-      font-size: 11px; font-weight: 700; color: var(--text-judul); 
+      font-size: 12px; font-weight: 700; color: var(--text-judul); 
       transition: all 0.2s ease;
     }
 
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
-    .status-dot.loading { background: #3b82f6; animation: pulse 1s infinite; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+    .status-dot.loading { background: #FFD700; animation: pulse 1s infinite; }
     .status-dot.offline { background: #ef4444 !important; animation: none !important; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
@@ -121,85 +131,86 @@
     }
 
     .special-icon {
-      width: 65px; height: 65px; background: linear-gradient(135deg, #d97706, #92400e);
-      border-radius: 20px; display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px; color: white; box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+      width: 70px; height: 70px; background: linear-gradient(135deg, #FFD700, #B8860B);
+      border-radius: 22px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; color: #0f172a; box-shadow: 0 8px 22px rgba(255, 215, 0, 0.4);
     }
 
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
     .stat-box {
       background: var(--card-item-bg); border: 1px solid var(--glass-border);
-      border-radius: 16px; padding: 10px; text-align: center;
+      border-radius: 16px; padding: 12px; text-align: center;
     }
     .stat-box.full-width { grid-column: span 2; }
-    .stat-label { font-size: 10px; color: var(--text-p); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; font-weight: 600; }
-    .stat-value { font-size: 13px; color: var(--text-judul); font-weight: 700; }
+    .stat-label { font-size: 11px; color: var(--text-p); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; font-weight: 600; }
+    .stat-value { font-size: 14px; color: var(--text-judul); font-weight: 700; }
 
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(217, 119, 6, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 215, 0, 0.4); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 215, 0, 0.7); }
   </style>
 </head>
 
 <body class="antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
-  <!-- BACKGROUND AMBIENT ORBS -->
+  <!-- BACKGROUND AMBIENT GLOW ORBS -->
   <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-    <div class="blob w-96 h-96 md:w-[600px] md:h-[600px] bg-amber-500/20 -top-24 -left-24 blur-3xl"></div>
-    <div class="blob w-96 h-96 md:w-[600px] md:h-[600px] bg-slate-500/10 top-1/3 -right-24 blur-3xl" style="animation-duration: 25s;"></div>
+    <div class="blob w-[450px] h-[450px] md:w-[700px] md:h-[700px] bg-yellow-300/30 dark:bg-yellow-500/10 -top-24 -left-24 blur-3xl"></div>
+    <div class="blob w-[450px] h-[450px] md:w-[700px] md:h-[700px] bg-amber-200/40 dark:bg-amber-600/10 top-1/3 -right-24 blur-3xl" style="animation-duration: 25s;"></div>
   </div>
 
 
   <!-- ================= CUSTOM ALERT MODAL ================= -->
   <div id="customAlertModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-    <div class="glass-card w-full max-w-xs md:max-w-sm rounded-3xl p-5 md:p-6 text-center space-y-4 shadow-2xl animate-in fade-in zoom-in duration-200">
-      <div id="customAlertIcon" class="w-12 h-12 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center mx-auto border border-amber-500/20">
-        <i data-lucide="info" class="w-6 h-6"></i>
+    <div class="glass-card w-full max-w-xs md:max-w-md rounded-3xl p-6 text-center space-y-4 shadow-2xl animate-in fade-in zoom-in duration-200">
+      <div id="customAlertIcon" class="w-14 h-14 bg-yellow-400/20 text-yellow-700 dark:text-yellow-400 rounded-2xl flex items-center justify-center mx-auto border border-yellow-400/40">
+        <i data-lucide="info" class="w-7 h-7"></i>
       </div>
-      <div class="space-y-1">
-        <h3 id="customAlertTitle" class="font-bold text-judul-theme text-sm md:text-base">Informasi KDI Center</h3>
+      <div class="space-y-1.5">
+        <h3 id="customAlertTitle" class="font-bold text-judul-theme text-base md:text-lg">Informasi KDI Center</h3>
         <p id="customAlertMessage" class="text-xs md:text-sm text-p-theme leading-relaxed">Pesan pemberitahuan di sini...</p>
       </div>
-      <button onclick="closeCustomAlert()" class="glass-button-primary w-full py-2.5 rounded-xl text-xs md:text-sm font-bold shadow-md">OK</button>
+      <button onclick="closeCustomAlert()" class="glass-button-primary w-full py-3 rounded-xl text-xs md:text-sm font-bold shadow-md">OK</button>
     </div>
   </div>
 
 
   <!-- ================= PAGE 1: HOME / LANDING PAGE ================= -->
-  <div id="viewHome" class="flex-1 flex flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
+  <div id="viewHome" class="flex-1 flex flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
     
-    <div class="fixed top-4 left-0 right-0 max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto px-4 flex justify-between items-center z-50 pointer-events-none">
-      <div class="header-pill pointer-events-auto">
+    <div class="fixed top-4 left-0 right-0 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto px-4 flex justify-between items-center z-50 pointer-events-none">
+      <div class="header-pill pointer-events-auto shadow-sm">
         <div id="statusDotHome" class="status-dot"></div>
         <span id="statusTextHome">Terhubung</span>
       </div>
-      <div class="header-pill cursor-pointer pointer-events-auto" onclick="toggleTheme()">
+      <div class="header-pill cursor-pointer pointer-events-auto hover:scale-105 shadow-sm" onclick="toggleTheme()">
         <span id="theme-text-home">Mode Terang</span>
         <div id="theme-icon-home"></div>
       </div>
     </div>
 
-    <div class="glass-card w-full p-7 md:p-10 rounded-3xl space-y-6 md:space-y-8">
-      <div class="relative w-20 h-20 md:w-24 md:h-24 mx-auto flex items-center justify-center">
-        <div class="relative w-full h-full bg-gradient-to-br from-amber-600 to-amber-800 rounded-2xl md:rounded-3xl p-3 flex flex-col items-center justify-center border border-amber-500/30 shadow-lg">
-          <div class="text-xl md:text-2xl font-black tracking-widest text-white leading-none">KDI</div>
-          <div class="text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-amber-200 mt-1">CENTER</div>
+    <div class="glass-card w-full p-8 md:p-12 rounded-3xl space-y-6 md:space-y-8">
+      <div class="relative w-20 h-20 md:w-28 md:h-28 mx-auto flex items-center justify-center">
+        <div class="relative w-full h-full bg-gradient-to-br from-[#FFD700] to-[#B8860B] rounded-2xl md:rounded-3xl p-3 flex flex-col items-center justify-center border border-yellow-300/60 shadow-xl">
+          <div class="text-2xl md:text-3xl font-black tracking-widest text-slate-900 leading-none">KDI</div>
+          <div class="text-[8px] md:text-[10px] font-extrabold uppercase tracking-widest text-slate-900 mt-1">CENTER</div>
         </div>
       </div>
       
-      <div class="space-y-1">
-        <h1 class="text-xl md:text-2xl font-black tracking-tight text-judul-theme">KDI CENTER</h1>
-        <p class="text-[10px] md:text-xs font-bold text-amber-600 uppercase tracking-wider">SMA Muhammadiyah 2 Depok</p>
+      <div class="space-y-1.5">
+        <h1 class="text-2xl md:text-3xl font-black tracking-tight text-judul-theme">KDI CENTER</h1>
+        <p class="text-xs md:text-sm font-bold text-gold uppercase tracking-wider">SMA Muhammadiyah 2 Depok</p>
       </div>
 
-      <div class="space-y-3 pt-1 max-w-xs sm:max-w-sm mx-auto w-full">
-        <button onclick="goToView('viewLogin')" class="glass-button-primary w-full py-3 px-4 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition transform active:scale-95 shadow-md hover:shadow-lg">
+      <div class="space-y-3.5 pt-2 max-w-xs sm:max-w-sm md:max-w-md mx-auto w-full">
+        <button onclick="goToView('viewLogin')" class="glass-button-primary w-full py-3.5 px-5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2.5 transition transform active:scale-95 shadow-lg">
           <i data-lucide="log-in" class="w-4 h-4 md:w-5 md:h-5"></i> Masuk (Dashboard Pembina)
         </button>
-        <button onclick="goToView('viewCatatPelanggaran')" class="glass-button-secondary w-full py-2.5 md:py-3 px-4 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2 transition hover:bg-amber-500/10">
-          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600"></i> Catat Kedisiplinan / Telat
+        <button onclick="goToView('viewCatatPelanggaran')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2.5 transition hover:bg-yellow-400/10">
+          <i data-lucide="shield-alert" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Catat Kedisiplinan / Telat
         </button>
-        <button onclick="goToView('viewTentang')" class="glass-button-secondary w-full py-2.5 md:py-3 px-4 rounded-2xl font-medium text-[11px] md:text-xs flex items-center justify-center gap-2 transition">
+        <button onclick="goToView('viewTentang')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-medium text-xs md:text-sm flex items-center justify-center gap-2.5 transition">
           <i data-lucide="info" class="w-4 h-4 text-slate-400"></i> Tentang KDI Center
         </button>
       </div>
@@ -209,82 +220,82 @@
 
   <!-- ================= PAGE 2: LOGIN / PASSWORD SCREEN ================= -->
   <div id="viewLogin" class="hidden flex-1 flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-lg mx-auto w-full my-auto relative z-10 transition-all duration-300">
-    <div class="glass-card w-full p-7 md:p-9 rounded-3xl space-y-5">
-      <div class="w-12 h-12 md:w-14 md:h-14 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center mx-auto border border-amber-500/20">
-        <i data-lucide="lock" class="w-6 h-6"></i>
+    <div class="glass-card w-full p-8 md:p-10 rounded-3xl space-y-6">
+      <div class="w-14 h-14 md:w-16 md:h-16 bg-yellow-400/20 text-yellow-700 dark:text-yellow-400 rounded-2xl flex items-center justify-center mx-auto border border-yellow-400/30">
+        <i data-lucide="lock" class="w-7 h-7"></i>
       </div>
       <div>
-        <h2 class="font-bold text-judul-theme text-base md:text-lg">Otorisasi Pembina</h2>
-        <p class="text-[11px] md:text-xs text-p-theme mt-1">Masukkan kode akses untuk membuka dashboard monitoring.</p>
+        <h2 class="font-bold text-judul-theme text-lg md:text-xl">Otorisasi Pembina</h2>
+        <p class="text-xs md:text-sm text-p-theme mt-1.5">Masukkan kode akses untuk membuka dashboard monitoring.</p>
       </div>
-      <form onsubmit="handleLogin(event)" class="space-y-3.5 max-w-xs mx-auto w-full">
-        <input type="password" id="passwordInput" required placeholder="••••" class="glass-input w-full px-4 py-3 rounded-2xl text-center tracking-widest text-sm md:text-base font-bold">
-        <div id="loginError" class="text-rose-500 text-xs font-semibold hidden bg-rose-500/10 py-2 rounded-xl border border-rose-500/20">⚠️ Password salah, coba lagi.</div>
-        <button type="submit" class="glass-button-primary w-full py-3 rounded-2xl font-bold text-xs md:text-sm transition">Buka Dashboard</button>
+      <form onsubmit="handleLogin(event)" class="space-y-4 max-w-xs md:max-w-sm mx-auto w-full">
+        <input type="password" id="passwordInput" required placeholder="••••" class="glass-input w-full px-4 py-3.5 rounded-2xl text-center tracking-widest text-base md:text-lg font-bold">
+        <div id="loginError" class="text-rose-500 text-xs md:text-sm font-semibold hidden bg-rose-500/10 py-2.5 rounded-xl border border-rose-500/20">⚠️ Password salah, coba lagi.</div>
+        <button type="submit" class="glass-button-primary w-full py-3.5 rounded-2xl font-bold text-xs md:text-sm transition">Buka Dashboard</button>
       </form>
-      <button onclick="goToView('viewHome')" class="text-xs text-p-theme hover:text-amber-600 font-semibold transition inline-block pt-1">Kembali ke Beranda</button>
+      <button onclick="goToView('viewHome')" class="text-xs md:text-sm text-p-theme hover:text-yellow-600 font-semibold transition inline-block pt-1">Kembali ke Beranda</button>
     </div>
   </div>
 
 
-  <!-- ================= PAGE 3: CATAT PELANGGARAN (RESPONSIF 2-KOLOM UNTUK DESKTOP) ================= -->
-  <div id="viewCatatPelanggaran" class="hidden flex-1 flex-col items-center justify-center p-4 pt-12 pb-8 max-w-sm sm:max-w-lg md:max-w-3xl lg:max-w-4xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
-    <div class="glass-card w-full p-6 md:p-8 rounded-3xl space-y-5 text-left">
+  <!-- ================= PAGE 3: CATAT PELANGGARAN ================= -->
+  <div id="viewCatatPelanggaran" class="hidden flex-1 flex-col items-center justify-center p-4 pt-12 pb-8 max-w-sm sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
+    <div class="glass-card w-full p-6 md:p-10 rounded-3xl space-y-6 text-left">
       
       <!-- Header Bar Form -->
-      <div class="flex items-center justify-between border-b border-slate-200/50 dark:border-white/10 pb-4">
+      <div class="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 pb-4">
         <div>
-          <h2 class="font-bold text-judul-theme text-base md:text-lg flex items-center gap-2">
-            <i data-lucide="shield-alert" class="w-5 h-5 text-amber-600"></i> Catat Kedisiplinan Siswa
+          <h2 class="font-bold text-judul-theme text-lg md:text-xl flex items-center gap-2.5">
+            <i data-lucide="shield-alert" class="w-6 h-6 text-yellow-600 dark:text-yellow-400"></i> Catat Kedisiplinan Siswa
           </h2>
-          <p class="text-[11px] text-p-theme hidden sm:block mt-0.5">Input data pelanggaran siswa secara cepat dan kirim langsung ke database.</p>
+          <p class="text-xs md:text-sm text-p-theme hidden sm:block mt-1">Input data pelanggaran siswa secara cepat dan simpan langsung ke database.</p>
         </div>
-        <button onclick="goToView('viewHome')" class="glass-button-secondary text-xs font-semibold px-3 py-1.5 rounded-xl hover:bg-slate-200/50 transition">Kembali</button>
+        <button onclick="goToView('viewHome')" class="glass-button-secondary text-xs md:text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-200/50 transition">Kembali</button>
       </div>
 
       <!-- Layout Grid Form & Antrean (1 Kolom Mobile, 2 Kolom Desktop) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         
         <!-- KOLOM KIRI: FORM INPUT -->
-        <div class="space-y-4">
+        <div class="space-y-5">
           <div class="relative">
-            <label class="block text-xs font-bold text-p-theme mb-1.5">Cari Nama Siswa</label>
+            <label class="block text-xs md:text-sm font-bold text-p-theme mb-2">Cari Nama Siswa</label>
             <div class="relative">
-              <input type="text" id="inputSearchSiswaPelanggaran" oninput="handleSearchSiswaPelanggaran(this.value)" placeholder="Ketik nama siswa atau kelas..." class="glass-input w-full px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold">
-              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute right-3.5 top-3 pointer-events-none"></i>
+              <input type="text" id="inputSearchSiswaPelanggaran" oninput="handleSearchSiswaPelanggaran(this.value)" placeholder="Ketik nama siswa atau kelas..." class="glass-input w-full px-4 py-3 rounded-xl text-xs md:text-sm font-semibold">
+              <i data-lucide="search" class="w-4 h-4 md:w-5 md:h-5 text-slate-400 absolute right-3.5 top-3.5 pointer-events-none"></i>
             </div>
 
-            <div id="suggestionsSiswaContainer" class="hidden absolute left-0 right-0 top-full mt-1.5 max-h-48 overflow-y-auto rounded-xl glass-card z-30 divide-y divide-slate-200/50 dark:divide-white/10 shadow-xl"></div>
+            <div id="suggestionsSiswaContainer" class="hidden absolute left-0 right-0 top-full mt-2 max-h-52 overflow-y-auto rounded-2xl glass-card z-30 divide-y divide-slate-200/50 dark:divide-white/10 shadow-2xl"></div>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-p-theme mb-1.5">Keterangan Pelanggaran Hari Ini</label>
-            <div class="grid grid-cols-3 gap-2">
-              <button type="button" onclick="pilihKategoriPelanggaran('Telat')" id="btnKatTelat" class="py-2.5 rounded-xl text-xs font-bold border border-amber-600/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 transition">Telat</button>
-              <button type="button" onclick="pilihKategoriPelanggaran('Bercanda')" id="btnKatBercanda" class="py-2.5 rounded-xl text-xs font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition">Bercanda</button>
-              <button type="button" onclick="pilihKategoriPelanggaran('Cabut')" id="btnKatCabut" class="py-2.5 rounded-xl text-xs font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition">Cabut</button>
+            <label class="block text-xs md:text-sm font-bold text-p-theme mb-2">Keterangan Pelanggaran Hari Ini</label>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button type="button" onclick="pilihKategoriPelanggaran('Telat')" id="btnKatTelat" class="py-3 rounded-xl text-xs md:text-sm font-bold border border-yellow-500/40 bg-yellow-400/20 text-yellow-800 dark:text-yellow-300 transition">Telat</button>
+              <button type="button" onclick="pilihKategoriPelanggaran('Bercanda')" id="btnKatBercanda" class="py-3 rounded-xl text-xs md:text-sm font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition">Bercanda</button>
+              <button type="button" onclick="pilihKategoriPelanggaran('Cabut')" id="btnKatCabut" class="py-3 rounded-xl text-xs md:text-sm font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition">Cabut</button>
             </div>
           </div>
 
-          <button onclick="tambahKeDaftarPelanggaran()" class="glass-button-secondary w-full py-2.5 rounded-xl text-amber-700 dark:text-amber-400 font-bold text-xs md:text-sm flex items-center justify-center gap-2 border-amber-500/30 hover:bg-amber-500/10 transition">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah ke List Antrean
+          <button onclick="tambahKeDaftarPelanggaran()" class="glass-button-secondary w-full py-3 rounded-xl text-yellow-800 dark:text-yellow-400 font-bold text-xs md:text-sm flex items-center justify-center gap-2 border-yellow-400/40 hover:bg-yellow-400/10 transition">
+            <i data-lucide="plus-circle" class="w-4 h-4 md:w-5 md:h-5"></i> Tambah ke List Antrean
           </button>
         </div>
 
         <!-- KOLOM KANAN: LIST ANTREAN & TOMBOL KIRIM -->
-        <div class="space-y-4 md:border-l md:border-slate-200/50 md:dark:border-white/10 md:pl-6">
+        <div class="space-y-5 md:border-l md:border-slate-200/60 md:dark:border-white/10 md:pl-8">
           <div>
-            <label class="block text-xs font-bold text-p-theme mb-2 flex justify-between items-center">
+            <label class="block text-xs md:text-sm font-bold text-p-theme mb-2.5 flex justify-between items-center">
               <span>Daftar Siswa Dicatat (<span id="countPelanggaranList">0</span>)</span>
-              <button onclick="clearPelanggaranList()" class="text-[11px] text-rose-500 font-bold hover:underline">Kosongkan List</button>
+              <button onclick="clearPelanggaranList()" class="text-xs text-rose-500 font-bold hover:underline">Kosongkan List</button>
             </label>
             
-            <div id="containerPelanggaranList" class="space-y-2 max-h-48 md:max-h-56 overflow-y-auto pr-1 text-xs">
-              <p class="text-center text-slate-400 py-6 text-xs">Belum ada siswa ditambahkan ke antrean.</p>
+            <div id="containerPelanggaranList" class="space-y-2.5 max-h-52 md:max-h-64 overflow-y-auto pr-1 text-xs md:text-sm">
+              <p class="text-center text-slate-400 py-8 text-xs md:text-sm">Belum ada siswa ditambahkan ke antrean.</p>
             </div>
           </div>
 
-          <button onclick="kirimDaftarPelanggaran()" class="glass-button-primary w-full py-3 rounded-2xl font-bold text-xs md:text-sm transition shadow-md hover:shadow-lg">
+          <button onclick="kirimDaftarPelanggaran()" class="glass-button-primary w-full py-3.5 rounded-2xl font-bold text-xs md:text-sm transition shadow-md hover:shadow-lg">
             Kirim Data Kedisiplinan
           </button>
         </div>
@@ -297,14 +308,14 @@
 
   <!-- ================= PAGE 4: TENTANG KDI CENTER ================= -->
   <div id="viewTentang" class="hidden flex-1 flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
-    <div class="glass-card w-full p-6 md:p-9 rounded-3xl text-center">
+    <div class="glass-card w-full p-8 md:p-10 rounded-3xl text-center">
       <div class="special-icon">
-        <i data-lucide="info" class="w-8 h-8 text-white"></i>
+        <i data-lucide="info" class="w-8 h-8 text-slate-900"></i>
       </div>
 
-      <h3 class="text-lg md:text-xl font-black text-judul-theme mb-1">Tentang KDI Center</h3>
+      <h3 class="text-xl md:text-2xl font-black text-judul-theme mb-1.5">Tentang KDI Center</h3>
       <p class="text-p-theme text-xs md:text-sm leading-relaxed mb-6 font-medium max-w-md mx-auto">
-        Platform monitoring terpadu <strong>KDI</strong> untuk mengontrol rekapitulasi sholat Dhuha, Dzuhur, haid, serta kedisiplinan siswa di <span class="text-amber-600 font-bold">SMA Muhammadiyah 2 Depok</span>.
+        Platform monitoring terpadu <strong>KDI</strong> untuk mengontrol rekapitulasi sholat Dhuha, Dzuhur, haid, serta kedisiplinan siswa di <span class="text-gold font-bold">SMA Muhammadiyah 2 Depok</span>.
       </p>
 
       <div class="stats-grid max-w-sm mx-auto">
@@ -314,19 +325,19 @@
         </div>
         <div class="stat-box">
           <div class="stat-label">Version</div>
-          <div class="stat-value">v1.1.2</div>
+          <div class="stat-value">v1.2.0</div>
         </div>
         <div class="stat-box full-width">
           <div class="stat-label">Developed by</div>
-          <div class="stat-value"><strong class="text-amber-600">Razuhfgkruay</strong></div>
+          <div class="stat-value"><strong class="text-gold">Razuhfgkruay</strong></div>
         </div>
       </div>
 
-      <button onclick="goToView('viewHome')" class="glass-button-primary w-full py-2.5 md:py-3 rounded-2xl text-xs md:text-sm font-bold max-w-xs mx-auto">
+      <button onclick="goToView('viewHome')" class="glass-button-primary w-full py-3 rounded-2xl text-xs md:text-sm font-bold max-w-xs mx-auto">
         Tutup
       </button>
 
-      <div class="text-[9px] md:text-[10px] font-bold text-slate-400 mt-5 tracking-wider uppercase">
+      <div class="text-[10px] md:text-xs font-bold text-slate-400 mt-6 tracking-wider uppercase">
         SUPPORT BY RAZUHFGKRUAY
       </div>
     </div>
@@ -337,74 +348,74 @@
   <div id="viewDashboard" class="hidden flex-col min-h-screen justify-between relative z-10 w-full">
     <div>
       <header class="glass-card sticky top-0 z-30 border-b border-slate-200/60 dark:border-white/10 rounded-b-2xl shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-3">
+        <div class="max-w-7xl lg:max-w-[1400px] mx-auto px-4 md:px-8 py-3.5 flex items-center justify-between gap-4">
           
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-amber-600 to-amber-800 rounded-xl flex items-center justify-center font-black text-white text-xs md:text-sm shadow-sm shrink-0">
+            <div class="w-10 h-10 md:w-11 md:h-11 bg-gradient-to-br from-[#FFD700] to-[#B8860B] rounded-xl flex items-center justify-center font-black text-slate-900 text-xs md:text-sm shadow-md shrink-0">
               KDI
             </div>
             <div class="leading-tight">
-              <span class="text-[8px] md:text-[9px] font-bold uppercase tracking-wider text-amber-600 block">SMA MUHAMMADIYAH 2 DEPOK</span>
-              <h1 class="text-sm md:text-base font-black text-judul-theme">KDI Center Executive</h1>
+              <span class="text-[9px] md:text-[10px] font-extrabold uppercase tracking-wider text-gold block">SMA MUHAMMADIYAH 2 DEPOK</span>
+              <h1 class="text-base md:text-lg font-black text-judul-theme">KDI Center Executive</h1>
             </div>
           </div>
           
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2.5">
             <div class="header-pill hidden sm:flex">
               <div id="statusDotDash" class="status-dot"></div>
-              <span id="statusTextDash" class="text-[10px] md:text-xs">Terhubung</span>
+              <span id="statusTextDash" class="text-xs">Terhubung</span>
             </div>
 
-            <button onclick="toggleTheme()" class="header-pill">
+            <button onclick="toggleTheme()" class="header-pill hover:scale-105">
               <div id="theme-icon-dash"></div>
             </button>
 
-            <button onclick="openNotificationModal()" class="header-pill relative hover:bg-amber-500/10 transition" title="Pusat Peringatan & Anomali">
-              <i data-lucide="bell" class="w-4 h-4 text-amber-600"></i>
-              <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden animate-bounce">0</span>
+            <button onclick="openNotificationModal()" class="header-pill relative hover:bg-yellow-400/20 transition" title="Pusat Peringatan & Anomali">
+              <i data-lucide="bell" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
+              <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden animate-bounce">0</span>
             </button>
 
-            <button onclick="goToView('viewHome')" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20 px-3 py-1.5 rounded-xl text-xs font-bold transition">Keluar</button>
+            <button onclick="goToView('viewHome')" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20 px-3.5 py-2 rounded-xl text-xs md:text-sm font-bold transition">Keluar</button>
           </div>
 
         </div>
       </header>
 
-      <main class="max-w-7xl mx-auto px-4 md:px-6 py-6 space-y-6">
+      <main class="max-w-7xl lg:max-w-[1400px] mx-auto px-4 md:px-8 py-6 space-y-6">
         <!-- Metric Cards Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          <div class="glass-card p-4 rounded-2xl text-center">
-            <p class="text-[10px] md:text-xs font-bold text-p-theme uppercase tracking-wider">Total Kelas</p>
-            <p id="statTotalKelas" class="text-xl md:text-2xl font-black text-judul-theme mt-1">0</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Total Kelas</p>
+            <p id="statTotalKelas" class="text-2xl md:text-3xl font-black text-judul-theme mt-1">0</p>
           </div>
-          <div class="glass-card p-4 rounded-2xl text-center">
-            <p class="text-[10px] md:text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dhuha</p>
-            <p id="statDhuhaMasuk" class="text-xl md:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">0</p>
+          <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dhuha</p>
+            <p id="statDhuhaMasuk" class="text-2xl md:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1">0</p>
           </div>
-          <div class="glass-card p-4 rounded-2xl text-center">
-            <p class="text-[10px] md:text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dzuhur</p>
-            <p id="statDzuhurMasuk" class="text-xl md:text-2xl font-black text-blue-600 dark:text-blue-400 mt-1">0</p>
+          <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dzuhur</p>
+            <p id="statDzuhurMasuk" class="text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400 mt-1">0</p>
           </div>
-          <div class="glass-card p-4 rounded-2xl text-center">
-            <p class="text-[10px] md:text-xs font-bold text-p-theme uppercase tracking-wider">Anomali/Warning</p>
-            <p id="statAnomaliCount" class="text-xl md:text-2xl font-black text-rose-600 dark:text-rose-400 mt-1">0</p>
+          <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Anomali/Warning</p>
+            <p id="statAnomaliCount" class="text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-400 mt-1">0</p>
           </div>
         </div>
 
         <!-- Search Bar Kelas -->
         <div class="relative w-full">
           <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-            <i data-lucide="search" class="w-4 h-4 md:w-5 md:h-5"></i>
+            <i data-lucide="search" class="w-5 h-5"></i>
           </div>
-          <input type="text" id="searchKelasInput" oninput="handleSearchKelas(this.value)" placeholder="Cari nama kelas (misal: 10.2, 11.4, 12.1)..." class="glass-input w-full pl-11 pr-4 py-3 rounded-2xl text-xs md:text-sm font-semibold placeholder-slate-400">
+          <input type="text" id="searchKelasInput" oninput="handleSearchKelas(this.value)" placeholder="Cari nama kelas (misal: 10.2, 11.4, 12.1)..." class="glass-input w-full pl-12 pr-4 py-3.5 rounded-2xl text-xs md:text-sm font-semibold placeholder-slate-400">
         </div>
 
-        <!-- GRID KELAS DENGAN JUMLAH KOLOM DYNAMIS (2 di HP, 3 di Tablet, 4-5 di Laptop/Desktop) -->
-        <div id="classListContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4"></div>
+        <!-- GRID KELAS DENGAN JUMLAH KOLOM DINAMIS (Responsif Desktop 5-6 Kolom) -->
+        <div id="classListContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-5"></div>
       </main>
     </div>
 
-    <footer class="w-full text-center py-5 text-xs font-bold text-p-theme border-t border-slate-200/50 dark:border-white/10 mt-8">
+    <footer class="w-full text-center py-6 text-xs md:text-sm font-bold text-p-theme border-t border-slate-200/60 dark:border-white/10 mt-10">
       SUPPORT BY RAZUHFGKRUAY • KDI CENTER SYSTEM
     </footer>
   </div>
@@ -412,16 +423,16 @@
 
   <!-- ================= MODAL 1: PERINGATAN & ANOMALI LENGKAP ================= -->
   <div id="notificationModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-    <div class="glass-card w-full max-w-lg md:max-w-xl rounded-3xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div class="glass-card w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden flex flex-col max-h-[85vh]">
       <div class="bg-rose-500/10 px-6 py-4 border-b border-rose-500/20 flex justify-between items-center">
-        <h3 class="font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 text-xs md:text-sm">
-          <i data-lucide="alert-triangle" class="w-4 h-4 md:w-5 md:h-5"></i> Pusat Peringatan & Anomali Data
+        <h3 class="font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 text-sm md:text-base">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i> Pusat Peringatan & Anomali Data
         </h3>
         <button onclick="toggleModal('notificationModal', false)" class="text-slate-400 hover:text-rose-500 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <div id="warningListContainer" class="p-5 space-y-3 overflow-y-auto flex-1 divide-y divide-slate-200/50 dark:divide-white/10 text-xs md:text-sm"></div>
-      <div class="p-4 border-t border-slate-200/50 dark:border-white/10 text-right">
-        <button onclick="toggleModal('notificationModal', false)" class="glass-button-primary px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
+      <div id="warningListContainer" class="p-6 space-y-3.5 overflow-y-auto flex-1 divide-y divide-slate-200/60 dark:divide-white/10 text-xs md:text-sm"></div>
+      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
+        <button onclick="toggleModal('notificationModal', false)" class="glass-button-primary px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
       </div>
     </div>
   </div>
@@ -429,104 +440,104 @@
 
   <!-- ================= MODAL 2: DETAIL DATA REKAP KELAS ================= -->
   <div id="classDetailModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-    <div class="glass-card w-full max-w-2xl md:max-w-3xl lg:max-w-4xl rounded-3xl overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="bg-amber-500/10 px-6 py-4 border-b border-slate-200/50 dark:border-white/10 flex justify-between items-center">
+    <div class="glass-card w-full max-w-2xl md:max-w-4xl lg:max-w-5xl rounded-3xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-yellow-400/20 px-6 py-4.5 border-b border-slate-200/60 dark:border-white/10 flex justify-between items-center">
         <div>
-          <h3 id="detailClassTitle" class="font-bold text-judul-theme text-sm md:text-base">Detail Rekap Kelas</h3>
-          <p class="text-[10px] md:text-xs text-amber-600 font-semibold">Inspeksi Data Sholat, Haid, dan Kedisiplinan Siswa</p>
+          <h3 id="detailClassTitle" class="font-bold text-judul-theme text-base md:text-lg">Detail Rekap Kelas</h3>
+          <p class="text-xs text-gold font-semibold mt-0.5">Inspeksi Data Sholat, Haid, dan Kedisiplinan Siswa</p>
         </div>
-        <button onclick="toggleModal('classDetailModal', false)" class="text-slate-400 hover:text-amber-600 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="toggleModal('classDetailModal', false)" class="text-slate-400 hover:text-yellow-600 transition"><i data-lucide="x" class="w-6 h-6"></i></button>
       </div>
 
-      <div class="flex bg-slate-100/50 dark:bg-white/5 p-1.5 border-b border-slate-200/50 dark:border-white/10 text-xs md:text-sm font-bold gap-1.5">
-        <button onclick="switchDetailTab('sholat')" id="tabBtnSholat" class="flex-1 py-2.5 rounded-xl bg-amber-500/20 text-amber-700 dark:text-amber-400 text-center transition font-bold flex items-center justify-center gap-1.5">
-          <i data-lucide="sunrise" class="w-4 h-4 text-amber-600"></i> Data Sholat
+      <div class="flex bg-slate-100/60 dark:bg-white/5 p-2 border-b border-slate-200/60 dark:border-white/10 text-xs md:text-sm font-bold gap-2">
+        <button onclick="switchDetailTab('sholat')" id="tabBtnSholat" class="flex-1 py-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2">
+          <i data-lucide="sunrise" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Data Sholat
         </button>
-        <button onclick="switchDetailTab('haid')" id="tabBtnHaid" class="flex-1 py-2.5 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-1.5">
-          <i data-lucide="heart" class="w-4 h-4 text-purple-600"></i> Data Haid
+        <button onclick="switchDetailTab('haid')" id="tabBtnHaid" class="flex-1 py-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2">
+          <i data-lucide="heart" class="w-4 h-4 md:w-5 md:h-5 text-purple-600"></i> Data Haid
         </button>
-        <button onclick="switchDetailTab('pelanggaran')" id="tabBtnPelanggaran" class="flex-1 py-2.5 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-1.5">
-          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600"></i> Kedisiplinan
+        <button onclick="switchDetailTab('pelanggaran')" id="tabBtnPelanggaran" class="flex-1 py-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2">
+          <i data-lucide="shield-alert" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Kedisiplinan
         </button>
       </div>
 
-      <div class="p-5 overflow-y-auto flex-1 text-xs md:text-sm space-y-4">
+      <div class="p-6 overflow-y-auto flex-1 text-xs md:text-sm space-y-5">
         <div id="tabContentSholat" class="space-y-4">
-          <div class="bg-emerald-500/10 p-3 rounded-2xl border border-emerald-500/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div class="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
               <p class="font-bold text-emerald-700 dark:text-emerald-400 text-xs md:text-sm">Laporan WA Absensi Sholat</p>
-              <p class="text-[10px] md:text-xs text-p-theme">Kirim daftar siswa Alfa / Tidak Sholat / Sakit ke Wali Kelas</p>
+              <p class="text-xs text-p-theme">Kirim daftar siswa Alfa / Tidak Sholat / Sakit ke Wali Kelas</p>
             </div>
-            <div class="flex gap-2 w-full sm:w-auto">
-              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+            <div class="flex gap-2.5 w-full sm:w-auto">
+              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 WA Dhuha
               </button>
-              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-700">
+              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 WA Dzuhur
               </button>
             </div>
           </div>
 
-          <div class="overflow-x-auto rounded-2xl border border-slate-200/50 dark:border-white/10 bg-white/40 dark:bg-white/5">
+          <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-slate-100/60 dark:bg-white/10 border-b border-slate-200/50 dark:border-white/10 text-p-theme uppercase text-[9px] md:text-[10px] font-bold">
-                  <th class="p-3">Nama Siswa</th>
-                  <th class="p-3 text-center">Dhuha</th>
-                  <th class="p-3 text-center">Dzuhur</th>
+                <tr class="bg-slate-100/80 dark:bg-white/10 border-b border-slate-200/60 dark:border-white/10 text-p-theme uppercase text-[10px] md:text-xs font-bold">
+                  <th class="p-3.5">Nama Siswa</th>
+                  <th class="p-3.5 text-center">Dhuha</th>
+                  <th class="p-3.5 text-center">Dzuhur</th>
                 </tr>
               </thead>
-              <tbody id="tableSholatBody" class="divide-y divide-slate-200/50 dark:divide-white/10 text-judul-theme font-medium"></tbody>
+              <tbody id="tableSholatBody" class="divide-y divide-slate-200/60 dark:divide-white/10 text-judul-theme font-medium"></tbody>
             </table>
           </div>
         </div>
 
         <div id="tabContentHaid" class="hidden space-y-4">
-          <div class="overflow-x-auto rounded-2xl border border-slate-200/50 dark:border-white/10 bg-white/40 dark:bg-white/5">
+          <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-slate-100/60 dark:bg-white/10 border-b border-slate-200/50 dark:border-white/10 text-p-theme uppercase text-[9px] md:text-[10px] font-bold">
-                  <th class="p-3">Nama Siswi</th>
-                  <th class="p-3 text-center">Total Hari Haid</th>
-                  <th class="p-3 text-center">Status Validasi</th>
+                <tr class="bg-slate-100/80 dark:bg-white/10 border-b border-slate-200/60 dark:border-white/10 text-p-theme uppercase text-[10px] md:text-xs font-bold">
+                  <th class="p-3.5">Nama Siswi</th>
+                  <th class="p-3.5 text-center">Total Hari Haid</th>
+                  <th class="p-3.5 text-center">Status Validasi</th>
                 </tr>
               </thead>
-              <tbody id="tableHaidBody" class="divide-y divide-slate-200/50 dark:divide-white/10 text-judul-theme font-medium"></tbody>
+              <tbody id="tableHaidBody" class="divide-y divide-slate-200/60 dark:divide-white/10 text-judul-theme font-medium"></tbody>
             </table>
           </div>
         </div>
 
         <div id="tabContentPelanggaran" class="hidden space-y-4">
-          <div class="flex justify-between items-center bg-amber-500/10 p-3 rounded-2xl border border-amber-500/20">
+          <div class="flex justify-between items-center bg-yellow-400/20 p-4 rounded-2xl border border-yellow-400/30">
             <div>
-              <p class="font-bold text-amber-700 dark:text-amber-400 text-xs md:text-sm">Laporan Lanjutan ke Wali Kelas</p>
-              <p class="text-[10px] md:text-xs text-p-theme">Format bukti pelanggaran siswa langsung siap dikirim via WA.</p>
+              <p class="font-bold text-yellow-900 dark:text-yellow-300 text-xs md:text-sm">Laporan Lanjutan ke Wali Kelas</p>
+              <p class="text-xs text-p-theme">Format bukti pelanggaran siswa langsung siap dikirim via WA.</p>
             </div>
-            <button onclick="kirimLaporanWA(selectedClassForDetail)" class="glass-button-wa px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5">
+            <button onclick="kirimLaporanWA(selectedClassForDetail)" class="glass-button-wa px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
               Kirim WA Walas
             </button>
           </div>
 
-          <div class="overflow-x-auto rounded-2xl border border-slate-200/50 dark:border-white/10 bg-white/40 dark:bg-white/5">
+          <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-slate-100/60 dark:bg-white/10 border-b border-slate-200/50 dark:border-white/10 text-p-theme uppercase text-[9px] md:text-[10px] font-bold">
-                  <th class="p-3">Nama Siswa</th>
-                  <th class="p-3 text-center">Hari Ini</th>
-                  <th class="p-3 text-center">Total Akumulasi</th>
+                <tr class="bg-slate-100/80 dark:bg-white/10 border-b border-slate-200/60 dark:border-white/10 text-p-theme uppercase text-[10px] md:text-xs font-bold">
+                  <th class="p-3.5">Nama Siswa</th>
+                  <th class="p-3.5 text-center">Hari Ini</th>
+                  <th class="p-3.5 text-center">Total Akumulasi</th>
                 </tr>
               </thead>
-              <tbody id="tablePelanggaranBody" class="divide-y divide-slate-200/50 dark:divide-white/10 text-judul-theme font-medium"></tbody>
+              <tbody id="tablePelanggaranBody" class="divide-y divide-slate-200/60 dark:divide-white/10 text-judul-theme font-medium"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <div class="p-4 border-t border-slate-200/50 dark:border-white/10 text-right">
-        <button onclick="toggleModal('classDetailModal', false)" class="glass-button-primary px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
+      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
+        <button onclick="toggleModal('classDetailModal', false)" class="glass-button-primary px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
       </div>
     </div>
   </div>
@@ -702,12 +713,12 @@
       );
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="p-3 text-center text-xs text-slate-400 font-semibold">Siswa tidak ditemukan</div>`;
+        container.innerHTML = `<div class="p-3.5 text-center text-xs text-slate-400 font-semibold">Siswa tidak ditemukan</div>`;
       } else {
         container.innerHTML = filtered.map(s => `
-          <div onclick="pilihSiswaAutoComplete('${s.nama}', '${s.kelas}')" class="p-2.5 px-3.5 hover:bg-amber-500/10 cursor-pointer flex justify-between items-center transition text-xs md:text-sm font-semibold">
+          <div onclick="pilihSiswaAutoComplete('${s.nama}', '${s.kelas}')" class="p-3 px-4 hover:bg-yellow-400/20 cursor-pointer flex justify-between items-center transition text-xs md:text-sm font-semibold">
             <span class="text-judul-theme">${s.nama}</span>
-            <span class="text-[9px] md:text-[10px] text-amber-600 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">Kelas ${s.kelas}</span>
+            <span class="text-[10px] md:text-xs text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md border border-yellow-400/40">Kelas ${s.kelas}</span>
           </div>
         `).join('');
       }
@@ -725,9 +736,9 @@
       ['Telat', 'Bercanda', 'Cabut'].forEach(k => {
         const btn = document.getElementById(`btnKat${k}`);
         if (k === kat) {
-          btn.className = "py-2.5 rounded-xl text-xs font-bold border border-amber-600/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 transition";
+          btn.className = "py-3 rounded-xl text-xs md:text-sm font-bold border border-yellow-500/40 bg-yellow-400/20 text-yellow-800 dark:text-yellow-300 transition";
         } else {
-          btn.className = "py-2.5 rounded-xl text-xs font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition";
+          btn.className = "py-3 rounded-xl text-xs md:text-sm font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition";
         }
       });
     }
@@ -755,17 +766,17 @@
       document.getElementById('countPelanggaranList').innerText = pendingPelanggaran.length;
 
       if (pendingPelanggaran.length === 0) {
-        container.innerHTML = `<p class="text-center text-slate-400 py-6 text-xs">Belum ada siswa ditambahkan ke antrean.</p>`;
+        container.innerHTML = `<p class="text-center text-slate-400 py-8 text-xs md:text-sm">Belum ada siswa ditambahkan ke antrean.</p>`;
         return;
       }
 
       container.innerHTML = pendingPelanggaran.map((item, idx) => `
-        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/80 dark:bg-white/5 border border-slate-200/50 dark:border-white/10">
+        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-100/80 dark:bg-white/5 border border-slate-200/60 dark:border-white/10">
           <div>
-            <p class="font-bold text-judul-theme text-xs md:text-sm">${item.nama} <span class="text-[10px] text-amber-600 font-normal">(${item.kelas})</span></p>
-            <span class="text-[9px] font-bold text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-md inline-block mt-0.5">${item.kategori}</span>
+            <p class="font-bold text-judul-theme text-xs md:text-sm">${item.nama} <span class="text-xs text-gold font-semibold">(${item.kelas})</span></p>
+            <span class="text-[10px] font-bold text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md inline-block mt-0.5 border border-yellow-400/30">${item.kategori}</span>
           </div>
-          <button onclick="removePelanggaranItem(${idx})" class="text-rose-500 p-1 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+          <button onclick="removePelanggaranItem(${idx})" class="text-rose-500 p-1 hover:text-rose-600 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
         </div>
       `).join('');
       lucide.createIcons();
@@ -939,7 +950,7 @@
       if (searchQuery) keys = keys.filter(k => k.toLowerCase().includes(searchQuery));
 
       if (keys.length === 0) {
-        container.innerHTML = `<div class="glass-card p-6 col-span-full text-center text-p-theme font-semibold text-xs md:text-sm rounded-2xl">Kelas tidak ditemukan / Data memuat...</div>`;
+        container.innerHTML = `<div class="glass-card p-8 col-span-full text-center text-p-theme font-semibold text-xs md:text-sm rounded-2xl">Kelas tidak ditemukan / Data memuat...</div>`;
         return;
       }
 
@@ -947,33 +958,33 @@
         let c = classDataStore[className];
 
         let badgeDhuha = c.dhuhaSubmitted 
-          ? `<div class="flex items-center justify-between p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[10px] md:text-xs font-semibold">
-               <span class="flex items-center gap-1"><i data-lucide="sunrise" class="w-3.5 h-3.5 text-amber-600"></i> Dhuha</span>
-               <span class="flex items-center gap-0.5 text-[8px] md:text-[9px] font-bold bg-emerald-500/15 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i> OK</span>
+          ? `<div class="flex items-center justify-between p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+               <span class="flex items-center gap-1.5"><i data-lucide="sunrise" class="w-3.5 h-3.5 text-yellow-600 dark:text-yellow-400"></i> Dhuha</span>
+               <span class="flex items-center gap-0.5 text-[9px] font-bold bg-emerald-500/15 px-2 py-0.5 rounded"><i data-lucide="check" class="w-3 h-3"></i> OK</span>
              </div>`
-          : `<div class="flex items-center justify-between p-1.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-[10px] md:text-xs font-semibold">
-               <span class="flex items-center gap-1"><i data-lucide="sunrise" class="w-3.5 h-3.5 text-amber-600"></i> Dhuha</span>
-               <span class="flex items-center gap-0.5 text-[8px] md:text-[9px] font-bold bg-rose-500/15 px-1.5 py-0.5 rounded"><i data-lucide="x" class="w-2.5 h-2.5"></i> Blm</span>
+          : `<div class="flex items-center justify-between p-2 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-semibold">
+               <span class="flex items-center gap-1.5"><i data-lucide="sunrise" class="w-3.5 h-3.5 text-yellow-600 dark:text-yellow-400"></i> Dhuha</span>
+               <span class="flex items-center gap-0.5 text-[9px] font-bold bg-rose-500/15 px-2 py-0.5 rounded"><i data-lucide="x" class="w-3 h-3"></i> Blm</span>
              </div>`;
 
         let badgeDzuhur = c.dzuhurSubmitted 
-          ? `<div class="flex items-center justify-between p-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 text-[10px] md:text-xs font-semibold">
-               <span class="flex items-center gap-1"><i data-lucide="sun" class="w-3.5 h-3.5 text-amber-500"></i> Dzuhur</span>
-               <span class="flex items-center gap-0.5 text-[8px] md:text-[9px] font-bold bg-blue-500/15 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i> OK</span>
+          ? `<div class="flex items-center justify-between p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 text-xs font-semibold">
+               <span class="flex items-center gap-1.5"><i data-lucide="sun" class="w-3.5 h-3.5 text-yellow-500"></i> Dzuhur</span>
+               <span class="flex items-center gap-0.5 text-[9px] font-bold bg-blue-500/15 px-2 py-0.5 rounded"><i data-lucide="check" class="w-3 h-3"></i> OK</span>
              </div>`
-          : `<div class="flex items-center justify-between p-1.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-[10px] md:text-xs font-semibold">
-               <span class="flex items-center gap-1"><i data-lucide="sun" class="w-3.5 h-3.5 text-amber-500"></i> Dzuhur</span>
-               <span class="flex items-center gap-0.5 text-[8px] md:text-[9px] font-bold bg-rose-500/15 px-1.5 py-0.5 rounded"><i data-lucide="x" class="w-2.5 h-2.5"></i> Blm</span>
+          : `<div class="flex items-center justify-between p-2 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-semibold">
+               <span class="flex items-center gap-1.5"><i data-lucide="sun" class="w-3.5 h-3.5 text-yellow-500"></i> Dzuhur</span>
+               <span class="flex items-center gap-0.5 text-[9px] font-bold bg-rose-500/15 px-2 py-0.5 rounded"><i data-lucide="x" class="w-3 h-3"></i> Blm</span>
              </div>`;
 
         let card = document.createElement('div');
-        card.className = "glass-card p-3.5 rounded-2xl flex flex-col justify-between space-y-3 hover:shadow-xl hover:-translate-y-0.5 transition duration-200";
+        card.className = "glass-card p-4 rounded-2xl flex flex-col justify-between space-y-3.5 hover:shadow-xl hover:-translate-y-1 transition duration-200";
         card.innerHTML = `
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between border-b border-slate-200/50 dark:border-white/10 pb-2">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 pb-2">
               <h3 class="font-bold text-judul-theme text-xs md:text-sm">Kelas ${className}</h3>
-              <div class="w-6 h-6 rounded-lg bg-amber-500/10 flex items-center justify-center border border-amber-500/20 shrink-0">
-                <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-amber-600"></i>
+              <div class="w-7 h-7 rounded-lg bg-yellow-400/20 flex items-center justify-center border border-yellow-400/30 shrink-0">
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-yellow-700 dark:text-yellow-400"></i>
               </div>
             </div>
 
@@ -983,7 +994,7 @@
             </div>
           </div>
 
-          <button onclick="openClassDetailModal('${className}')" class="glass-button-primary w-full py-2 rounded-xl text-[10px] md:text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
+          <button onclick="openClassDetailModal('${className}')" class="glass-button-primary w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
             <i data-lucide="eye" class="w-3.5 h-3.5"></i> Detail
           </button>
         `;
@@ -1154,17 +1165,17 @@
       const list = getAllAnomaliesAndWarnings();
 
       if (list.length === 0) {
-        container.innerHTML = `<div class="text-center py-6 text-emerald-600 font-bold flex flex-col items-center gap-2"><i data-lucide="check-circle-2" class="w-8 h-8 text-emerald-500"></i> Semua notifikasi sudah diselesaikan!</div>`;
+        container.innerHTML = `<div class="text-center py-8 text-emerald-600 font-bold flex flex-col items-center gap-2"><i data-lucide="check-circle-2" class="w-10 h-10 text-emerald-500"></i> Semua notifikasi sudah diselesaikan!</div>`;
       } else {
         container.innerHTML = list.map(item => `
-          <div onclick="navigateToNotification('${item.className}', '${item.targetTab}')" class="py-3 px-3.5 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 cursor-pointer flex items-center justify-between gap-3 border-b border-slate-200/50 dark:border-white/10 last:border-0 transition group">
+          <div onclick="navigateToNotification('${item.className}', '${item.targetTab}')" class="py-3.5 px-4 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 cursor-pointer flex items-center justify-between gap-3 border-b border-slate-200/60 dark:border-white/10 last:border-0 transition group">
             <div class="pr-2">
-              <span class="bg-rose-500/10 text-rose-600 border border-rose-500/20 text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-md inline-flex items-center gap-1">
-                <i data-lucide="alert-circle" class="w-3 h-3"></i> ${item.tag}
+              <span class="bg-rose-500/10 text-rose-600 border border-rose-500/20 text-[10px] md:text-xs font-bold px-2.5 py-0.5 rounded-md inline-flex items-center gap-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> ${item.tag}
               </span>
-              <p class="font-medium text-judul-theme text-xs md:text-sm mt-1.5 group-hover:text-amber-600 transition">${item.text}</p>
+              <p class="font-medium text-judul-theme text-xs md:text-sm mt-1.5 group-hover:text-yellow-600 transition">${item.text}</p>
             </div>
-            <button onclick="event.stopPropagation(); dismissNotification('${item.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-bold text-[10px] md:text-xs hover:bg-emerald-500/25 transition shrink-0 flex items-center gap-1">
+            <button onclick="event.stopPropagation(); dismissNotification('${item.id}')" class="px-3.5 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-bold text-xs hover:bg-emerald-500/25 transition shrink-0 flex items-center gap-1">
               <i data-lucide="check" class="w-3.5 h-3.5"></i> Selesai
             </button>
           </div>
@@ -1185,14 +1196,14 @@
     function switchDetailTab(tabName) {
       ['Sholat', 'Haid', 'Pelanggaran'].forEach(t => {
         document.getElementById(`tabContent${t}`).classList.add('hidden');
-        document.getElementById(`tabBtn${t}`).className = "flex-1 py-2.5 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-1.5";
+        document.getElementById(`tabBtn${t}`).className = "flex-1 py-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-2";
       });
 
       const activeBtn = document.getElementById(`tabBtn${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
       const activeContent = document.getElementById(`tabContent${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
 
       activeContent.classList.remove('hidden');
-      activeBtn.className = "flex-1 py-2.5 rounded-xl bg-amber-500/20 text-amber-700 dark:text-amber-400 text-center transition font-bold flex items-center justify-center gap-1.5";
+      activeBtn.className = "flex-1 py-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2";
     }
 
     function renderClassDetailTables() {
@@ -1202,23 +1213,23 @@
       const sholatBody = document.getElementById('tableSholatBody');
       sholatBody.innerHTML = data.students.map(s => `
         <tr>
-          <td class="p-3 font-bold">${s.name}</td>
-          <td class="p-3 text-center">${s.dhuha === 'Hadir' || s.dhuha === 'sholat' || s.dhuha === 'masuk' ? '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> Hadir</span>' : `<span class="text-rose-500 font-bold">${s.dhuha}</span>`}</td>
-          <td class="p-3 text-center">${s.dzuhur === 'Hadir' || s.dzuhur === 'sholat' || s.dzuhur === 'masuk' ? '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> Hadir</span>' : `<span class="text-rose-500 font-bold">${s.dzuhur}</span>`}</td>
+          <td class="p-3.5 font-bold">${s.name}</td>
+          <td class="p-3.5 text-center">${s.dhuha === 'Hadir' || s.dhuha === 'sholat' || s.dhuha === 'masuk' ? '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> Hadir</span>' : `<span class="text-rose-500 font-bold">${s.dhuha}</span>`}</td>
+          <td class="p-3.5 text-center">${s.dzuhur === 'Hadir' || s.dzuhur === 'sholat' || s.dzuhur === 'masuk' ? '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> Hadir</span>' : `<span class="text-rose-500 font-bold">${s.dzuhur}</span>`}</td>
         </tr>
       `).join('');
 
       const haidBody = document.getElementById('tableHaidBody');
       let femaleStudents = data.students.filter(s => s.gender === 'P');
       if (femaleStudents.length === 0) {
-        haidBody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-p-theme font-medium">Tidak ada data siswi di kelas ini.</td></tr>`;
+        haidBody.innerHTML = `<tr><td colspan="3" class="p-5 text-center text-p-theme font-medium">Tidak ada data siswi di kelas ini.</td></tr>`;
       } else {
         haidBody.innerHTML = femaleStudents.map(s => `
           <tr>
-            <td class="p-3 font-bold">${s.name}</td>
-            <td class="p-3 text-center font-bold text-amber-600">${s.haidDays} Hari</td>
-            <td class="p-3 text-center">
-              ${s.isBentrok ? '<span class="bg-rose-500/10 text-rose-600 font-bold px-2.5 py-1 rounded-md text-[10px] inline-flex items-center gap-1"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-500"></i> Bentrok Sholat</span>' : '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Aman</span>'}
+            <td class="p-3.5 font-bold">${s.name}</td>
+            <td class="p-3.5 text-center font-bold text-yellow-700 dark:text-yellow-400">${s.haidDays} Hari</td>
+            <td class="p-3.5 text-center">
+              ${s.isBentrok ? '<span class="bg-rose-500/10 text-rose-600 font-bold px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1"><i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500"></i> Bentrok Sholat</span>' : '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Aman</span>'}
             </td>
           </tr>
         `).join('');
@@ -1227,7 +1238,7 @@
       const pelanggaranBody = document.getElementById('tablePelanggaranBody');
       pelanggaranBody.innerHTML = data.students.map(s => {
         let todayBadges = [];
-        if (s.todayTelat > 0) todayBadges.push(`<span class="text-amber-600 font-bold">Telat (${s.todayTelat}x)</span>`);
+        if (s.todayTelat > 0) todayBadges.push(`<span class="text-yellow-700 dark:text-yellow-400 font-bold">Telat (${s.todayTelat}x)</span>`);
         if (s.todayBercanda > 0) todayBadges.push(`<span class="text-purple-600 font-bold">Bercanda (${s.todayBercanda}x)</span>`);
         if (s.todayCabut > 0) todayBadges.push(`<span class="text-rose-600 font-bold">Cabut (${s.todayCabut}x)</span>`);
 
@@ -1235,10 +1246,10 @@
 
         return `
           <tr>
-            <td class="p-3 font-bold">${s.name}</td>
-            <td class="p-3 text-center">${todayText}</td>
-            <td class="p-3 text-center text-xs md:text-sm">
-              <span class="text-amber-600 font-bold">${s.totalTelat || 0}T</span> / 
+            <td class="p-3.5 font-bold">${s.name}</td>
+            <td class="p-3.5 text-center">${todayText}</td>
+            <td class="p-3.5 text-center text-xs md:text-sm">
+              <span class="text-yellow-700 dark:text-yellow-400 font-bold">${s.totalTelat || 0}T</span> / 
               <span class="text-purple-600 font-bold">${s.totalBercanda || 0}B</span> / 
               <span class="text-rose-600 font-bold">${s.totalCabut || 0}C</span>
             </td>
