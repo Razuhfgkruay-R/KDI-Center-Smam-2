@@ -192,7 +192,7 @@
 
 <body class="antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden bg-pattern-rich">
 
-  <!-- BACKGROUND AMBIENT GLOW BLOBS (TEGAS & TIDAK SEPI) -->
+  <!-- BACKGROUND AMBIENT GLOW BLOBS -->
   <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
     <div class="blob w-[500px] h-[500px] md:w-[750px] md:h-[750px] bg-amber-400 dark:bg-yellow-500/30 -top-20 -left-20"></div>
     <div class="blob w-[450px] h-[450px] md:w-[700px] md:h-[700px] bg-yellow-300 dark:bg-amber-600/30 top-1/3 -right-20" style="animation-delay: -5s;"></div>
@@ -234,7 +234,6 @@
       <!-- LOGO 1: LANDING PAGE -->
       <div class="relative w-24 h-24 md:w-32 md:h-32 mx-auto flex items-center justify-center">
         <div class="relative w-full h-full bg-gradient-to-br from-[#FFD700] via-[#E6C200] to-[#B8860B] rounded-2xl md:rounded-3xl p-2 flex items-center justify-center border border-yellow-300 shadow-2xl overflow-hidden group">
-          <!-- Gambar logo mengambil file 'logo.png' di folder repositori kamu -->
           <img src="logo-kdi.png" alt="Logo KDI" class="w-full h-full object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'flex flex-col items-center justify-center text-slate-900 font-black\'><span class=\'text-2xl md:text-3xl tracking-widest leading-none\'>KDI</span><span class=\'text-[8px] md:text-[10px] uppercase tracking-widest mt-1\'>CENTER</span></div>';">
         </div>
       </div>
@@ -294,7 +293,7 @@
         <button onclick="goToView('viewHome')" class="glass-button-secondary text-xs md:text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-200/50 transition">Kembali</button>
       </div>
 
-      <!-- Layout Grid Form & Antrean (1 Kolom Mobile, 2 Kolom Desktop) -->
+      <!-- Layout Grid Form & Antrean -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         
         <!-- KOLOM KIRI: FORM INPUT -->
@@ -402,7 +401,19 @@
             </div>
           </div>
           
-          <div class="flex items-center gap-2.5">
+          <div class="flex items-center gap-2">
+            <!-- SHORTCUT BUKA SPREADSHEET DIRECT -->
+            <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="header-pill hover:scale-105 bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hidden md:flex" title="Buka Spreadsheet di Tab Baru">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+              <span>Sheet</span>
+            </a>
+
+            <!-- PREVIEW SPREADSHEET DI DASHBOARD -->
+            <button onclick="toggleModal('sheetPreviewModal', true)" class="header-pill hover:scale-105 bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400" title="Lihat Embed Spreadsheet">
+              <i data-lucide="table" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Preview Sheet</span>
+            </button>
+
             <div class="header-pill hidden sm:flex">
               <div id="statusDotDash" class="status-dot"></div>
               <span id="statusTextDash" class="text-xs">Terhubung</span>
@@ -431,15 +442,15 @@
             <p id="statTotalKelas" class="text-2xl md:text-3xl font-black text-judul-theme mt-1">0</p>
           </div>
           <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
-            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dhuha</p>
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dhuha Hari Ini</p>
             <p id="statDhuhaMasuk" class="text-2xl md:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1">0</p>
           </div>
           <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
-            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dzuhur</p>
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Rekap Dzuhur Hari Ini</p>
             <p id="statDzuhurMasuk" class="text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400 mt-1">0</p>
           </div>
           <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
-            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Warning</p>
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Warning / Anomali</p>
             <p id="statAnomaliCount" class="text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-400 mt-1">0</p>
           </div>
         </div>
@@ -452,7 +463,7 @@
           <input type="text" id="searchKelasInput" oninput="handleSearchKelas(this.value)" placeholder="Cari nama kelas (misal: 10.2, 11.4, 12.1)..." class="glass-input w-full pl-12 pr-4 py-3.5 rounded-2xl text-xs md:text-sm font-semibold placeholder-slate-400">
         </div>
 
-        <!-- GRID KELAS DENGAN JUMLAH KOLOM DINAMIS (Responsif Desktop 5-6 Kolom) -->
+        <!-- GRID KELAS DENGAN JUMLAH KOLOM DINAMIS -->
         <div id="classListContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-5"></div>
       </main>
     </div>
@@ -460,6 +471,36 @@
     <footer class="w-full text-center py-6 text-xs md:text-sm font-bold text-p-theme border-t border-slate-200/60 dark:border-white/10 mt-10">
       SUPPORT BY RAZUHFGKRUAY • KDI CENTER SYSTEM
     </footer>
+  </div>
+
+
+  <!-- ================= MODAL SPREADSHEET PREVIEW ================= -->
+  <div id="sheetPreviewModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md hidden items-center justify-center z-50 p-3 md:p-6">
+    <div class="glass-card w-full max-w-6xl h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+      <div class="bg-emerald-500/10 px-6 py-4 border-b border-slate-200/60 dark:border-white/10 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+            <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-judul-theme text-sm md:text-base">Google Spreadsheet KDI Master</h3>
+            <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">Live Data View & Rekapitulasi Utama</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="glass-button-primary px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Buka Full
+          </a>
+          <button onclick="toggleModal('sheetPreviewModal', false)" class="text-slate-400 hover:text-rose-500 transition p-1">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="flex-1 w-full bg-white relative">
+        <iframe src="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo/preview" class="w-full h-full border-0"></iframe>
+      </div>
+    </div>
   </div>
 
 
@@ -486,45 +527,47 @@
       <div class="bg-yellow-400/20 px-6 py-4.5 border-b border-slate-200/60 dark:border-white/10 flex justify-between items-center">
         <div>
           <h3 id="detailClassTitle" class="font-bold text-judul-theme text-base md:text-lg">Detail Rekap Kelas</h3>
-          <p class="text-xs text-gold font-semibold mt-0.5">Lihat Data Sholat, Haid, dan Kedisiplinan Siswa</p>
+          <p class="text-xs text-gold font-semibold mt-0.5">Lihat Data Sholat, Haid, Kedisiplinan & Rekapitulasi Total</p>
         </div>
         <button onclick="toggleModal('classDetailModal', false)" class="text-slate-400 hover:text-yellow-600 transition"><i data-lucide="x" class="w-6 h-6"></i></button>
       </div>
 
-      <div class="flex bg-slate-100/60 dark:bg-white/5 p-2 border-b border-slate-200/60 dark:border-white/10 text-xs md:text-sm font-bold gap-2">
-        <!-- TAB DATA SHOLAT - SVG SAJADAH -->
-        <button onclick="switchDetailTab('sholat')" id="tabBtnSholat" class="flex-1 py-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400">
+      <!-- TAB MENU TAMBAHAN FITUR BARU: REKAP BULANAN ADJUSTED -->
+      <div class="flex bg-slate-100/60 dark:bg-white/5 p-2 border-b border-slate-200/60 dark:border-white/10 text-xs md:text-sm font-bold gap-1.5 overflow-x-auto">
+        <button onclick="switchDetailTab('sholat')" id="tabBtnSholat" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5 shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-yellow-600 dark:text-yellow-400">
             <rect x="5" y="4" width="14" height="16" rx="1.5"/>
             <path d="M 7 2 v 2 M 10 2 v 2 M 14 2 v 2 M 17 2 v 2"/>
             <path d="M 7 20 v 2 M 10 20 v 2 M 14 20 v 2 M 17 20 v 2"/>
             <path d="M 8 12 v -2 c 0 -2 4 -3.5 4 -3.5 s 4 1.5 4 3.5 v 2"/>
             <path d="M 5 15 h 14"/>
           </svg>
-          Data Sholat
+          Sholat Hari Ini
         </button>
-        <button onclick="switchDetailTab('haid')" id="tabBtnHaid" class="flex-1 py-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2">
-          <i data-lucide="heart" class="w-4 h-4 md:w-5 md:h-5 text-purple-600"></i> Data Haid
+        <button onclick="switchDetailTab('haid')" id="tabBtnHaid" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-1.5 shrink-0">
+          <i data-lucide="heart" class="w-4 h-4 text-purple-600"></i> Data Haid
         </button>
-        <button onclick="switchDetailTab('pelanggaran')" id="tabBtnPelanggaran" class="flex-1 py-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2">
-          <i data-lucide="shield-alert" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Kedisiplinan
+        <button onclick="switchDetailTab('pelanggaran')" id="tabBtnPelanggaran" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-1.5 shrink-0">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Kedisiplinan
+        </button>
+        <button onclick="switchDetailTab('rekap')" id="tabBtnRekap" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-1.5 shrink-0">
+          <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i> Rekap Bulanan
         </button>
       </div>
 
       <div class="p-6 overflow-y-auto flex-1 text-xs md:text-sm space-y-5">
+        <!-- TAB 1: DATA SHOLAT HARI INI -->
         <div id="tabContentSholat" class="space-y-4">
           <div class="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <p class="font-bold text-emerald-700 dark:text-emerald-400 text-xs md:text-sm">Laporan WA Absensi Sholat</p>
+              <p class="font-bold text-emerald-700 dark:text-emerald-400 text-xs md:text-sm">Laporan WA Absensi Sholat Hari Ini</p>
               <p class="text-xs text-p-theme">Kirim daftar siswa Alfa / Tidak Sholat / Sakit ke Wali Kelas</p>
             </div>
             <div class="flex gap-2.5 w-full sm:w-auto">
               <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.893 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 WA Dhuha
               </button>
               <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.893 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 WA Dzuhur
               </button>
             </div>
@@ -544,13 +587,14 @@
           </div>
         </div>
 
+        <!-- TAB 2: DATA HAID SISWI -->
         <div id="tabContentHaid" class="hidden space-y-4">
           <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
             <table class="w-full text-left border-collapse">
               <thead>
                 <tr class="bg-slate-100/80 dark:bg-white/10 border-b border-slate-200/60 dark:border-white/10 text-p-theme uppercase text-[10px] md:text-xs font-bold">
                   <th class="p-3.5">Nama Siswi</th>
-                  <th class="p-3.5 text-center">Total Hari Haid</th>
+                  <th class="p-3.5 text-center">Total Hari Haid Bulan Ini</th>
                   <th class="p-3.5 text-center">Status Validasi</th>
                 </tr>
               </thead>
@@ -559,14 +603,14 @@
           </div>
         </div>
 
+        <!-- TAB 3: DATA KEDISIPLINAN -->
         <div id="tabContentPelanggaran" class="hidden space-y-4">
           <div class="flex justify-between items-center bg-yellow-400/20 p-4 rounded-2xl border border-yellow-400/30">
             <div>
-              <p class="font-bold text-yellow-900 dark:text-yellow-300 text-xs md:text-sm">Laporan Lanjutan ke Wali Kelas</p>
+              <p class="font-bold text-yellow-900 dark:text-yellow-300 text-xs md:text-sm">Laporan Kedisiplinan ke Wali Kelas</p>
               <p class="text-xs text-p-theme">Format bukti pelanggaran siswa siap dikirim via WA.</p>
             </div>
             <button onclick="kirimLaporanWA(selectedClassForDetail)" class="glass-button-wa px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.893 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
               Kirim WA ke Walas
             </button>
           </div>
@@ -584,6 +628,37 @@
             </table>
           </div>
         </div>
+
+        <!-- TAB 4: NEW SOMETHING FITUR BARU (REKAP TOTAL IBADAH ADJUSTED HAID) -->
+        <div id="tabContentRekap" class="hidden space-y-4">
+          <div class="bg-gradient-to-r from-emerald-500/15 via-yellow-500/10 to-blue-500/15 p-4 rounded-2xl border border-emerald-500/30 flex justify-between items-center">
+            <div>
+              <p class="font-bold text-judul-theme text-xs md:text-sm flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-4 h-4 text-yellow-500"></i> Akumulasi Total Sholat (Menyesuaikan Data Haid)
+              </p>
+              <p class="text-[11px] text-p-theme mt-0.5">Persentase dihitung adil: Hari haid siswi otomatis **dieksklusi** dari kewajiban total sholat bulanan.</p>
+            </div>
+            <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="glass-button-primary px-3.5 py-2 rounded-xl text-xs font-bold hidden sm:flex items-center gap-1.5 shrink-0">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Sheet
+            </a>
+          </div>
+
+          <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100/80 dark:bg-white/10 border-b border-slate-200/60 dark:border-white/10 text-p-theme uppercase text-[10px] md:text-xs font-bold">
+                  <th class="p-3.5">Nama Siswa</th>
+                  <th class="p-3.5 text-center">Total Dhuha</th>
+                  <th class="p-3.5 text-center">Total Dzuhur</th>
+                  <th class="p-3.5 text-center">Dispen Haid</th>
+                  <th class="p-3.5 text-center">Tingkat Kehadiran Ibadah</th>
+                </tr>
+              </thead>
+              <tbody id="tableRekapBody" class="divide-y divide-slate-200/60 dark:divide-white/10 text-judul-theme font-medium"></tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
 
       <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
@@ -1256,22 +1331,26 @@
     }
 
     function switchDetailTab(tabName) {
-      ['Sholat', 'Haid', 'Pelanggaran'].forEach(t => {
-        document.getElementById(`tabContent${t}`).classList.add('hidden');
-        document.getElementById(`tabBtn${t}`).className = "flex-1 py-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-2";
+      ['Sholat', 'Haid', 'Pelanggaran', 'Rekap'].forEach(t => {
+        const c = document.getElementById(`tabContent${t}`);
+        const b = document.getElementById(`tabBtn${t}`);
+        if (c) c.classList.add('hidden');
+        if (b) b.className = "flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-1.5 shrink-0";
       });
 
-      const activeBtn = document.getElementById(`tabBtn${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
-      const activeContent = document.getElementById(`tabContent${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
+      const key = tabName.charAt(0).toUpperCase() + tabName.slice(1);
+      const activeBtn = document.getElementById(`tabBtn${key}`);
+      const activeContent = document.getElementById(`tabContent${key}`);
 
-      activeContent.classList.remove('hidden');
-      activeBtn.className = "flex-1 py-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2";
+      if (activeContent) activeContent.classList.remove('hidden');
+      if (activeBtn) activeBtn.className = "flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5 shrink-0";
     }
 
     function renderClassDetailTables() {
       let data = classDataStore[selectedClassForDetail];
       if (!data || !data.students) return;
 
+      // 1. TABLE SHOLAT HARI INI
       const sholatBody = document.getElementById('tableSholatBody');
       sholatBody.innerHTML = data.students.map(s => `
         <tr>
@@ -1281,6 +1360,7 @@
         </tr>
       `).join('');
 
+      // 2. TABLE HAID SISWI
       const haidBody = document.getElementById('tableHaidBody');
       let femaleStudents = data.students.filter(s => s.gender === 'P');
       if (femaleStudents.length === 0) {
@@ -1289,7 +1369,7 @@
         haidBody.innerHTML = femaleStudents.map(s => `
           <tr>
             <td class="p-3.5 font-bold">${s.name}</td>
-            <td class="p-3.5 text-center font-bold text-yellow-700 dark:text-yellow-400">${s.haidDays} Hari</td>
+            <td class="p-3.5 text-center font-bold text-yellow-700 dark:text-yellow-400">${s.haidDays || 0} Hari</td>
             <td class="p-3.5 text-center">
               ${s.isBentrok ? '<span class="bg-rose-500/10 text-rose-600 font-bold px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1"><i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500"></i> Bentrok Sholat</span>' : '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Aman</span>'}
             </td>
@@ -1297,6 +1377,7 @@
         `).join('');
       }
 
+      // 3. TABLE PELANGGARAN
       const pelanggaranBody = document.getElementById('tablePelanggaranBody');
       pelanggaranBody.innerHTML = data.students.map(s => {
         let todayBadges = [];
@@ -1314,6 +1395,43 @@
               <span class="text-yellow-700 dark:text-yellow-400 font-bold">${s.totalTelat || 0}T</span> / 
               <span class="text-purple-600 font-bold">${s.totalBercanda || 0}B</span> / 
               <span class="text-rose-600 font-bold">${s.totalCabut || 0}C</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // 4. TABLE REKAP BULANAN SOMETHING NEW (ADJUSTED FOR HAID)
+      const rekapBody = document.getElementById('tableRekapBody');
+      const targetHariSholatBulanan = 22; // Asumsi hari efektif sekolah per bulan
+
+      rekapBody.innerHTML = data.students.map(s => {
+        let totDhuha = s.totalDhuha || (s.dhuha === 'Hadir' || s.dhuha === 'sholat' ? 1 : 0);
+        let totDzuhur = s.totalDzuhur || (s.dzuhur === 'Hadir' || s.dzuhur === 'sholat' ? 1 : 0);
+        let haidDays = s.gender === 'P' ? (s.haidDays || 0) : 0;
+
+        // Formula Adil: Total Kewajiban Sholat = (Hari Efektif - Hari Haid) * 2 Sesi Sholat
+        let maxKewajibanSholat = Math.max(1, (targetHariSholatBulanan - haidDays) * 2);
+        let totalSholatDiikuti = totDhuha + totDzuhur;
+        
+        let percentage = Math.min(100, Math.round((totalSholatDiikuti / maxKewajibanSholat) * 100));
+
+        let badgeColor = "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30";
+        if (percentage < 60) badgeColor = "bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/30";
+        else if (percentage < 85) badgeColor = "bg-yellow-500/15 text-yellow-800 dark:text-yellow-400 border-yellow-500/30";
+
+        return `
+          <tr>
+            <td class="p-3.5 font-bold">
+              ${s.name}
+              ${s.gender === 'P' ? '<span class="text-[10px] text-purple-600 dark:text-purple-400 font-semibold ml-1">(P)</span>' : ''}
+            </td>
+            <td class="p-3.5 text-center font-bold text-emerald-600 dark:text-emerald-400">${totDhuha} Hari</td>
+            <td class="p-3.5 text-center font-bold text-blue-600 dark:text-blue-400">${totDzuhur} Hari</td>
+            <td class="p-3.5 text-center font-bold text-purple-600 dark:text-purple-400">${s.gender === 'P' ? `${haidDays} Hari` : '-'}</td>
+            <td class="p-3.5 text-center">
+              <span class="px-3 py-1 rounded-xl text-xs font-black border ${badgeColor} inline-block">
+                ${percentage}% Perform
+              </span>
             </td>
           </tr>
         `;
