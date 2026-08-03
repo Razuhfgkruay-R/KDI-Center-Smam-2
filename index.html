@@ -115,6 +115,27 @@
       transition: all 0.2s ease;
     }
 
+    /* --- STYLE ANIMASI KONTROL TEMA (DARI KODE 1) --- */
+    #theme-icon-home, #theme-icon-dash {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+    }
+
+    #theme-icon-home svg, #theme-icon-dash svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    .rotate-anim {
+      transform: rotate(360deg);
+      opacity: 0;
+    }
+
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
     .status-dot.loading { background: #FFD700; animation: pulse 1s infinite; }
     .status-dot.offline { background: #ef4444 !important; animation: none !important; }
@@ -547,8 +568,9 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyxJqB21sfGOrXqpD9OIKTM83yb6Et1PEymXJdT0rhidN1FW8vvgGuBG5ZnxUO8ff7ofg/exec";
 
-    const sunriseIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2v2m-6.364 3.636l1.414 1.414M2 12h2m14 0h2m-3.636-6.364l-1.414 1.414M12 7a5 5 0 100 10 5 5 0 000-10zM2 20h20"/></svg>`;
-    const sunFullIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 111.41 1.41L6.05 7.34a1 1 0 01-1.41-1.41l1.35-1.35zm12.02 12.02a1 1 0 111.41 1.41l-1.35 1.35a1 1 0 11-1.41-1.41l1.35 1.35zM5.99 19.42a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35zm12.02-12.02a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35z"/></svg>`;
+    // IKON SVG PERSISI DARI KODE 1
+    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 111.41 1.41L6.05 7.34a1 1 0 01-1.41-1.41l1.35-1.35zm12.02 12.02a1 1 0 111.41 1.41l-1.35 1.35a1 1 0 11-1.41-1.41l1.35 1.35zM5.99 19.42a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35zm12.02-12.02a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35z"/></svg>`;
+    const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>`;
 
     let classDataStore = {};
     let allStudentsMaster = [];
@@ -634,14 +656,26 @@
       updateThemeUI(savedTheme);
     }
 
+    // TOGGLE TEMA DENGAN ANIMASI ROTASI TERPADU (DARI KODE 1)
     function toggleTheme() {
-      const root = document.documentElement;
-      const isDark = root.getAttribute("data-theme") === "dark";
-      const newTheme = isDark ? "light" : "dark";
+      const iconHome = document.getElementById("theme-icon-home");
+      const iconDash = document.getElementById("theme-icon-dash");
 
-      root.setAttribute("data-theme", newTheme);
-      localStorage.setItem('kdi_theme', newTheme);
-      updateThemeUI(newTheme);
+      if (iconHome) iconHome.classList.add("rotate-anim");
+      if (iconDash) iconDash.classList.add("rotate-anim");
+
+      setTimeout(() => {
+        const root = document.documentElement;
+        const isDark = root.getAttribute("data-theme") === "dark";
+        const newTheme = isDark ? "light" : "dark";
+
+        root.setAttribute("data-theme", newTheme);
+        localStorage.setItem('kdi_theme', newTheme);
+        updateThemeUI(newTheme);
+
+        if (iconHome) iconHome.classList.remove("rotate-anim");
+        if (iconDash) iconDash.classList.remove("rotate-anim");
+      }, 300);
     }
 
     function updateThemeUI(theme) {
@@ -650,10 +684,10 @@
       if (txtHome) txtHome.innerText = isDark ? "Mode Gelap" : "Mode Terang";
 
       const iconHome = document.getElementById("theme-icon-home");
-      if (iconHome) iconHome.innerHTML = isDark ? sunFullIcon : sunriseIcon;
+      if (iconHome) iconHome.innerHTML = isDark ? moonIcon : sunIcon;
 
       const iconDash = document.getElementById("theme-icon-dash");
-      if (iconDash) iconDash.innerHTML = isDark ? sunFullIcon : sunriseIcon;
+      if (iconDash) iconDash.innerHTML = isDark ? moonIcon : sunIcon;
     }
 
     function setSyncState(state, text) {
