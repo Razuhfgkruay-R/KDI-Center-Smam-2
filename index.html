@@ -683,6 +683,7 @@
     let selectedKategoriPelanggaran = "Telat";
     let selectedClassForDetail = "";
     let searchQuery = "";
+    let isAutoCompleteSelecting = false; // Flag penanda agar pilihan tidak di-reset otomatis
 
     let dismissedNotifs = JSON.parse(localStorage.getItem('kdi_dismissed_notifs') || "[]");
 
@@ -835,7 +836,13 @@
       }
     }
 
+    // ================= FIX FUNGSI PENCARIAN SISWA =================
     function handleSearchSiswaPelanggaran(query) {
+      if (isAutoCompleteSelecting) {
+        isAutoCompleteSelecting = false;
+        return;
+      }
+
       const container = document.getElementById('suggestionsSiswaContainer');
       selectedSiswaPelanggaran = null;
 
@@ -852,17 +859,21 @@
       if (filtered.length === 0) {
         container.innerHTML = `<div class="p-3.5 text-center text-xs text-slate-400 font-semibold">Siswa tidak ditemukan</div>`;
       } else {
-        container.innerHTML = filtered.map(s => `
-          <div onclick="pilihSiswaAutoComplete('${s.nama}', '${s.kelas}')" class="p-3 px-4 hover:bg-yellow-400/20 cursor-pointer flex justify-between items-center transition text-xs md:text-sm font-semibold">
-            <span class="text-judul-theme">${s.nama}</span>
-            <span class="text-[10px] md:text-xs text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md border border-yellow-400/40">Kelas ${s.kelas}</span>
-          </div>
-        `).join('');
+        container.innerHTML = filtered.map(s => {
+          const safeNama = s.nama.replace(/'/g, "\\'");
+          return `
+            <div onclick="pilihSiswaAutoComplete('${safeNama}', '${s.kelas}')" class="p-3 px-4 hover:bg-yellow-400/20 cursor-pointer flex justify-between items-center transition text-xs md:text-sm font-semibold">
+              <span class="text-judul-theme">${s.nama}</span>
+              <span class="text-[10px] md:text-xs text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md border border-yellow-400/40">Kelas ${s.kelas}</span>
+            </div>
+          `;
+        }).join('');
       }
       container.classList.remove('hidden');
     }
 
     function pilihSiswaAutoComplete(nama, kelas) {
+      isAutoCompleteSelecting = true;
       selectedSiswaPelanggaran = { nama, kelas };
       document.getElementById('inputSearchSiswaPelanggaran').value = `${nama} (${kelas})`;
       document.getElementById('suggestionsSiswaContainer').classList.add('hidden');
@@ -880,7 +891,22 @@
       });
     }
 
+    // ================= FIX FUNGSI TAMBAH PELANGGARAN =================
     function tambahKeDaftarPelanggaran() {
+      const inputEl = document.getElementById('inputSearchSiswaPelanggaran');
+      const rawValue = inputEl.value.trim();
+
+      // Fallback pintar: ekstrak dari format "Nama Siswa (Kelas)" jika belum terpilih secara penuh
+      if (!selectedSiswaPelanggaran && rawValue) {
+        const match = rawValue.match(/^(.+?)\s*\(([^)]+)\)$/);
+        if (match) {
+          selectedSiswaPelanggaran = {
+            nama: match[1].trim(),
+            kelas: match[2].trim()
+          };
+        }
+      }
+
       if (!selectedSiswaPelanggaran) {
         showCustomAlert("Perhatian", "Ketik dan pilih nama siswa dari daftar saran terlebih dahulu!");
         return;
@@ -892,7 +918,7 @@
         kategori: selectedKategoriPelanggaran 
       });
 
-      document.getElementById('inputSearchSiswaPelanggaran').value = "";
+      inputEl.value = "";
       selectedSiswaPelanggaran = null;
 
       renderPelanggaranList();
