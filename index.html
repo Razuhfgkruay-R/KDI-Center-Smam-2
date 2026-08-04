@@ -50,7 +50,6 @@
       transition: background 0.4s ease, color 0.3s ease;
     }
 
-    /* POLA BACKGROUND GEOMETRIS MODERN BERLAYAR */
     .bg-pattern-rich {
       background-image: 
         radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.12) 0%, transparent 60%),
@@ -126,7 +125,6 @@
       transition: all 0.2s ease;
     }
 
-    /* --- STYLE ANIMASI KONTROL TEMA --- */
     #theme-icon-home, #theme-icon-dash {
       width: 20px;
       height: 20px;
@@ -152,7 +150,6 @@
     .status-dot.offline { background: #ef4444 !important; animation: none !important; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    /* ANIMASI BLOB SANGAT JELAS & GLOWING */
     @keyframes floatBlob {
       0% { transform: translate(0, 0) scale(1); }
       33% { transform: translate(6vw, -8vh) scale(1.12); }
@@ -450,7 +447,7 @@
             <p id="statDzuhurMasuk" class="text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400 mt-1">0</p>
           </div>
           <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
-            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Warning / Anomali</p>
+            <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Warning</p>
             <p id="statAnomaliCount" class="text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-400 mt-1">0</p>
           </div>
         </div>
@@ -532,7 +529,7 @@
         <button onclick="toggleModal('classDetailModal', false)" class="text-slate-400 hover:text-yellow-600 transition"><i data-lucide="x" class="w-6 h-6"></i></button>
       </div>
 
-      <!-- TAB MENU TAMBAHAN FITUR BARU: REKAP BULANAN ADJUSTED -->
+      <!-- TAB MENU -->
       <div class="flex bg-slate-100/60 dark:bg-white/5 p-2 border-b border-slate-200/60 dark:border-white/10 text-xs md:text-sm font-bold gap-1.5 overflow-x-auto">
         <button onclick="switchDetailTab('sholat')" id="tabBtnSholat" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5 shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-yellow-600 dark:text-yellow-400">
@@ -603,16 +600,21 @@
           </div>
         </div>
 
-        <!-- TAB 3: DATA KEDISIPLINAN -->
+        <!-- TAB 3: DATA KEDISIPLINAN (DENGAN DUA TOMBOL WA DHUHA & DZUHUR) -->
         <div id="tabContentPelanggaran" class="hidden space-y-4">
-          <div class="flex justify-between items-center bg-yellow-400/20 p-4 rounded-2xl border border-yellow-400/30">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-yellow-400/20 p-4 rounded-2xl border border-yellow-400/30 gap-3">
             <div>
               <p class="font-bold text-yellow-900 dark:text-yellow-300 text-xs md:text-sm">Laporan Kedisiplinan ke Wali Kelas</p>
-              <p class="text-xs text-p-theme">Format bukti pelanggaran siswa siap dikirim via WA.</p>
+              <p class="text-xs text-p-theme">Pilih sesi sholat untuk mengirim bukti pelanggaran siswa via WA.</p>
             </div>
-            <button onclick="kirimLaporanWA(selectedClassForDetail)" class="glass-button-wa px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
-              Kirim WA ke Walas
-            </button>
+            <div class="flex gap-2 w-full sm:w-auto">
+              <button onclick="kirimLaporanWA(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+                <i data-lucide="sunrise" class="w-4 h-4"></i> WA Dhuha
+              </button>
+              <button onclick="kirimLaporanWA(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-700">
+                <i data-lucide="sun" class="w-4 h-4"></i> WA Dzuhur
+              </button>
+            </div>
           </div>
 
           <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
@@ -629,18 +631,34 @@
           </div>
         </div>
 
-        <!-- TAB 4: NEW SOMETHING FITUR BARU (REKAP TOTAL IBADAH ADJUSTED HAID) -->
+        <!-- TAB 4: REKAP BULANAN (DENGAN DROPDOWN PILIHAN BULAN) -->
         <div id="tabContentRekap" class="hidden space-y-4">
-          <div class="bg-gradient-to-r from-emerald-500/15 via-yellow-500/10 to-blue-500/15 p-4 rounded-2xl border border-emerald-500/30 flex justify-between items-center">
+          <div class="bg-gradient-to-r from-emerald-500/15 via-yellow-500/10 to-blue-500/15 p-4 rounded-2xl border border-emerald-500/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
               <p class="font-bold text-judul-theme text-xs md:text-sm flex items-center gap-1.5">
                 <i data-lucide="sparkles" class="w-4 h-4 text-yellow-500"></i> Akumulasi Total Sholat (Menyesuaikan Data Haid)
               </p>
-              <p class="text-[11px] text-p-theme mt-0.5">Persentase dihitung adil: Hari haid siswi otomatis **dieksklusi** dari kewajiban total sholat bulanan.</p>
+              <p class="text-[11px] text-p-theme mt-0.5">Pilih bulan rekapitulasi untuk menampilkan data spesifik dari Spreadsheet.</p>
             </div>
-            <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="glass-button-primary px-3.5 py-2 rounded-xl text-xs font-bold hidden sm:flex items-center gap-1.5 shrink-0">
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Sheet
-            </a>
+
+            <!-- DROPDOWN FILTER BULAN -->
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <label for="selectBulanRekap" class="text-xs font-bold text-p-theme whitespace-nowrap">Bulan:</label>
+              <select id="selectBulanRekap" onchange="filterBulanRekap(this.value)" class="glass-input px-3 py-2 rounded-xl text-xs font-bold cursor-pointer w-full sm:w-auto">
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+              </select>
+            </div>
           </div>
 
           <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
@@ -672,7 +690,6 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyxJqB21sfGOrXqpD9OIKTM83yb6Et1PEymXJdT0rhidN1FW8vvgGuBG5ZnxUO8ff7ofg/exec";
 
-    // IKON SVG TEMA LIGHT/DARK
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 111.41 1.41L6.05 7.34a1 1 0 01-1.41-1.41l1.35-1.35zm12.02 12.02a1 1 0 111.41 1.41l-1.35 1.35a1 1 0 11-1.41-1.41l1.35 1.35zM5.99 19.42a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35zm12.02-12.02a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35z"/></svg>`;
     const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>`;
 
@@ -683,7 +700,8 @@
     let selectedKategoriPelanggaran = "Telat";
     let selectedClassForDetail = "";
     let searchQuery = "";
-    let isAutoCompleteSelecting = false; // Flag penanda agar pilihan tidak di-reset otomatis
+    let isAutoCompleteSelecting = false;
+    let selectedBulanFilter = new Date().getMonth() + 1; // Default bulan berjalan
 
     let dismissedNotifs = JSON.parse(localStorage.getItem('kdi_dismissed_notifs') || "[]");
 
@@ -703,6 +721,11 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      
+      // Set nilai awal dropdown bulan ke bulan saat ini
+      const selectBulan = document.getElementById('selectBulanRekap');
+      if (selectBulan) selectBulan.value = selectedBulanFilter;
+
       fetchRealDashboardData();
       lucide.createIcons();
 
@@ -719,7 +742,7 @@
       });
     });
 
-    async function fetchRealDashboardData() {
+    async function fetchRealDashboardData(bulan = null) {
       if (!API_URL) {
         setSyncState("offline", "URL Belum Diset");
         return;
@@ -727,7 +750,8 @@
 
       setSyncState("loading", "Memuat Data...");
       try {
-        const res = await fetch(`${API_URL}?action=getDashboardData`);
+        const targetBulan = bulan || selectedBulanFilter;
+        const res = await fetch(`${API_URL}?action=getDashboardData&bulan=${targetBulan}`);
         const result = await res.json();
 
         if (result && result.status === "success" && result.data) {
@@ -836,7 +860,6 @@
       }
     }
 
-    // ================= FIX FUNGSI PENCARIAN SISWA =================
     function handleSearchSiswaPelanggaran(query) {
       if (isAutoCompleteSelecting) {
         isAutoCompleteSelecting = false;
@@ -891,12 +914,10 @@
       });
     }
 
-    // ================= FIX FUNGSI TAMBAH PELANGGARAN =================
     function tambahKeDaftarPelanggaran() {
       const inputEl = document.getElementById('inputSearchSiswaPelanggaran');
       const rawValue = inputEl.value.trim();
 
-      // Fallback pintar: ekstrak dari format "Nama Siswa (Kelas)" jika belum terpilih secara penuh
       if (!selectedSiswaPelanggaran && rawValue) {
         const match = rawValue.match(/^(.+?)\s*\(([^)]+)\)$/);
         if (match) {
@@ -1033,26 +1054,35 @@
       window.open(encodedURL, '_blank');
     }
 
-    function kirimLaporanWA(kelas) {
+    // ================= FUNGSI LAPORAN WA KEDISIPLINAN DENGAN SESI (DHUHA / DZUHUR) =================
+    function kirimLaporanWA(kelas, sesi = 'Dhuha') {
       let dataKelas = classDataStore[kelas];
-      if (!dataKelas) return;
+      if (!dataKelas || !dataKelas.students) return;
 
       const tgl = new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
 
-      let textWA = `*LAPORAN KEDISIPLINAN SISWA KDI CENTER*\n`;
+      let textWA = `*LAPORAN KEDISIPLINAN SISWA SESI ${sesi.toUpperCase()}*\n`;
       textWA += `🏫 *Kelas:* ${kelas}\n`;
       textWA += `📅 *Tanggal:* ${tgl}\n\n`;
 
       let hasTodayViolation = false;
-      let sectionToday = `📋 *Pelanggaran Hari Ini:*\n`;
+      let sectionToday = `📋 *Pelanggaran Sesi ${sesi.toUpperCase()} Hari Ini:*\n`;
       let sectionTotal = `📊 *Total Akumulasi Pelanggaran Siswa:*\n`;
       let hasTotalViolation = false;
 
       dataKelas.students.forEach(s => {
         let detailsToday = [];
-        if (s.todayTelat > 0) detailsToday.push(`Telat (${s.todayTelat}x)`);
-        if (s.todayBercanda > 0) detailsToday.push(`Bercanda (${s.todayBercanda}x)`);
-        if (s.todayCabut > 0) detailsToday.push(`Cabut (${s.todayCabut}x)`);
+
+        // Menyaring pelanggaran berdasarkan sesi yang dipilih
+        if (sesi === 'Dhuha') {
+          if (s.todayTelatDhuha > 0 || (s.todayTelat > 0 && !s.todayTelatDzuhur)) detailsToday.push(`Telat (${s.todayTelatDhuha || s.todayTelat}x)`);
+          if (s.todayBercandaDhuha > 0 || (s.todayBercanda > 0 && !s.todayBercandaDzuhur)) detailsToday.push(`Bercanda (${s.todayBercandaDhuha || s.todayBercanda}x)`);
+          if (s.todayCabutDhuha > 0 || (s.todayCabut > 0 && !s.todayCabutDzuhur)) detailsToday.push(`Cabut (${s.todayCabutDhuha || s.todayCabut}x)`);
+        } else if (sesi === 'Dzuhur') {
+          if (s.todayTelatDzuhur > 0) detailsToday.push(`Telat (${s.todayTelatDzuhur}x)`);
+          if (s.todayBercandaDzuhur > 0) detailsToday.push(`Bercanda (${s.todayBercandaDzuhur}x)`);
+          if (s.todayCabutDzuhur > 0) detailsToday.push(`Cabut (${s.todayCabutDzuhur}x)`);
+        }
 
         if (detailsToday.length > 0) {
           hasTodayViolation = true;
@@ -1070,7 +1100,7 @@
         }
       });
 
-      if (!hasTodayViolation) sectionToday += `_Nihil (Semua siswa tertib hari ini)_\n`;
+      if (!hasTodayViolation) sectionToday += `_Nihil (Semua siswa tertib saat ${sesi})_\n`;
       if (!hasTotalViolation) sectionTotal += `_Belum ada catatan akumulasi pelanggaran_\n`;
 
       textWA += sectionToday + `\n` + sectionTotal + `\n`;
@@ -1078,6 +1108,12 @@
 
       const encodedURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(textWA)}`;
       window.open(encodedURL, '_blank');
+    }
+
+    // ================= FUNGSI FILTER BULAN REKAP BULANAN =================
+    function filterBulanRekap(bulanVal) {
+      selectedBulanFilter = parseInt(bulanVal, 10);
+      fetchRealDashboardData(selectedBulanFilter);
     }
 
     function handleSearchKelas(q) {
@@ -1426,16 +1462,15 @@
         `;
       }).join('');
 
-      // 4. TABLE REKAP BULANAN SOMETHING NEW (ADJUSTED FOR HAID)
+      // 4. TABLE REKAP BULANAN
       const rekapBody = document.getElementById('tableRekapBody');
-      const targetHariSholatBulanan = 22; // Asumsi hari efektif sekolah per bulan
+      const targetHariSholatBulanan = 22;
 
       rekapBody.innerHTML = data.students.map(s => {
         let totDhuha = s.totalDhuha || (s.dhuha === 'Hadir' || s.dhuha === 'sholat' ? 1 : 0);
         let totDzuhur = s.totalDzuhur || (s.dzuhur === 'Hadir' || s.dzuhur === 'sholat' ? 1 : 0);
         let haidDays = s.gender === 'P' ? (s.haidDays || 0) : 0;
 
-        // Formula Adil: Total Kewajiban Sholat = (Hari Efektif - Hari Haid) * 2 Sesi Sholat
         let maxKewajibanSholat = Math.max(1, (targetHariSholatBulanan - haidDays) * 2);
         let totalSholatDiikuti = totDhuha + totDzuhur;
         
