@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>KDI Center</title>
+
+  <!-- PWA MANIFEST LINK -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FFD700">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
@@ -48,6 +53,25 @@
       min-height: 100vh;
       color: var(--text-judul);
       transition: background 0.4s ease, color 0.3s ease;
+      overscroll-behavior-y: contain;
+    }
+
+    #ptr-spinner-container {
+      position: fixed;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.27);
     }
 
     .bg-pattern-rich {
@@ -189,13 +213,17 @@
 
 <body class="antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden bg-pattern-rich">
 
+  <!-- LINGKARAN BUFFERING PULL-TO-REFRESH HP -->
+  <div id="ptr-spinner-container">
+    <i data-lucide="refresh-cw" id="ptr-icon" class="w-6 h-6 text-yellow-600 dark:text-yellow-400"></i>
+  </div>
+
   <!-- BACKGROUND AMBIENT GLOW BLOBS -->
   <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
     <div class="blob w-[500px] h-[500px] md:w-[750px] md:h-[750px] bg-amber-400 dark:bg-yellow-500/30 -top-20 -left-20"></div>
     <div class="blob w-[450px] h-[450px] md:w-[700px] md:h-[700px] bg-yellow-300 dark:bg-amber-600/30 top-1/3 -right-20" style="animation-delay: -5s;"></div>
     <div class="blob w-[420px] h-[420px] md:w-[650px] md:h-[650px] bg-orange-300 dark:bg-yellow-600/20 -bottom-20 left-1/4" style="animation-delay: -10s;"></div>
   </div>
-
 
   <!-- ================= CUSTOM ALERT MODAL ================= -->
   <div id="customAlertModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
@@ -210,7 +238,6 @@
       <button onclick="closeCustomAlert()" class="glass-button-primary w-full py-3 rounded-xl text-xs md:text-sm font-bold shadow-md">OK</button>
     </div>
   </div>
-
 
   <!-- ================= PAGE 1: HOME / LANDING PAGE ================= -->
   <div id="viewHome" class="flex-1 flex flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
@@ -227,8 +254,6 @@
     </div>
 
     <div class="glass-card w-full p-8 md:p-12 rounded-3xl space-y-6 md:space-y-8">
-      
-      <!-- LOGO 1: LANDING PAGE -->
       <div class="relative w-24 h-24 md:w-32 md:h-32 mx-auto flex items-center justify-center">
         <div class="relative w-full h-full bg-gradient-to-br from-[#FFD700] via-[#E6C200] to-[#B8860B] rounded-2xl md:rounded-3xl p-2 flex items-center justify-center border border-yellow-300 shadow-2xl overflow-hidden group">
           <img src="logo-kdi.png" alt="Logo KDI" class="w-full h-full object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'flex flex-col items-center justify-center text-slate-900 font-black\'><span class=\'text-2xl md:text-3xl tracking-widest leading-none\'>KDI</span><span class=\'text-[8px] md:text-[10px] uppercase tracking-widest mt-1\'>CENTER</span></div>';">
@@ -254,7 +279,6 @@
     </div>
   </div>
 
-
   <!-- ================= PAGE 2: LOGIN / PASSWORD SCREEN ================= -->
   <div id="viewLogin" class="hidden flex-1 flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-lg mx-auto w-full my-auto relative z-10 transition-all duration-300">
     <div class="glass-card w-full p-8 md:p-10 rounded-3xl space-y-6">
@@ -274,12 +298,9 @@
     </div>
   </div>
 
-
   <!-- ================= PAGE 3: CATAT PELANGGARAN ================= -->
   <div id="viewCatatPelanggaran" class="hidden flex-1 flex-col items-center justify-center p-4 pt-12 pb-8 max-w-sm sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
     <div class="glass-card w-full p-6 md:p-10 rounded-3xl space-y-6 text-left">
-      
-      <!-- Header Bar Form -->
       <div class="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 pb-4">
         <div>
           <h2 class="font-bold text-judul-theme text-lg md:text-xl flex items-center gap-2.5">
@@ -290,10 +311,7 @@
         <button onclick="goToView('viewHome')" class="glass-button-secondary text-xs md:text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-200/50 transition">Kembali</button>
       </div>
 
-      <!-- Layout Grid Form & Antrean -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        
-        <!-- KOLOM KIRI: FORM INPUT -->
         <div class="space-y-5">
           <div class="relative">
             <label class="block text-xs md:text-sm font-bold text-p-theme mb-2">Cari Nama Siswa</label>
@@ -301,7 +319,6 @@
               <input type="text" id="inputSearchSiswaPelanggaran" oninput="handleSearchSiswaPelanggaran(this.value)" placeholder="Ketik nama siswa atau kelas..." class="glass-input w-full px-4 py-3 rounded-xl text-xs md:text-sm font-semibold">
               <i data-lucide="search" class="w-4 h-4 md:w-5 md:h-5 text-slate-400 absolute right-3.5 top-3.5 pointer-events-none"></i>
             </div>
-
             <div id="suggestionsSiswaContainer" class="hidden absolute left-0 right-0 top-full mt-2 max-h-52 overflow-y-auto rounded-2xl glass-card z-30 divide-y divide-slate-200/50 dark:divide-white/10 shadow-2xl"></div>
           </div>
 
@@ -319,14 +336,12 @@
           </button>
         </div>
 
-        <!-- KOLOM KANAN: LIST ANTREAN & TOMBOL KIRIM -->
         <div class="space-y-5 md:border-l md:border-slate-200/60 md:dark:border-white/10 md:pl-8">
           <div>
             <label class="block text-xs md:text-sm font-bold text-p-theme mb-2.5 flex justify-between items-center">
               <span>Daftar Siswa Dicatat (<span id="countPelanggaranList">0</span>)</span>
               <button onclick="clearPelanggaranList()" class="text-xs text-rose-500 font-bold hover:underline">Kosongkan List</button>
             </label>
-            
             <div id="containerPelanggaranList" class="space-y-2.5 max-h-52 md:max-h-64 overflow-y-auto pr-1 text-xs md:text-sm">
               <p class="text-center text-slate-400 py-8 text-xs md:text-sm">Belum ada siswa yang ditambahkan ke dalam list.</p>
             </div>
@@ -336,12 +351,9 @@
             Kirim Data Kedisiplinan
           </button>
         </div>
-
       </div>
-
     </div>
   </div>
-
 
   <!-- ================= PAGE 4: TENTANG KDI CENTER ================= -->
   <div id="viewTentang" class="hidden flex-1 flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
@@ -349,7 +361,6 @@
       <div class="special-icon">
         <i data-lucide="info" class="w-8 h-8 text-slate-900"></i>
       </div>
-
       <h3 class="text-xl md:text-2xl font-black text-judul-theme mb-1.5">Tentang KDI Center</h3>
       <p class="text-p-theme text-xs md:text-sm leading-relaxed mb-6 font-medium max-w-md mx-auto">
         Platform monitoring terpadu <strong>KDI</strong> untuk mengontrol rekapitulasi sholat Dhuha, Dzuhur, haid, serta kedisiplinan siswa di <span class="text-gold font-bold">SMA Muhammadiyah 2 Depok</span>.
@@ -370,16 +381,10 @@
         </div>
       </div>
 
-      <button onclick="goToView('viewHome')" class="glass-button-primary w-full py-3 rounded-2xl text-xs md:text-sm font-bold max-w-xs mx-auto">
-        Tutup
-      </button>
-
-      <div class="text-[10px] md:text-xs font-bold text-slate-400 mt-6 tracking-wider uppercase">
-        SUPPORT BY RAZUHFGKRUAY
-      </div>
+      <button onclick="goToView('viewHome')" class="glass-button-primary w-full py-3 rounded-2xl text-xs md:text-sm font-bold max-w-xs mx-auto">Tutup</button>
+      <div class="text-[10px] md:text-xs font-bold text-slate-400 mt-6 tracking-wider uppercase">SUPPORT BY RAZUHFGKRUAY</div>
     </div>
   </div>
-
 
   <!-- ================= PAGE 5: DASHBOARD MONITORING KELAS ================= -->
   <div id="viewDashboard" class="hidden flex-col min-h-screen justify-between relative z-10 w-full">
@@ -388,9 +393,8 @@
         <div class="max-w-7xl lg:max-w-[1400px] mx-auto px-4 md:px-8 py-3.5 flex items-center justify-between gap-4">
           
           <div class="flex items-center gap-3">
-            <!-- LOGO 2: HEADER DASHBOARD -->
             <div class="w-10 h-10 md:w-11 md:h-11 bg-gradient-to-br from-[#FFD700] to-[#B8860B] rounded-xl flex items-center justify-center p-1 border border-yellow-300/80 shadow-md shrink-0 overflow-hidden">
-              <img src="logo.png" alt="KDI" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-black text-slate-900 text-xs md:text-sm\'>KDI</span>';">
+              <img src="logo-kdi.png" alt="KDI" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-black text-slate-900 text-xs md:text-sm\'>KDI</span>';">
             </div>
             <div class="leading-tight">
               <span class="text-[9px] md:text-[10px] font-extrabold uppercase tracking-wider text-gold block">SMA MUHAMMADIYAH 2 DEPOK</span>
@@ -399,13 +403,16 @@
           </div>
           
           <div class="flex items-center gap-2">
-            <!-- SHORTCUT BUKA SPREADSHEET DIRECT -->
+            <button onclick="manualRefreshData()" class="header-pill hover:scale-105 active:scale-95 transition" title="Refresh Data">
+              <i data-lucide="refresh-cw" id="refreshBtnIcon" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
+              <span class="hidden sm:inline">Refresh</span>
+            </button>
+
             <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="header-pill hover:scale-105 bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hidden md:flex" title="Buka Spreadsheet di Tab Baru">
               <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
               <span>Sheet</span>
             </a>
 
-            <!-- PREVIEW SPREADSHEET DI DASHBOARD -->
             <button onclick="toggleModal('sheetPreviewModal', true)" class="header-pill hover:scale-105 bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400" title="Lihat Embed Spreadsheet">
               <i data-lucide="table" class="w-4 h-4"></i>
               <span class="hidden sm:inline">Preview Sheet</span>
@@ -432,7 +439,6 @@
       </header>
 
       <main class="max-w-7xl lg:max-w-[1400px] mx-auto px-4 md:px-8 py-6 space-y-6">
-        <!-- Metric Cards Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <div class="glass-card p-4 md:p-5 rounded-2xl text-center">
             <p class="text-xs font-bold text-p-theme uppercase tracking-wider">Total Kelas</p>
@@ -452,7 +458,6 @@
           </div>
         </div>
 
-        <!-- Search Bar Kelas -->
         <div class="relative w-full">
           <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="search" class="w-5 h-5"></i>
@@ -460,7 +465,6 @@
           <input type="text" id="searchKelasInput" oninput="handleSearchKelas(this.value)" placeholder="Cari nama kelas (misal: 10.2, 11.4, 12.1)..." class="glass-input w-full pl-12 pr-4 py-3.5 rounded-2xl text-xs md:text-sm font-semibold placeholder-slate-400">
         </div>
 
-        <!-- GRID KELAS: DESAIN COMPACT, MODERN & ERGONOMIS -->
         <div id="classListContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4"></div>
       </main>
     </div>
@@ -469,7 +473,6 @@
       SUPPORT BY RAZUHFGKRUAY • KDI CENTER SYSTEM
     </footer>
   </div>
-
 
   <!-- ================= MODAL SPREADSHEET PREVIEW ================= -->
   <div id="sheetPreviewModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md hidden items-center justify-center z-50 p-3 md:p-6">
@@ -493,15 +496,13 @@
           </button>
         </div>
       </div>
-      
       <div class="flex-1 w-full bg-white relative">
         <iframe src="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo/preview" class="w-full h-full border-0"></iframe>
       </div>
     </div>
   </div>
 
-
-  <!-- ================= MODAL 1: PERINGATAN & ANOMALI LENGKAP ================= -->
+  <!-- ================= MODAL 1: PERINGATAN & ANOMALI ================= -->
   <div id="notificationModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden flex flex-col max-h-[85vh]">
       <div class="bg-rose-500/10 px-6 py-4 border-b border-rose-500/20 flex justify-between items-center">
@@ -517,7 +518,6 @@
     </div>
   </div>
 
-
   <!-- ================= MODAL 2: DETAIL DATA REKAP KELAS ================= -->
   <div id="classDetailModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-2xl md:max-w-4xl lg:max-w-5xl rounded-3xl overflow-hidden flex flex-col max-h-[90vh]">
@@ -529,17 +529,9 @@
         <button onclick="toggleModal('classDetailModal', false)" class="text-slate-400 hover:text-yellow-600 transition"><i data-lucide="x" class="w-6 h-6"></i></button>
       </div>
 
-      <!-- TAB MENU -->
       <div class="flex bg-slate-100/60 dark:bg-white/5 p-2 border-b border-slate-200/60 dark:border-white/10 text-xs md:text-sm font-bold gap-1.5 overflow-x-auto">
         <button onclick="switchDetailTab('sholat')" id="tabBtnSholat" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5 shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-yellow-600 dark:text-yellow-400">
-            <rect x="5" y="4" width="14" height="16" rx="1.5"/>
-            <path d="M 7 2 v 2 M 10 2 v 2 M 14 2 v 2 M 17 2 v 2"/>
-            <path d="M 7 20 v 2 M 10 20 v 2 M 14 20 v 2 M 17 20 v 2"/>
-            <path d="M 8 12 v -2 c 0 -2 4 -3.5 4 -3.5 s 4 1.5 4 3.5 v 2"/>
-            <path d="M 5 15 h 14"/>
-          </svg>
-          Sholat Hari Ini
+          <i data-lucide="sun" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Sholat Hari Ini
         </button>
         <button onclick="switchDetailTab('haid')" id="tabBtnHaid" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-1.5 shrink-0">
           <i data-lucide="heart" class="w-4 h-4 text-purple-600"></i> Data Haid
@@ -553,7 +545,6 @@
       </div>
 
       <div class="p-6 overflow-y-auto flex-1 text-xs md:text-sm space-y-5">
-        <!-- TAB 1: DATA SHOLAT HARI INI -->
         <div id="tabContentSholat" class="space-y-4">
           <div class="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
@@ -561,12 +552,8 @@
               <p class="text-xs text-p-theme">Kirim daftar siswa Alfa / Tidak Sholat / Sakit ke Wali Kelas</p>
             </div>
             <div class="flex gap-2.5 w-full sm:w-auto">
-              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
-                WA Dhuha
-              </button>
-              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700">
-                WA Dzuhur
-              </button>
+              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">WA Dhuha</button>
+              <button onclick="kirimLaporanWASholat(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700">WA Dzuhur</button>
             </div>
           </div>
 
@@ -584,7 +571,6 @@
           </div>
         </div>
 
-        <!-- TAB 2: DATA HAID SISWI -->
         <div id="tabContentHaid" class="hidden space-y-4">
           <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
             <table class="w-full text-left border-collapse">
@@ -600,7 +586,6 @@
           </div>
         </div>
 
-        <!-- TAB 3: DATA KEDISIPLINAN -->
         <div id="tabContentPelanggaran" class="hidden space-y-4">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-yellow-400/20 p-4 rounded-2xl border border-yellow-400/30 gap-3">
             <div>
@@ -608,12 +593,8 @@
               <p class="text-xs text-p-theme">Pilih sesi sholat untuk mengirim bukti pelanggaran siswa via WA.</p>
             </div>
             <div class="flex gap-2 w-full sm:w-auto">
-              <button onclick="kirimLaporanWA(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
-                <i data-lucide="sunrise" class="w-4 h-4"></i> WA Dhuha
-              </button>
-              <button onclick="kirimLaporanWA(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-700">
-                <i data-lucide="sun" class="w-4 h-4"></i> WA Dzuhur
-              </button>
+              <button onclick="kirimLaporanWA(selectedClassForDetail, 'Dhuha')" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"><i data-lucide="sunrise" class="w-4 h-4"></i> WA Dhuha</button>
+              <button onclick="kirimLaporanWA(selectedClassForDetail, 'Dzuhur')" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-700"><i data-lucide="sun" class="w-4 h-4"></i> WA Dzuhur</button>
             </div>
           </div>
 
@@ -631,7 +612,6 @@
           </div>
         </div>
 
-        <!-- TAB 4: REKAP BULANAN -->
         <div id="tabContentRekap" class="hidden space-y-4">
           <div class="bg-gradient-to-r from-emerald-500/15 via-yellow-500/10 to-blue-500/15 p-4 rounded-2xl border border-emerald-500/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
@@ -641,7 +621,6 @@
               <p class="text-[11px] text-p-theme mt-0.5">Pilih bulan rekapitulasi untuk menampilkan data spesifik dari Spreadsheet.</p>
             </div>
 
-            <!-- DROPDOWN FILTER BULAN -->
             <div class="flex items-center gap-2 w-full sm:w-auto">
               <label for="selectBulanRekap" class="text-xs font-bold text-p-theme whitespace-nowrap">Bulan:</label>
               <select id="selectBulanRekap" onchange="filterBulanRekap(this.value)" class="glass-input px-3 py-2 rounded-xl text-xs font-bold cursor-pointer w-full sm:w-auto">
@@ -676,7 +655,6 @@
             </table>
           </div>
         </div>
-
       </div>
 
       <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
@@ -685,6 +663,31 @@
     </div>
   </div>
 
+  <!-- ================= MODAL 3: TRACK BENTROK SHOLAT & HAID ================= -->
+  <div id="bentrokTrackModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <div class="glass-card w-full max-w-md md:max-w-lg rounded-3xl overflow-hidden flex flex-col max-h-[85vh] shadow-2xl">
+      <div class="bg-rose-500/15 px-6 py-4.5 border-b border-rose-500/20 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center border border-rose-500/30 shrink-0">
+            <i data-lucide="history" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="bentrokTrackTitle" class="font-bold text-judul-theme text-sm md:text-base">Track Record Bentrok Sholat</h3>
+            <p id="bentrokTrackSubtitle" class="text-xs text-rose-600 dark:text-rose-400 font-semibold mt-0.5">Riwayat ketidaksesuaian data Haid & Sholat</p>
+          </div>
+        </div>
+        <button onclick="toggleModal('bentrokTrackModal', false)" class="text-slate-400 hover:text-rose-500 transition p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <div id="bentrokTrackContainer" class="p-6 overflow-y-auto flex-1 space-y-3.5 text-xs md:text-sm"></div>
+
+      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
+        <button onclick="toggleModal('bentrokTrackModal', false)" class="glass-button-primary px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
@@ -727,6 +730,7 @@
 
       fetchRealDashboardData();
       lucide.createIcons();
+      initPullToRefresh();
 
       if (!navigator.onLine) setSyncState("offline", "Offline");
       window.addEventListener('online', () => setSyncState("online", "Terhubung"));
@@ -740,6 +744,63 @@
         }
       });
     });
+
+    async function manualRefreshData() {
+      const icon = document.getElementById('refreshBtnIcon');
+      if (icon) icon.classList.add('animate-spin');
+      await fetchRealDashboardData();
+      setTimeout(() => {
+        if (icon) icon.classList.remove('animate-spin');
+      }, 500);
+    }
+
+    function initPullToRefresh() {
+      let touchStartY = 0;
+      let touchMoveY = 0;
+      const ptrSpinner = document.getElementById('ptr-spinner-container');
+      const ptrIcon = document.getElementById('ptr-icon');
+
+      window.addEventListener('touchstart', (e) => {
+        if (window.scrollY === 0) {
+          touchStartY = e.touches[0].clientY;
+        } else {
+          touchStartY = 0;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (touchStartY === 0) return;
+        touchMoveY = e.touches[0].clientY;
+        const pullDistance = touchMoveY - touchStartY;
+
+        if (pullDistance > 0 && window.scrollY === 0) {
+          const topPos = Math.min(pullDistance * 0.4 - 60, 20);
+          ptrSpinner.style.top = `${topPos}px`;
+          ptrIcon.style.transform = `rotate(${pullDistance * 2}deg)`;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', async () => {
+        if (touchStartY === 0) return;
+        const pullDistance = touchMoveY - touchStartY;
+
+        if (pullDistance > 120 && window.scrollY === 0) {
+          ptrSpinner.style.top = '20px';
+          ptrIcon.classList.add('animate-spin');
+          
+          await fetchRealDashboardData();
+
+          setTimeout(() => {
+            ptrSpinner.style.top = '-60px';
+            ptrIcon.classList.remove('animate-spin');
+          }, 600);
+        } else {
+          ptrSpinner.style.top = '-60px';
+        }
+        touchStartY = 0;
+        touchMoveY = 0;
+      });
+    }
 
     async function fetchRealDashboardData(bulan = null) {
       if (!API_URL) {
@@ -1137,7 +1198,6 @@
       document.getElementById('statAnomaliCount').innerText = anomaliesCount;
     }
 
-    // ================= FUNGSI TAMPILAN KARTU KELAS BARU (COMPACT & SLEEK) =================
     function renderClassList() {
       const container = document.getElementById('classListContainer');
       container.innerHTML = '';
@@ -1195,34 +1255,13 @@
       lucide.createIcons();
     }
 
+    // 🌟 PUSAT LOGIKA PERINGATAN & ANOMALI REVISI
     function getAllAnomaliesAndWarnings() {
       let list = [];
       const todayTag = new Date().toISOString().slice(0,10);
 
       Object.keys(classDataStore).forEach(className => {
         let c = classDataStore[className];
-
-        let idDhuha = `Dhuha_${className}_${todayTag}`;
-        if (!c.dhuhaSubmitted && !dismissedNotifs.includes(idDhuha)) {
-          list.push({ 
-            id: idDhuha, 
-            tag: "Dhuha", 
-            text: `Kelas ${className} belum mengisi data sholat Dhuha hari ini.`, 
-            className: className, 
-            targetTab: 'sholat' 
-          });
-        }
-
-        let idDzuhur = `Dzuhur_${className}_${todayTag}`;
-        if (!c.dzuhurSubmitted && !dismissedNotifs.includes(idDzuhur)) {
-          list.push({ 
-            id: idDzuhur, 
-            tag: "Dzuhur", 
-            text: `Kelas ${className} belum mengisi data sholat Dzuhur hari ini.`, 
-            className: className, 
-            targetTab: 'sholat' 
-          });
-        }
 
         if (c.students && c.students.length > 0) {
           let totalSiswa = c.students.length;
@@ -1268,12 +1307,29 @@
           }
 
           c.students.forEach(s => {
+            let stDzuhur = (s.dzuhur || "").toLowerCase();
+            let isDzuhurAlfa = stDzuhur === "alfa" || stDzuhur === "tidak" || stDzuhur === "-" || stDzuhur === "mangkir";
+            let isDispen = stDzuhur.includes("sakit") || stDzuhur.includes("izin") || stDzuhur.includes("haid");
+
+            if (c.dzuhurSubmitted && s.gender === 'P' && isDzuhurAlfa && !isDispen) {
+              let idSiswiNoDzuhur = `SiswiNoDzuhur_${s.name}_${todayTag}`;
+              if (!dismissedNotifs.includes(idSiswiNoDzuhur)) {
+                list.push({
+                  id: idSiswiNoDzuhur,
+                  tag: "Siswi Alfa Dzuhur",
+                  text: `⚠️ ${s.name} (Kelas ${className}) tidak absen/sholat Dzuhur padahal tidak berstatus Haid/Izin.`,
+                  className: className,
+                  targetTab: 'sholat'
+                });
+              }
+            }
+
             let idBentrok = `Bentrok_${s.name}_${todayTag}`;
             if (s.isBentrok && !dismissedNotifs.includes(idBentrok)) {
               list.push({ 
                 id: idBentrok, 
                 tag: "Bentrok", 
-                text: `${s.name} (Kelas ${className}) - Hadir sholat padahal tercatat haid/izin.`,
+                text: `🚨 ${s.name} (Kelas ${className}) - Hadir sholat Dzuhur padahal tercatat Haid.`,
                 className: className,
                 targetTab: 'haid'
               });
@@ -1284,7 +1340,7 @@
               list.push({ 
                 id: idHaid7, 
                 tag: "Haid > 7hr", 
-                text: `${s.name} (Kelas ${className}) - Durasi haid tercatat ${s.haidDays} hari bulan ini.`,
+                text: `⚠️ ${s.name} (Kelas ${className}) - Durasi haid tercatat ${s.haidDays} hari bulan ini.`,
                 className: className,
                 targetTab: 'haid'
               });
@@ -1296,7 +1352,7 @@
               list.push({ 
                 id: idPelanggaranTotal, 
                 tag: "Sering Bermasalah", 
-                text: `${s.name} (Kelas ${className}) - Akumulasi pelanggaran (${s.totalTelat}x telat, ${s.totalBercanda}x bercanda, ${s.totalCabut}x cabut).`,
+                text: `🛑 ${s.name} (Kelas ${className}) - Akumulasi pelanggaran (${s.totalTelat}x telat, ${s.totalBercanda}x bercanda, ${s.totalCabut}x cabut).`,
                 className: className,
                 targetTab: 'pelanggaran'
               });
@@ -1312,7 +1368,7 @@
               list.push({ 
                 id: idPelanggaranToday, 
                 tag: "Pelanggaran Hari Ini", 
-                text: `${s.name} (Kelas ${className}) tercatat: ${ketList.join(', ')}.`,
+                text: `⚠️ ${s.name} (Kelas ${className}) tercatat: ${ketList.join(', ')}.`,
                 className: className,
                 targetTab: 'pelanggaran'
               });
@@ -1401,11 +1457,68 @@
       if (activeBtn) activeBtn.className = "flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5 shrink-0";
     }
 
+    // 🌟 POP-UP TRACK BENTROK SHOLAT & HAID
+    function openTrackBentrokModal(studentName, className) {
+      let dataKelas = classDataStore[className];
+      if (!dataKelas || !dataKelas.students) return;
+
+      let student = dataKelas.students.find(s => s.name.toLowerCase() === studentName.toLowerCase());
+      if (!student) return;
+
+      document.getElementById('bentrokTrackTitle').innerText = `Track Bentrok: ${student.name}`;
+      document.getElementById('bentrokTrackSubtitle').innerText = `Kelas ${className} • ${student.bentrokLogs ? student.bentrokLogs.length : 0} Kejadian Bentrok`;
+
+      const container = document.getElementById('bentrokTrackContainer');
+
+      if (!student.bentrokLogs || student.bentrokLogs.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-emerald-600 dark:text-emerald-400 font-bold flex flex-col items-center gap-2">
+            <i data-lucide="check-circle-2" class="w-10 h-10 text-emerald-500"></i>
+            <span>Tidak ada riwayat bentrok untuk siswi ini.</span>
+          </div>
+        `;
+      } else {
+        container.innerHTML = student.bentrokLogs.map((log, idx) => {
+          let tglFormatted = log.tanggal;
+          try {
+            let d = new Date(log.tanggal);
+            if (!isNaN(d.getTime())) {
+              tglFormatted = d.toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
+            }
+          } catch(e) {}
+
+          return `
+            <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-500/20 px-2.5 py-0.5 rounded-md border border-rose-500/30">
+                  Kasus #${idx + 1}
+                </span>
+                <span class="font-bold text-judul-theme text-xs flex items-center gap-1">
+                  <i data-lucide="calendar" class="w-3.5 h-3.5 text-gold"></i> ${tglFormatted}
+                </span>
+              </div>
+              <div class="text-xs text-p-theme space-y-1 pt-1">
+                <p class="font-bold text-judul-theme flex items-center gap-1.5">
+                  <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500 shrink-0"></i>
+                  Sesi: <span class="text-rose-600 dark:text-rose-400 font-extrabold">${log.sesi} (${log.status || 'Hadir'})</span>
+                </p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 pl-5 leading-relaxed">
+                  Terdata <strong>Haid</strong> di KDI Data Center, namun tercatat <strong>${log.status || 'Hadir'}</strong> pada absensi Sholat Dzuhur.
+                </p>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      toggleModal('bentrokTrackModal', true);
+      lucide.createIcons();
+    }
+
     function renderClassDetailTables() {
       let data = classDataStore[selectedClassForDetail];
       if (!data || !data.students) return;
 
-      // 1. TABLE SHOLAT HARI INI
       const sholatBody = document.getElementById('tableSholatBody');
       sholatBody.innerHTML = data.students.map(s => `
         <tr>
@@ -1415,24 +1528,29 @@
         </tr>
       `).join('');
 
-      // 2. TABLE HAID SISWI
       const haidBody = document.getElementById('tableHaidBody');
       let femaleStudents = data.students.filter(s => s.gender === 'P');
       if (femaleStudents.length === 0) {
         haidBody.innerHTML = `<tr><td colspan="3" class="p-5 text-center text-p-theme font-medium">Tidak ada data siswi di kelas ini.</td></tr>`;
       } else {
-        haidBody.innerHTML = femaleStudents.map(s => `
-          <tr>
-            <td class="p-3.5 font-bold">${s.name}</td>
-            <td class="p-3.5 text-center font-bold text-yellow-700 dark:text-yellow-400">${s.haidDays || 0} Hari</td>
-            <td class="p-3.5 text-center">
-              ${s.isBentrok ? '<span class="bg-rose-500/10 text-rose-600 font-bold px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1"><i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500"></i> Bentrok Sholat</span>' : '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Aman</span>'}
-            </td>
-          </tr>
-        `).join('');
+        haidBody.innerHTML = femaleStudents.map(s => {
+          let safeNama = s.name.replace(/'/g, "\\'");
+          return `
+            <tr>
+              <td class="p-3.5 font-bold">${s.name}</td>
+              <td class="p-3.5 text-center font-bold text-yellow-700 dark:text-yellow-400">${s.haidDays || 0} Hari</td>
+              <td class="p-3.5 text-center">
+                ${s.isBentrok 
+                  ? `<button onclick="openTrackBentrokModal('${safeNama}', '${selectedClassForDetail}')" class="bg-rose-500/15 hover:bg-rose-500/25 text-rose-600 dark:text-rose-400 font-bold px-3 py-1.5 rounded-xl text-xs inline-flex items-center gap-1.5 transition border border-rose-500/30 shadow-sm cursor-pointer hover:scale-105 active:scale-95" title="Klik untuk lihat rincian tanggal & sesi bentrok">
+                       <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-500"></i> ${s.bentrokLogs ? s.bentrokLogs.length : 1} Bentrok (Lihat Track)
+                     </button>` 
+                  : '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Aman</span>'}
+              </td>
+            </tr>
+          `;
+        }).join('');
       }
 
-      // 3. TABLE PELANGGARAN
       const pelanggaranBody = document.getElementById('tablePelanggaranBody');
       pelanggaranBody.innerHTML = data.students.map(s => {
         let todayBadges = [];
@@ -1455,7 +1573,6 @@
         `;
       }).join('');
 
-      // 4. TABLE REKAP BULANAN
       const rekapBody = document.getElementById('tableRekapBody');
       const targetHariSholatBulanan = 22;
 
