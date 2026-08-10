@@ -322,6 +322,19 @@
             <div id="suggestionsSiswaContainer" class="hidden absolute left-0 right-0 top-full mt-2 max-h-52 overflow-y-auto rounded-2xl glass-card z-30 divide-y divide-slate-200/50 dark:divide-white/10 shadow-2xl"></div>
           </div>
 
+          <!-- PILIHAN SESI SHOLAT (BARU) -->
+          <div>
+            <label class="block text-xs md:text-sm font-bold text-p-theme mb-2">Pilih Sesi Sholat</label>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" onclick="pilihSesiPelanggaran('Dhuha')" id="btnSesiDhuha" class="py-2.5 rounded-xl text-xs md:text-sm font-bold border border-yellow-500/40 bg-yellow-400/20 text-yellow-800 dark:text-yellow-300 transition flex items-center justify-center gap-1.5">
+                <i data-lucide="sunrise" class="w-4 h-4"></i> Dhuha
+              </button>
+              <button type="button" onclick="pilihSesiPelanggaran('Dzuhur')" id="btnSesiDzuhur" class="py-2.5 rounded-xl text-xs md:text-sm font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition flex items-center justify-center gap-1.5">
+                <i data-lucide="sun" class="w-4 h-4"></i> Dzuhur
+              </button>
+            </div>
+          </div>
+
           <div>
             <label class="block text-xs md:text-sm font-bold text-p-theme mb-2">Keterangan Pelanggaran Hari Ini</label>
             <div class="grid grid-cols-3 gap-2.5">
@@ -373,7 +386,7 @@
         </div>
         <div class="stat-box">
           <div class="stat-label">Version</div>
-          <div class="stat-value">v1.2.6</div>
+          <div class="stat-value">v1.2.7</div>
         </div>
         <div class="stat-box full-width">
           <div class="stat-label">Developed by</div>
@@ -502,7 +515,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 1: PERINGATAN & ANOMALI ================= -->
+  <!-- ================= MODAL 1: PERINGATAN & ANOMALI (DENGAN TOMBOL SHARE WA) ================= -->
   <div id="notificationModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden flex flex-col max-h-[85vh]">
       <div class="bg-rose-500/10 px-6 py-4 border-b border-rose-500/20 flex justify-between items-center">
@@ -512,7 +525,10 @@
         <button onclick="toggleModal('notificationModal', false)" class="text-slate-400 hover:text-rose-500 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div id="warningListContainer" class="p-6 space-y-3.5 overflow-y-auto flex-1 divide-y divide-slate-200/60 dark:divide-white/10 text-xs md:text-sm"></div>
-      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
+      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 flex justify-between items-center gap-3">
+        <button onclick="shareAllNotificationsWA()" class="glass-button-wa px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md">
+          <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Notifikasi (WA)
+        </button>
         <button onclick="toggleModal('notificationModal', false)" class="glass-button-primary px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
       </div>
     </div>
@@ -701,6 +717,7 @@
     let selectedSiswaPelanggaran = null;
     let pendingPelanggaran = [];
     let selectedKategoriPelanggaran = "Telat";
+    let selectedSesiPelanggaran = "Dhuha"; // State baru untuk Sesi
     let selectedClassForDetail = "";
     let searchQuery = "";
     let isAutoCompleteSelecting = false;
@@ -962,6 +979,19 @@
       document.getElementById('suggestionsSiswaContainer').classList.add('hidden');
     }
 
+    /* Pilihan Sesi Sholat */
+    function pilihSesiPelanggaran(sesi) {
+      selectedSesiPelanggaran = sesi;
+      ['Dhuha', 'Dzuhur'].forEach(s => {
+        const btn = document.getElementById(`btnSesi${s}`);
+        if (s === sesi) {
+          btn.className = "py-2.5 rounded-xl text-xs md:text-sm font-bold border border-yellow-500/40 bg-yellow-400/20 text-yellow-800 dark:text-yellow-300 transition flex items-center justify-center gap-1.5";
+        } else {
+          btn.className = "py-2.5 rounded-xl text-xs md:text-sm font-semibold border border-slate-300 dark:border-white/10 text-p-theme transition flex items-center justify-center gap-1.5";
+        }
+      });
+    }
+
     function pilihKategoriPelanggaran(kat) {
       selectedKategoriPelanggaran = kat;
       ['Telat', 'Bercanda', 'Cabut'].forEach(k => {
@@ -996,7 +1026,8 @@
       pendingPelanggaran.push({ 
         nama: selectedSiswaPelanggaran.nama, 
         kelas: selectedSiswaPelanggaran.kelas, 
-        kategori: selectedKategoriPelanggaran 
+        kategori: selectedKategoriPelanggaran,
+        sesi: selectedSesiPelanggaran 
       });
 
       inputEl.value = "";
@@ -1018,7 +1049,10 @@
         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-100/80 dark:bg-white/5 border border-slate-200/60 dark:border-white/10">
           <div>
             <p class="font-bold text-judul-theme text-xs md:text-sm">${item.nama} <span class="text-xs text-gold font-semibold">(${item.kelas})</span></p>
-            <span class="text-[10px] font-bold text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md inline-block mt-0.5 border border-yellow-400/30">${item.kategori}</span>
+            <div class="flex gap-1.5 mt-1">
+              <span class="text-[10px] font-bold text-blue-800 dark:text-blue-300 bg-blue-400/20 px-2 py-0.5 rounded-md border border-blue-400/30">${item.sesi}</span>
+              <span class="text-[10px] font-bold text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md border border-yellow-400/30">${item.kategori}</span>
+            </div>
           </div>
           <button onclick="removePelanggaranItem(${idx})" class="text-rose-500 p-1 hover:text-rose-600 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
         </div>
@@ -1255,7 +1289,7 @@
       lucide.createIcons();
     }
 
-    // 🌟 PUSAT LOGIKA PERINGATAN & ANOMALI REVISI
+    // 🌟 LOGIKA PUSAT PERINGATAN & ANOMALI (PERBAIKAN REVISI KEDUA)
     function getAllAnomaliesAndWarnings() {
       let list = [];
       const todayTag = new Date().toISOString().slice(0,10);
@@ -1307,17 +1341,21 @@
           }
 
           c.students.forEach(s => {
-            let stDzuhur = (s.dzuhur || "").toLowerCase();
+            let stDhuha = (s.dhuha || "").toLowerCase().trim();
+            let stDzuhur = (s.dzuhur || "").toLowerCase().trim();
+
+            let isDhuhaHadir = stDhuha === "hadir" || stDhuha === "sholat" || stDhuha === "masuk" || stDhuha === "ya";
             let isDzuhurAlfa = stDzuhur === "alfa" || stDzuhur === "tidak" || stDzuhur === "-" || stDzuhur === "mangkir";
             let isDispen = stDzuhur.includes("sakit") || stDzuhur.includes("izin") || stDzuhur.includes("haid");
 
-            if (c.dzuhurSubmitted && s.gender === 'P' && isDzuhurAlfa && !isDispen) {
+            /* 🌟 ATURAN REVISI: Siswi hanya kena warning Dzuhur jika sebelumnya DHUHA HADIR, tapi DZUHUR ALFA tanpa status Haid/Izin */
+            if (c.dzuhurSubmitted && s.gender === 'P' && isDhuhaHadir && isDzuhurAlfa && !isDispen) {
               let idSiswiNoDzuhur = `SiswiNoDzuhur_${s.name}_${todayTag}`;
               if (!dismissedNotifs.includes(idSiswiNoDzuhur)) {
                 list.push({
                   id: idSiswiNoDzuhur,
-                  tag: "Siswi Alfa Dzuhur",
-                  text: `⚠️ ${s.name} (Kelas ${className}) tidak absen/sholat Dzuhur padahal tidak berstatus Haid/Izin.`,
+                  tag: "Siswi Cabut Dzuhur",
+                  text: `⚠️ ${s.name} (Kelas ${className}) hadir Dhuha, tetapi TIDAK absen/sholat Dzuhur tanpa keterangan Haid/Izin.`,
                   className: className,
                   targetTab: 'sholat'
                 });
@@ -1377,6 +1415,31 @@
         }
       });
       return list;
+    }
+
+    /* 🌟 FITUR BAGIKAN NOTIFIKASI KE WHATSAPP */
+    function shareAllNotificationsWA() {
+      const list = getAllAnomaliesAndWarnings();
+      if (list.length === 0) {
+        showCustomAlert("Informasi", "Tidak ada notifikasi atau peringatan aktif untuk dibagikan.");
+        return;
+      }
+
+      const tgl = new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
+      let textWA = `*PUSAT PERINGATAN & ANOMALI KDI CENTER*\n`;
+      textWA += `📅 *Tanggal:* ${tgl}\n`;
+      textWA += `⚠️ *Total Peringatan:* ${list.length} Kejadian\n`;
+      textWA += `-----------------------------------------\n\n`;
+
+      list.forEach((item, idx) => {
+        textWA += `${idx + 1}. [${item.tag}] ${item.text}\n\n`;
+      });
+
+      textWA += `-----------------------------------------\n`;
+      textWA += `_Mohon Wali Kelas terkait untuk dapat melakukan tindak lanjut. Terima kasih._ 🙏`;
+
+      const encodedURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(textWA)}`;
+      window.open(encodedURL, '_blank');
     }
 
     function navigateToNotification(className, targetTab) {
@@ -1457,7 +1520,6 @@
       if (activeBtn) activeBtn.className = "flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5 shrink-0";
     }
 
-    // 🌟 POP-UP TRACK BENTROK SHOLAT & HAID
     function openTrackBentrokModal(studentName, className) {
       let dataKelas = classDataStore[className];
       if (!dataKelas || !dataKelas.students) return;
@@ -1542,7 +1604,7 @@
               <td class="p-3.5 text-center">
                 ${s.isBentrok 
                   ? `<button onclick="openTrackBentrokModal('${safeNama}', '${selectedClassForDetail}')" class="bg-rose-500/15 hover:bg-rose-500/25 text-rose-600 dark:text-rose-400 font-bold px-3 py-1.5 rounded-xl text-xs inline-flex items-center gap-1.5 transition border border-rose-500/30 shadow-sm cursor-pointer hover:scale-105 active:scale-95" title="Klik untuk lihat rincian tanggal & sesi bentrok">
-                       <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-500"></i> ${s.bentrokLogs ? s.bentrokLogs.length : 1} Bentrok (Lihat Track)
+                        <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-500"></i> ${s.bentrokLogs ? s.bentrokLogs.length : 1} Bentrok (Lihat Track)
                      </button>` 
                   : '<span class="text-emerald-600 font-bold inline-flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Aman</span>'}
               </td>
