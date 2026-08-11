@@ -440,7 +440,7 @@
               <div id="theme-icon-dash"></div>
             </button>
 
-            <button onclick="openNotificationModal()" class="header-pill relative hover:bg-yellow-400/20 transition" title="Pusat Peringatan & Anomali">
+            <button onclick="openNotificationModal()" class="header-pill relative hover:bg-yellow-400/20 transition" title="Pusat Peringatan Pelanggaran">
               <i data-lucide="bell" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
               <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden animate-bounce">0</span>
             </button>
@@ -1426,7 +1426,7 @@
       }
 
       const tgl = new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
-      let textWA = `*PUSAT PERINGATAN & ANOMALI KDI CENTER*\n`;
+      let textWA = `*PUSAT PERINGATAN Pelanggaran KDI CENTER*\n`;
       textWA += `📅 *Tanggal:* ${tgl}\n`;
       textWA += `⚠️ *Total Peringatan:* ${list.length} Kejadian\n`;
       textWA += `-----------------------------------------\n\n`;
