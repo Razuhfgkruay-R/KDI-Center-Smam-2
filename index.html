@@ -322,7 +322,7 @@
             <div id="suggestionsSiswaContainer" class="hidden absolute left-0 right-0 top-full mt-2 max-h-52 overflow-y-auto rounded-2xl glass-card z-30 divide-y divide-slate-200/50 dark:divide-white/10 shadow-2xl"></div>
           </div>
 
-          <!-- PILIHAN SESI SHOLAT (BARU) -->
+          <!-- PILIHAN SESI SHOLAT -->
           <div>
             <label class="block text-xs md:text-sm font-bold text-p-theme mb-2">Pilih Sesi Sholat</label>
             <div class="grid grid-cols-2 gap-2.5">
@@ -515,22 +515,44 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 1: PERINGATAN & ANOMALI (DENGAN TOMBOL SHARE WA) ================= -->
+  <!-- ================= MODAL 1: PERINGATAN & ANOMALI (DIBAGI 2 KATEGORI) ================= -->
   <div id="notificationModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden flex flex-col max-h-[85vh]">
+      
+      <!-- HEADER MODAL NOTIFIKASI -->
       <div class="bg-rose-500/10 px-6 py-4 border-b border-rose-500/20 flex justify-between items-center">
         <h3 class="font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 text-sm md:text-base">
-          <i data-lucide="alert-triangle" class="w-5 h-5"></i> Pusat Peringatan dan Laporan Data
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i> Pusat Peringatan Pelanggaran
         </h3>
         <button onclick="toggleModal('notificationModal', false)" class="text-slate-400 hover:text-rose-500 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <div id="warningListContainer" class="p-6 space-y-3.5 overflow-y-auto flex-1 divide-y divide-slate-200/60 dark:divide-white/10 text-xs md:text-sm"></div>
-      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 flex justify-between items-center gap-3">
-        <button onclick="shareAllNotificationsWA()" class="glass-button-wa px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md">
-          <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Notifikasi (WA)
+
+      <!-- TAB SELECTION: HARI INI vs KESELURUHAN -->
+      <div class="flex bg-slate-100/60 dark:bg-white/5 p-1.5 border-b border-slate-200/60 dark:border-white/10 text-xs font-bold gap-1.5">
+        <button onclick="switchNotifTab('today')" id="btnNotifTabToday" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5">
+          <i data-lucide="calendar" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Hari Ini (<span id="countNotifToday">0</span>)
         </button>
-        <button onclick="toggleModal('notificationModal', false)" class="glass-button-primary px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
+        <button onclick="switchNotifTab('overall')" id="btnNotifTabOverall" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-1.5">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-rose-500"></i> Keseluruhan (<span id="countNotifOverall">0</span>)
+        </button>
       </div>
+
+      <!-- CONTAINER LIST PERINGATAN -->
+      <div id="warningListContainer" class="p-6 space-y-3.5 overflow-y-auto flex-1 divide-y divide-slate-200/60 dark:divide-white/10 text-xs md:text-sm"></div>
+
+      <!-- FOOTER & TOMBOL SHARE WA TERPISAH -->
+      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 flex flex-col sm:flex-row justify-between items-center gap-2.5">
+        <div class="flex gap-2 w-full sm:w-auto">
+          <button onclick="shareTodayNotificationsWA()" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md">
+            <i data-lucide="share-2" class="w-3.5 h-3.5"></i> WA Hari Ini
+          </button>
+          <button onclick="shareOverallNotificationsWA()" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md bg-gradient-to-r from-purple-700 to-indigo-800">
+            <i data-lucide="share-2" class="w-3.5 h-3.5"></i> WA Keseluruhan
+          </button>
+        </div>
+        <button onclick="toggleModal('notificationModal', false)" class="glass-button-primary w-full sm:w-auto px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
+      </div>
+
     </div>
   </div>
 
@@ -717,11 +739,12 @@
     let selectedSiswaPelanggaran = null;
     let pendingPelanggaran = [];
     let selectedKategoriPelanggaran = "Telat";
-    let selectedSesiPelanggaran = "Dhuha"; // State baru untuk Sesi
+    let selectedSesiPelanggaran = "Dhuha";
     let selectedClassForDetail = "";
     let searchQuery = "";
     let isAutoCompleteSelecting = false;
     let selectedBulanFilter = new Date().getMonth() + 1;
+    let activeNotifTab = "today"; // 'today' atau 'overall'
 
     let dismissedNotifs = JSON.parse(localStorage.getItem('kdi_dismissed_notifs') || "[]");
 
@@ -979,7 +1002,6 @@
       document.getElementById('suggestionsSiswaContainer').classList.add('hidden');
     }
 
-    /* Pilihan Sesi Sholat */
     function pilihSesiPelanggaran(sesi) {
       selectedSesiPelanggaran = sesi;
       ['Dhuha', 'Dzuhur'].forEach(s => {
@@ -1289,14 +1311,13 @@
       lucide.createIcons();
     }
 
-    // 🌟 LOGIKA PUSAT PERINGATAN & ANOMALI (PERBAIKAN REVISI KEDUA)
-    function getAllAnomaliesAndWarnings() {
+    // 🌟 LOGIKA PUSAT PERINGATAN (DIBAGI DUA: HARI INI & KESELURUHAN)
+    function getTodayAnomaliesAndWarnings() {
       let list = [];
       const todayTag = new Date().toISOString().slice(0,10);
 
       Object.keys(classDataStore).forEach(className => {
         let c = classDataStore[className];
-
         if (c.students && c.students.length > 0) {
           let totalSiswa = c.students.length;
 
@@ -1348,7 +1369,6 @@
             let isDzuhurAlfa = stDzuhur === "alfa" || stDzuhur === "tidak" || stDzuhur === "-" || stDzuhur === "mangkir";
             let isDispen = stDzuhur.includes("sakit") || stDzuhur.includes("izin") || stDzuhur.includes("haid");
 
-            /* 🌟 ATURAN REVISI: Siswi hanya kena warning Dzuhur jika sebelumnya DHUHA HADIR, tapi DZUHUR ALFA tanpa status Haid/Izin */
             if (c.dzuhurSubmitted && s.gender === 'P' && isDhuhaHadir && isDzuhurAlfa && !isDispen) {
               let idSiswiNoDzuhur = `SiswiNoDzuhur_${s.name}_${todayTag}`;
               if (!dismissedNotifs.includes(idSiswiNoDzuhur)) {
@@ -1373,6 +1393,35 @@
               });
             }
 
+            let idPelanggaranToday = `PelanggaranToday_${s.name}_${todayTag}`;
+            let totToday = (s.todayTelat || 0) + (s.todayBercanda || 0) + (s.todayCabut || 0);
+            if (totToday > 0 && !dismissedNotifs.includes(idPelanggaranToday)) {
+              let ketList = [];
+              if (s.todayTelat > 0) ketList.push(`Telat ${s.todayTelat}x`);
+              if (s.todayBercanda > 0) ketList.push(`Bercanda ${s.todayBercanda}x`);
+              if (s.todayCabut > 0) ketList.push(`Cabut ${s.todayCabut}x`);
+              list.push({ 
+                id: idPelanggaranToday, 
+                tag: "Pelanggaran Hari Ini", 
+                text: `⚠️ ${s.name} (Kelas ${className}) tercatat: ${ketList.join(', ')}.`,
+                className: className,
+                targetTab: 'pelanggaran'
+              });
+            }
+          });
+        }
+      });
+      return list;
+    }
+
+    function getOverallAnomaliesAndWarnings() {
+      let list = [];
+      const todayTag = new Date().toISOString().slice(0,10);
+
+      Object.keys(classDataStore).forEach(className => {
+        let c = classDataStore[className];
+        if (c.students && c.students.length > 0) {
+          c.students.forEach(s => {
             let idHaid7 = `Haid7_${s.name}_${todayTag}`;
             if (s.haidDays > 7 && !dismissedNotifs.includes(idHaid7)) {
               list.push({ 
@@ -1395,40 +1444,28 @@
                 targetTab: 'pelanggaran'
               });
             }
-
-            let idPelanggaranToday = `PelanggaranToday_${s.name}_${todayTag}`;
-            let totToday = (s.todayTelat || 0) + (s.todayBercanda || 0) + (s.todayCabut || 0);
-            if (totToday > 0 && !dismissedNotifs.includes(idPelanggaranToday)) {
-              let ketList = [];
-              if (s.todayTelat > 0) ketList.push(`Telat ${s.todayTelat}x`);
-              if (s.todayBercanda > 0) ketList.push(`Bercanda ${s.todayBercanda}x`);
-              if (s.todayCabut > 0) ketList.push(`Cabut ${s.todayCabut}x`);
-              list.push({ 
-                id: idPelanggaranToday, 
-                tag: "Pelanggaran Hari Ini", 
-                text: `⚠️ ${s.name} (Kelas ${className}) tercatat: ${ketList.join(', ')}.`,
-                className: className,
-                targetTab: 'pelanggaran'
-              });
-            }
           });
         }
       });
       return list;
     }
 
-    /* 🌟 FITUR BAGIKAN NOTIFIKASI KE WHATSAPP */
-    function shareAllNotificationsWA() {
-      const list = getAllAnomaliesAndWarnings();
+    function getAllAnomaliesAndWarnings() {
+      return [...getTodayAnomaliesAndWarnings(), ...getOverallAnomaliesAndWarnings()];
+    }
+
+    /* 🌟 FITUR BAGIKAN NOTIFIKASI TERPISAH KE WHATSAPP */
+    function shareTodayNotificationsWA() {
+      const list = getTodayAnomaliesAndWarnings();
       if (list.length === 0) {
-        showCustomAlert("Informasi", "Tidak ada notifikasi atau peringatan aktif untuk dibagikan.");
+        showCustomAlert("Informasi", "Tidak ada notifikasi atau pelanggaran untuk hari ini.");
         return;
       }
 
       const tgl = new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
-      let textWA = `*PUSAT PERINGATAN Pelanggaran KDI CENTER*\n`;
+      let textWA = `*LAPORAN PERINGATAN HARI INI - KDI CENTER*\n`;
       textWA += `📅 *Tanggal:* ${tgl}\n`;
-      textWA += `⚠️ *Total Peringatan:* ${list.length} Kejadian\n`;
+      textWA += `⚠️ *Total Kejadian Hari Ini:* ${list.length}\n`;
       textWA += `-----------------------------------------\n\n`;
 
       list.forEach((item, idx) => {
@@ -1436,10 +1473,50 @@
       });
 
       textWA += `-----------------------------------------\n`;
-      textWA += `_Mohon Wali Kelas terkait untuk dapat melakukan tindak lanjut. Terima kasih._ 🙏`;
+      textWA += `_Mohon Wali Kelas / Tim KDI terkait untuk dapat melakukan tindak lanjut hari ini. Terima kasih._ 🙏`;
 
       const encodedURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(textWA)}`;
       window.open(encodedURL, '_blank');
+    }
+
+    function shareOverallNotificationsWA() {
+      const list = getOverallAnomaliesAndWarnings();
+      if (list.length === 0) {
+        showCustomAlert("Informasi", "Tidak ada catatan warning akumulasi keseluruhan.");
+        return;
+      }
+
+      const tgl = new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
+      let textWA = `*REKAP WARNING KESELURUHAN (AKUMULASI) - KDI CENTER*\n`;
+      textWA += `📅 *Tanggal Laporan:* ${tgl}\n`;
+      textWA += `🛑 *Total Warning Akumulasi:* ${list.length} Siswa\n`;
+      textWA += `-----------------------------------------\n\n`;
+
+      list.forEach((item, idx) => {
+        textWA += `${idx + 1}. [${item.tag}] ${item.text}\n\n`;
+      });
+
+      textWA += `-----------------------------------------\n`;
+      textWA += `_Mohon Wali Kelas / Kesiswaan melakukan penanganan khusus untuk siswa dengan catatan akumulasi. Terima kasih._ 🙏`;
+
+      const encodedURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(textWA)}`;
+      window.open(encodedURL, '_blank');
+    }
+
+    function switchNotifTab(tab) {
+      activeNotifTab = tab;
+      const btnToday = document.getElementById('btnNotifTabToday');
+      const btnOverall = document.getElementById('btnNotifTabOverall');
+
+      if (tab === 'today') {
+        btnToday.className = "flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5";
+        btnOverall.className = "flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-1.5";
+      } else {
+        btnOverall.className = "flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5";
+        btnToday.className = "flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-1.5";
+      }
+
+      renderNotificationList();
     }
 
     function navigateToNotification(className, targetTab) {
@@ -1472,11 +1549,24 @@
     }
 
     function openNotificationModal() {
+      const todayList = getTodayAnomaliesAndWarnings();
+      const overallList = getOverallAnomaliesAndWarnings();
+
+      document.getElementById('countNotifToday').innerText = todayList.length;
+      document.getElementById('countNotifOverall').innerText = overallList.length;
+
+      renderNotificationList();
+      toggleModal('notificationModal', true);
+      lucide.createIcons();
+    }
+
+    function renderNotificationList() {
       const container = document.getElementById('warningListContainer');
-      const list = getAllAnomaliesAndWarnings();
+      const list = (activeNotifTab === 'today') ? getTodayAnomaliesAndWarnings() : getOverallAnomaliesAndWarnings();
 
       if (list.length === 0) {
-        container.innerHTML = `<div class="text-center py-8 text-emerald-600 font-bold flex flex-col items-center gap-2"><i data-lucide="check-circle-2" class="w-10 h-10 text-emerald-500"></i> Semua laporan sudah diselesaikan!</div>`;
+        const msg = activeNotifTab === 'today' ? 'Tidak ada laporan pelanggaran untuk hari ini 🎉' : 'Tidak ada catatan warning akumulasi keseluruhan 🎉';
+        container.innerHTML = `<div class="text-center py-8 text-emerald-600 font-bold flex flex-col items-center gap-2"><i data-lucide="check-circle-2" class="w-10 h-10 text-emerald-500"></i> ${msg}</div>`;
       } else {
         container.innerHTML = list.map(item => `
           <div onclick="navigateToNotification('${item.className}', '${item.targetTab}')" class="py-3.5 px-4 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 cursor-pointer flex items-center justify-between gap-3 border-b border-slate-200/60 dark:border-white/10 last:border-0 transition group">
@@ -1492,7 +1582,6 @@
           </div>
         `).join('');
       }
-      toggleModal('notificationModal', true);
       lucide.createIcons();
     }
 
