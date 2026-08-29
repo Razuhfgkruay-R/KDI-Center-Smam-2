@@ -1,0 +1,24 @@
+{
+  "name": "KDI Center - SMA Muhammadiyah 2 Depok",
+  "short_name": "KDI Center",
+  "description": "Platform Monitoring Rekapitulasi Sholat, Haid, dan Kedisiplinan Siswa",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#06080d",
+  "theme_color": "#FFD700",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo-kdi.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-kdi.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
