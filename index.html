@@ -272,6 +272,9 @@
         <button onclick="goToView('viewCatatPelanggaran')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2.5 transition hover:bg-yellow-400/10">
           <i data-lucide="shield-alert" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Catat Kedisiplinan
         </button>
+        <button onclick="openDataMasukModal('pelanggaran')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2.5 transition hover:bg-yellow-400/10">
+          <i data-lucide="inbox" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Lihat Data Masuk
+        </button>
         <button onclick="goToView('viewTentang')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-medium text-xs md:text-sm flex items-center justify-center gap-2.5 transition">
           <i data-lucide="info" class="w-4 h-4 text-slate-400"></i> Tentang KDI Center
         </button>
@@ -386,7 +389,7 @@
         </div>
         <div class="stat-box">
           <div class="stat-label">Version</div>
-          <div class="stat-value">v1.2.7</div>
+          <div class="stat-value">v1.3.0</div>
         </div>
         <div class="stat-box full-width">
           <div class="stat-label">Developed by</div>
@@ -419,6 +422,11 @@
             <button onclick="manualRefreshData()" class="header-pill hover:scale-105 active:scale-95 transition" title="Refresh Data">
               <i data-lucide="refresh-cw" id="refreshBtnIcon" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
               <span class="hidden sm:inline">Refresh</span>
+            </button>
+
+            <button onclick="openDataMasukModal('pelanggaran')" class="header-pill hover:scale-105 bg-yellow-500/10 border-yellow-500/30 text-yellow-700 dark:text-yellow-300" title="Lihat Log Data Masuk">
+              <i data-lucide="inbox" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Data Masuk</span>
             </button>
 
             <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="header-pill hover:scale-105 bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hidden md:flex" title="Buka Spreadsheet di Tab Baru">
@@ -515,11 +523,62 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 1: PERINGATAN & ANOMALI (DIBAGI 2 KATEGORI) ================= -->
+  <!-- ================= MODAL DATA MASUK (PELANGGARAN & HAID) ================= -->
+  <div id="dataMasukModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <div class="glass-card w-full max-w-2xl md:max-w-3xl rounded-3xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl">
+      <!-- Header Modal -->
+      <div class="bg-yellow-400/20 px-6 py-4 border-b border-slate-200/60 dark:border-white/10 flex justify-between items-center">
+        <div>
+          <h3 class="font-bold text-judul-theme text-base md:text-lg flex items-center gap-2">
+            <i data-lucide="inbox" class="w-5 h-5 text-yellow-600 dark:text-yellow-400"></i> Log Data Masuk Spreadsheet 2
+          </h3>
+          <p class="text-xs text-gold font-semibold mt-0.5">Lihat catatan pelanggaran & haid tersusun berurutan dari kelas 10.1 - 12.6</p>
+        </div>
+        <button onclick="toggleModal('dataMasukModal', false)" class="text-slate-400 hover:text-rose-500 transition">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Tab Switcher (Pelanggar vs Haid) -->
+      <div class="flex bg-slate-100/60 dark:bg-white/5 p-2 border-b border-slate-200/60 dark:border-white/10 text-xs md:text-sm font-bold gap-2">
+        <button onclick="switchDataMasukTab('pelanggaran')" id="tabBtnDataPelanggaran" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Data Masuk Pelanggar
+        </button>
+        <button onclick="switchDataMasukTab('haid')" id="tabBtnDataHaid" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2">
+          <i data-lucide="heart" class="w-4 h-4 text-purple-600"></i> Data Masuk Haid
+        </button>
+      </div>
+
+      <!-- Controls: Date Select & WA Share -->
+      <div class="p-4 bg-slate-50/50 dark:bg-white/5 border-b border-slate-200/60 dark:border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <label for="selectTanggalDataMasuk" class="text-xs font-bold text-p-theme whitespace-nowrap">Pilih Tanggal:</label>
+          <select id="selectTanggalDataMasuk" onchange="changeTanggalDataMasuk(this.value)" class="glass-input px-3 py-2 rounded-xl text-xs font-bold cursor-pointer w-full sm:w-auto min-w-[170px]">
+            <option value="">Memuat tanggal...</option>
+          </select>
+        </div>
+
+        <button onclick="shareDataMasukWA()" class="glass-button-wa w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md">
+          <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan ke WA
+        </button>
+      </div>
+
+      <!-- Content Container -->
+      <div id="containerDataMasukContent" class="p-6 overflow-y-auto flex-1 space-y-4 text-xs md:text-sm">
+        <div class="text-center py-10 text-slate-400 font-semibold">Memuat data...</div>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
+        <button onclick="toggleModal('dataMasukModal', false)" class="glass-button-primary px-6 py-2 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 1: PERINGATAN & ANOMALI ================= -->
   <div id="notificationModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden flex flex-col max-h-[85vh]">
       
-      <!-- HEADER MODAL NOTIFIKASI -->
       <div class="bg-rose-500/10 px-6 py-4 border-b border-rose-500/20 flex justify-between items-center">
         <h3 class="font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 text-sm md:text-base">
           <i data-lucide="alert-triangle" class="w-5 h-5"></i> Pusat Peringatan Pelanggaran
@@ -527,7 +586,6 @@
         <button onclick="toggleModal('notificationModal', false)" class="text-slate-400 hover:text-rose-500 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <!-- TAB SELECTION: HARI INI vs KESELURUHAN -->
       <div class="flex bg-slate-100/60 dark:bg-white/5 p-1.5 border-b border-slate-200/60 dark:border-white/10 text-xs font-bold gap-1.5">
         <button onclick="switchNotifTab('today')" id="btnNotifTabToday" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5">
           <i data-lucide="calendar" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Hari Ini (<span id="countNotifToday">0</span>)
@@ -537,10 +595,8 @@
         </button>
       </div>
 
-      <!-- CONTAINER LIST PERINGATAN -->
       <div id="warningListContainer" class="p-6 space-y-3.5 overflow-y-auto flex-1 divide-y divide-slate-200/60 dark:divide-white/10 text-xs md:text-sm"></div>
 
-      <!-- FOOTER & TOMBOL SHARE WA TERPISAH -->
       <div class="p-4 border-t border-slate-200/60 dark:border-white/10 flex flex-col sm:flex-row justify-between items-center gap-2.5">
         <div class="flex gap-2 w-full sm:w-auto">
           <button onclick="shareTodayNotificationsWA()" class="glass-button-wa flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md">
@@ -734,6 +790,12 @@
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 111.41 1.41L6.05 7.34a1 1 0 01-1.41-1.41l1.35-1.35zm12.02 12.02a1 1 0 111.41 1.41l-1.35 1.35a1 1 0 11-1.41-1.41l1.35 1.35zM5.99 19.42a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35zm12.02-12.02a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35z"/></svg>`;
     const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>`;
 
+    const KELAS_ORDER = [
+      "10.1","10.2","10.3","10.4","10.5","10.6",
+      "11.1","11.2","11.3","11.4","11.5","11.6",
+      "12.1","12.2","12.3","12.4","12.5","12.6"
+    ];
+
     let classDataStore = {};
     let allStudentsMaster = [];
     let selectedSiswaPelanggaran = null;
@@ -744,7 +806,13 @@
     let searchQuery = "";
     let isAutoCompleteSelecting = false;
     let selectedBulanFilter = new Date().getMonth() + 1;
-    let activeNotifTab = "today"; // 'today' atau 'overall'
+    let activeNotifTab = "today"; 
+
+    // DATA MASUK FITUR VARIABLES
+    let currentDataMasukTab = "pelanggaran";
+    let rawPelanggaranMasuk = [];
+    let rawHaidMasuk = [];
+    let selectedTanggalDataMasuk = "";
 
     let dismissedNotifs = JSON.parse(localStorage.getItem('kdi_dismissed_notifs') || "[]");
 
@@ -1127,6 +1195,242 @@
       }
     }
 
+    // ====================================================================
+    // LOGIKA FITUR BARU: LIHAT DATA MASUK (PELANGGARAN & HAID)
+    // ====================================================================
+
+    function openDataMasukModal(type = 'pelanggaran') {
+      toggleModal('dataMasukModal', true);
+      switchDataMasukTab(type);
+    }
+
+    async function switchDataMasukTab(type) {
+      currentDataMasukTab = type;
+      const btnP = document.getElementById('tabBtnDataPelanggaran');
+      const btnH = document.getElementById('tabBtnDataHaid');
+
+      if (type === 'pelanggaran') {
+        btnP.className = "flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2";
+        btnH.className = "flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2";
+      } else {
+        btnH.className = "flex-1 py-2.5 px-3 rounded-xl bg-purple-400/30 text-purple-900 dark:text-purple-300 text-center transition font-bold flex items-center justify-center gap-2";
+        btnP.className = "flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2";
+      }
+
+      await loadDataMasuk();
+    }
+
+    async function loadDataMasuk() {
+      const container = document.getElementById('containerDataMasukContent');
+      container.innerHTML = `<div class="text-center py-10 text-slate-400 font-semibold flex flex-col items-center gap-2"><i data-lucide="loader-2" class="w-7 h-7 animate-spin text-yellow-500"></i> Memuat data masuk...</div>`;
+      lucide.createIcons();
+
+      try {
+        const actionParam = (currentDataMasukTab === 'pelanggaran') ? 'getDataMasukPelanggaran' : 'rekap';
+        const res = await fetch(`${API_URL}?action=${actionParam}`);
+        const result = await res.json();
+
+        const dataArray = Array.isArray(result) ? result : (result.data || []);
+
+        if (currentDataMasukTab === 'pelanggaran') {
+          rawPelanggaranMasuk = dataArray;
+        } else {
+          rawHaidMasuk = dataArray;
+        }
+
+        populateTanggalDataMasukOptions();
+        renderDataMasukContent();
+      } catch (err) {
+        console.error("Gagal memuat log data masuk:", err);
+        container.innerHTML = `<div class="text-center py-10 text-rose-500 font-semibold">Gagal terhubung ke Spreadsheet 2.</div>`;
+      }
+    }
+
+    function populateTanggalDataMasukOptions() {
+      const selectEl = document.getElementById('selectTanggalDataMasuk');
+      const rawList = (currentDataMasukTab === 'pelanggaran') ? rawPelanggaranMasuk : rawHaidMasuk;
+
+      if (!rawList || rawList.length === 0) {
+        selectEl.innerHTML = `<option value="">Tidak ada data</option>`;
+        selectedTanggalDataMasuk = "";
+        return;
+      }
+
+      // Ambil tanggal unik & urutkan dari terbaru ke terlama
+      const uniqueDates = Array.from(new Set(rawList.map(item => item.tanggal))).filter(Boolean);
+      uniqueDates.sort((a, b) => new Date(b) - new Date(a));
+
+      selectEl.innerHTML = uniqueDates.map(tgl => {
+        let tglFormatted = tgl;
+        try {
+          let d = new Date(tgl);
+          if (!isNaN(d.getTime())) {
+            tglFormatted = d.toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
+          }
+        } catch(e) {}
+        return `<option value="${tgl}">${tglFormatted}</option>`;
+      }).join('');
+
+      // Selalu tampilkan tanggal TERAKHIR / TERBARU di awal
+      selectedTanggalDataMasuk = uniqueDates[0] || "";
+      selectEl.value = selectedTanggalDataMasuk;
+    }
+
+    function changeTanggalDataMasuk(val) {
+      selectedTanggalDataMasuk = val;
+      renderDataMasukContent();
+    }
+
+    function renderDataMasukContent() {
+      const container = document.getElementById('containerDataMasukContent');
+      const isPelanggaran = (currentDataMasukTab === 'pelanggaran');
+      const rawList = isPelanggaran ? rawPelanggaranMasuk : rawHaidMasuk;
+
+      if (!selectedTanggalDataMasuk || !rawList || rawList.length === 0) {
+        container.innerHTML = `<div class="text-center py-10 text-slate-400 font-semibold">Tidak ada log data yang tersedia.</div>`;
+        return;
+      }
+
+      // Filter berdasarkan tanggal yang dipilih
+      const filtered = rawList.filter(item => item.tanggal === selectedTanggalDataMasuk);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-10 text-slate-400 font-semibold">Tidak ada catatan data pada tanggal ini.</div>`;
+        return;
+      }
+
+      // Pengelompokan berdasarkan Kelas
+      const grouped = {};
+      filtered.forEach(item => {
+        let k = item.kelas ? String(item.kelas).replace(/'/g, "").trim() : "Lainnya";
+        if (!grouped[k]) grouped[k] = [];
+        grouped[k].push(item);
+      });
+
+      // PENGURUTAN KELAS PRESISI (10.1 SAMPAI 12.6)
+      const sortedKelasKeys = Object.keys(grouped).sort((a, b) => {
+        let idxA = KELAS_ORDER.indexOf(a);
+        let idxB = KELAS_ORDER.indexOf(b);
+        if (idxA === -1) idxA = 999;
+        if (idxB === -1) idxB = 999;
+        return idxA - idxB;
+      });
+
+      let html = '';
+      sortedKelasKeys.forEach(kelas => {
+        const items = grouped[kelas];
+        html += `
+          <div class="p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 space-y-2.5">
+            <div class="flex items-center justify-between border-b border-slate-200/50 dark:border-white/10 pb-2">
+              <span class="font-extrabold text-judul-theme text-sm md:text-base flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full ${isPelanggaran ? 'bg-amber-400' : 'bg-purple-400'}"></span> Kelas ${kelas}
+              </span>
+              <span class="text-xs font-bold ${isPelanggaran ? 'text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 border-yellow-400/30' : 'text-purple-800 dark:text-purple-300 bg-purple-400/20 border-purple-400/30'} px-2.5 py-0.5 rounded-md border">
+                ${items.length} ${isPelanggaran ? 'Siswa' : 'Siswi'}
+              </span>
+            </div>
+            <div class="space-y-1.5 pt-1">
+        `;
+
+        items.forEach(it => {
+          if (isPelanggaran) {
+            html += `
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/60 dark:bg-white/5 text-xs md:text-sm">
+                <span class="font-bold text-judul-theme">${it.nama}</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] font-bold text-blue-800 dark:text-blue-300 bg-blue-400/20 px-2 py-0.5 rounded-md border border-blue-400/30">${it.sesi || 'Dhuha'}</span>
+                  <span class="text-[10px] font-bold text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md border border-yellow-400/30">${it.kategori || 'Telat'}</span>
+                </div>
+              </div>
+            `;
+          } else {
+            html += `
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/60 dark:bg-white/5 text-xs md:text-sm">
+                <span class="font-bold text-judul-theme">${it.nama}</span>
+                <span class="text-[10px] font-bold text-purple-800 dark:text-purple-300 bg-purple-400/20 px-2.5 py-0.5 rounded-md border border-purple-400/30">${it.keterangan || 'Haid'}</span>
+              </div>
+            `;
+          }
+        });
+
+        html += `
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    function shareDataMasukWA() {
+      const isPelanggaran = (currentDataMasukTab === 'pelanggaran');
+      const rawList = isPelanggaran ? rawPelanggaranMasuk : rawHaidMasuk;
+
+      if (!selectedTanggalDataMasuk || !rawList || rawList.length === 0) {
+        showCustomAlert("Informasi", "Tidak ada data untuk dibagikan.");
+        return;
+      }
+
+      const filtered = rawList.filter(item => item.tanggal === selectedTanggalDataMasuk);
+      if (filtered.length === 0) {
+        showCustomAlert("Informasi", "Tidak ada data pada tanggal yang dipilih.");
+        return;
+      }
+
+      let tglFormatted = selectedTanggalDataMasuk;
+      try {
+        let d = new Date(selectedTanggalDataMasuk);
+        if (!isNaN(d.getTime())) {
+          tglFormatted = d.toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+      } catch(e) {}
+
+      // Grouping & Sorting Kelas untuk WA
+      const grouped = {};
+      filtered.forEach(item => {
+        let k = item.kelas ? String(item.kelas).replace(/'/g, "").trim() : "Lainnya";
+        if (!grouped[k]) grouped[k] = [];
+        grouped[k].push(item);
+      });
+
+      const sortedKelasKeys = Object.keys(grouped).sort((a, b) => {
+        let idxA = KELAS_ORDER.indexOf(a);
+        let idxB = KELAS_ORDER.indexOf(b);
+        if (idxA === -1) idxA = 999;
+        if (idxB === -1) idxB = 999;
+        return idxA - idxB;
+      });
+
+      let title = isPelanggaran ? "*DATA MASUK KEDISIPLINAN SISWA*" : "*DATA MASUK ABSENSI HAID SISWI*";
+      let textWA = `${title}\n`;
+      textWA += `📅 *Tanggal:* ${tglFormatted}\n`;
+      textWA += `📊 *Total:* ${filtered.length} Catatan Masuk\n`;
+      textWA += `-----------------------------------------\n\n`;
+
+      sortedKelasKeys.forEach(kelas => {
+        textWA += `🏫 *Kelas ${kelas}:*\n`;
+        grouped[kelas].forEach(it => {
+          if (isPelanggaran) {
+            textWA += `• *${it.nama}* (${it.sesi || 'Dhuha'} - ${it.kategori || 'Telat'})\n`;
+          } else {
+            textWA += `• *${it.nama}* (${it.keterangan || 'Haid'})\n`;
+          }
+        });
+        textWA += `\n`;
+      });
+
+      textWA += `-----------------------------------------\n`;
+      textWA += `_Laporan otomatis dari System KDI Center_ 🙏`;
+
+      const encodedURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(textWA)}`;
+      window.open(encodedURL, '_blank');
+    }
+
+    // ====================================================================
+    // LAPORAN WA DAN DETAIL KELAS
+    // ====================================================================
+
     function kirimLaporanWASholat(kelas, sesi) {
       let dataKelas = classDataStore[kelas];
       if (!dataKelas || !dataKelas.students) return;
@@ -1311,7 +1615,6 @@
       lucide.createIcons();
     }
 
-    // 🌟 LOGIKA PUSAT PERINGATAN (DIBAGI DUA: HARI INI & KESELURUHAN)
     function getTodayAnomaliesAndWarnings() {
       let list = [];
       const todayTag = new Date().toISOString().slice(0,10);
@@ -1454,7 +1757,6 @@
       return [...getTodayAnomaliesAndWarnings(), ...getOverallAnomaliesAndWarnings()];
     }
 
-    /* 🌟 FITUR BAGIKAN NOTIFIKASI TERPISAH KE WHATSAPP */
     function shareTodayNotificationsWA() {
       const list = getTodayAnomaliesAndWarnings();
       if (list.length === 0) {
