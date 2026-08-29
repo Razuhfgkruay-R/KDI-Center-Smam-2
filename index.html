@@ -2069,6 +2069,14 @@
       if (show) { m.classList.remove('hidden'); m.classList.add('flex'); }
       else { m.classList.add('hidden'); m.classList.remove('flex'); }
     }
+    // Registrasi Service Worker PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker KDI Center aktif:', reg.scope))
+      .catch(err => console.error('Gagal registrasi Service Worker:', err));
+  });
+}
   </script>
 </body>
 </html>
