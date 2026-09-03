@@ -2081,6 +2081,36 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('Gagal registrasi Service Worker:', err));
   });
 }
+    function kirimNotifikasi(judul, pesan) {
+  // 1. Cek apakah browser mendukung notifikasi
+  if (!("Notification" in window)) {
+    console.log("Browser tidak mendukung notifikasi.");
+    return;
+  }
+
+  // 2. Minta izin ke pengguna
+  Notification.requestPermission().then(function (permission) {
+    if (permission === "granted") {
+      // 3. Kirim notifikasi lewat Service Worker
+      if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+        navigator.serviceWorker.ready.then(function (reg) {
+          reg.showNotification(judul, {
+            body: pesan,
+            icon: "logo-kdi.png", // Path ikon aplikasi kamu
+            badge: "logo-kdi.png",
+            vibrate: [200, 100, 200]
+          });
+        });
+      } else {
+        // Fallback jika SW belum siap
+        new Notification(judul, {
+          body: pesan,
+          icon: "logo-kdi.png"
+        });
+      }
+    }
+  });
+}
   </script>
 </body>
 </html>
