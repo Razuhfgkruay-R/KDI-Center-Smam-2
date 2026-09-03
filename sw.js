@@ -37,3 +37,23 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+// Menangani aksi saat notifikasi diklik
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close(); // Tutup notifikasi
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then(function(clientList) {
+      // Jika aplikasi sedang terbuka, fokuskan tab-nya
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url === '/' && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Jika belum terbuka, buka jendela baru
+      if (clients.openWindow) {
+        return clients.openWindow('/');
+      }
+    })
+  );
+});
