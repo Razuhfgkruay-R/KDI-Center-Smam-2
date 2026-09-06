@@ -215,19 +215,10 @@
     .stat-value { font-size: 14px; color: var(--text-judul); font-weight: 700; }
 
     /* SIDEBAR DRAWER STYLES */
-    #sidebarDrawerOverlay {
-      transition: opacity 0.3s ease-in-out;
-    }
-    #sidebarDrawerContent {
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #sidebarDrawer.hidden-drawer #sidebarDrawerOverlay {
-      opacity: 0;
-      pointer-events: none;
-    }
-    #sidebarDrawer.hidden-drawer #sidebarDrawerContent {
-      transform: translateX(100%);
-    }
+    #sidebarDrawerOverlay { transition: opacity 0.3s ease-in-out; }
+    #sidebarDrawerContent { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    #sidebarDrawer.hidden-drawer #sidebarDrawerOverlay { opacity: 0; pointer-events: none; }
+    #sidebarDrawer.hidden-drawer #sidebarDrawerContent { transform: translateX(100%); }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -264,15 +255,12 @@
     </div>
   </div>
 
-  <!-- ================= SIDEBAR MENU DRAWER (GARIS 3) ================= -->
+  <!-- ================= SIDEBAR MENU DRAWER ================= -->
   <div id="sidebarDrawer" class="hidden-drawer fixed inset-0 z-50 pointer-events-none">
-    <!-- Overlay Backdrop -->
     <div id="sidebarDrawerOverlay" onclick="toggleSidebarDrawer(false)" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm pointer-events-auto"></div>
     
-    <!-- Slide-in Drawer Container -->
     <div id="sidebarDrawerContent" class="absolute top-0 right-0 bottom-0 w-80 sm:w-88 glass-card border-l border-yellow-500/30 p-6 flex flex-col justify-between pointer-events-auto shadow-2xl overflow-y-auto">
       <div class="space-y-6">
-        <!-- Header Drawer -->
         <div class="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 pb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-gradient-to-br from-[#FFD700] to-[#B8860B] rounded-xl flex items-center justify-center p-1 border border-yellow-300 shadow-md overflow-hidden">
@@ -288,10 +276,7 @@
           </button>
         </div>
 
-        <!-- Menu Action Items -->
         <div class="space-y-2">
-
-          <!-- 1. Pantau & Edit Data -->
           <button onclick="openPantauDataFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 flex items-center justify-center shrink-0 border border-yellow-500/30">
               <i data-lucide="calendar-search" class="w-5 h-5"></i>
@@ -302,7 +287,6 @@
             </div>
           </button>
 
-          <!-- 2. Refresh Data -->
           <button onclick="manualRefreshFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/30">
               <i data-lucide="refresh-cw" id="drawerRefreshIcon" class="w-5 h-5"></i>
@@ -313,7 +297,6 @@
             </div>
           </button>
 
-          <!-- 3. Log Data Masuk -->
           <button onclick="openDataMasukFromDrawer('pelanggaran')" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
               <i data-lucide="inbox" class="w-5 h-5"></i>
@@ -324,7 +307,6 @@
             </div>
           </button>
 
-          <!-- 4. Preview Sheet -->
           <button onclick="openPreviewSheetFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-emerald-400 hover:bg-emerald-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
               <i data-lucide="table" class="w-5 h-5"></i>
@@ -335,7 +317,6 @@
             </div>
           </button>
 
-          <!-- 5. Buka Spreadsheet Full -->
           <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-emerald-400 hover:bg-emerald-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
               <i data-lucide="external-link" class="w-5 h-5"></i>
@@ -346,7 +327,6 @@
             </div>
           </a>
 
-          <!-- 6. Catat Kedisiplinan -->
           <button onclick="openCatatPelanggaranFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/30">
               <i data-lucide="shield-alert" class="w-5 h-5"></i>
@@ -357,7 +337,6 @@
             </div>
           </button>
 
-          <!-- 7. Tentang KDI Center -->
           <button onclick="openTentangFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/30">
               <i data-lucide="info" class="w-5 h-5"></i>
@@ -367,11 +346,9 @@
               <div class="text-[10px] text-p-theme font-medium">Informasi versi & pengembang</div>
             </div>
           </button>
-
         </div>
       </div>
 
-      <!-- Footer Drawer -->
       <div class="pt-6 border-t border-slate-200/60 dark:border-white/10 space-y-3">
         <div class="flex items-center justify-between px-2">
           <span class="text-xs font-bold text-p-theme">Status Jaringan:</span>
@@ -388,9 +365,8 @@
     </div>
   </div>
 
-  <!-- ================= PAGE 1: HOME / LANDING PAGE ================= -->
+  <!-- ================= PAGE 1: HOME ================= -->
   <div id="viewHome" class="flex-1 flex flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
-    
     <div class="fixed top-4 left-0 right-0 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto px-4 flex justify-between items-center z-50 pointer-events-none">
       <div class="header-pill pointer-events-auto shadow-sm">
         <div id="statusDotHome" class="status-dot"></div>
@@ -431,7 +407,7 @@
     </div>
   </div>
 
-  <!-- ================= PAGE 2: LOGIN / PASSWORD SCREEN ================= -->
+  <!-- ================= PAGE 2: LOGIN ================= -->
   <div id="viewLogin" class="hidden flex-1 flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-lg mx-auto w-full my-auto relative z-10 transition-all duration-300">
     <div class="glass-card w-full p-8 md:p-10 rounded-3xl space-y-6">
       <div class="w-14 h-14 md:w-16 md:h-16 bg-yellow-400/20 text-yellow-700 dark:text-yellow-400 rounded-2xl flex items-center justify-center mx-auto border border-yellow-400/30">
@@ -474,7 +450,6 @@
             <div id="suggestionsSiswaContainer" class="hidden absolute left-0 right-0 top-full mt-2 max-h-52 overflow-y-auto rounded-2xl glass-card z-30 divide-y divide-slate-200/50 dark:divide-white/10 shadow-2xl"></div>
           </div>
 
-          <!-- PILIHAN SESI SHOLAT -->
           <div>
             <label class="block text-xs md:text-sm font-bold text-p-theme mb-2">Pilih Sesi Sholat</label>
             <div class="grid grid-cols-2 gap-2.5">
@@ -512,7 +487,7 @@
             </div>
           </div>
 
-          <button onclick="kirimDaftarPelanggaran()" class="glass-button-primary w-full py-3.5 rounded-2xl font-bold text-xs md:text-sm transition shadow-md hover:shadow-lg">
+          <button id="btnKirimPelanggaran" onclick="kirimDaftarPelanggaran()" class="glass-button-primary w-full py-3.5 rounded-2xl font-bold text-xs md:text-sm transition shadow-md hover:shadow-lg flex items-center justify-center gap-2">
             Kirim Data Kedisiplinan
           </button>
         </div>
@@ -551,14 +526,11 @@
     </div>
   </div>
 
-  <!-- ================= PAGE 5: DASHBOARD MONITORING KELAS ================= -->
+  <!-- ================= PAGE 5: DASHBOARD MONITORING ================= -->
   <div id="viewDashboard" class="hidden flex-col min-h-screen justify-between relative z-10 w-full">
     <div>
-      <!-- HEADER WITH SIDEBAR MENU (GARIS 3) BUTTON -->
       <header class="glass-card sticky top-0 z-30 border-b border-slate-200/60 dark:border-white/10 rounded-b-2xl shadow-sm">
         <div class="max-w-7xl lg:max-w-[1400px] mx-auto px-4 md:px-8 py-3 flex items-center justify-between gap-4">
-          
-          <!-- Logo & Header Title -->
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 md:w-11 md:h-11 bg-gradient-to-br from-[#FFD700] to-[#B8860B] rounded-xl flex items-center justify-center p-1 border border-yellow-300/80 shadow-md shrink-0 overflow-hidden">
               <img src="logo-kdi.png" alt="KDI" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-black text-slate-900 text-xs md:text-sm\'>KDI</span>';">
@@ -569,40 +541,31 @@
             </div>
           </div>
           
-          <!-- Compact Action Controls Header -->
           <div class="flex items-center gap-2">
-            
-            <!-- Direct Quick Action: Pantau & Edit Data -->
             <button onclick="openPantauDataModal()" class="header-pill hover:scale-105 bg-yellow-500/20 border-yellow-500/40 text-yellow-800 dark:text-yellow-300 font-bold hidden sm:flex" title="Pantau & Edit Data Riwayat">
               <i data-lucide="calendar-search" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
               <span>Pantau Data</span>
             </button>
 
-            <!-- Network Status Indicator -->
             <div class="header-pill hidden md:flex">
               <div id="statusDotDash" class="status-dot"></div>
               <span id="statusTextDash" class="text-xs">Terhubung</span>
             </div>
 
-            <!-- Dark / Light Theme Toggle -->
             <button onclick="toggleTheme()" class="header-pill hover:scale-105" title="Ganti Mode Tema">
               <div id="theme-icon-dash"></div>
             </button>
 
-            <!-- Warning Notifications Center Bell -->
             <button onclick="openNotificationModal()" class="header-pill relative hover:bg-yellow-400/20 transition" title="Pusat Peringatan Pelanggaran">
               <i data-lucide="bell" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
               <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden animate-bounce">0</span>
             </button>
 
-            <!-- SIDEBAR DRAWER HAMBURGER BUTTON (GARIS 3) -->
             <button onclick="toggleSidebarDrawer(true)" class="header-pill hover:scale-105 bg-yellow-400/20 border-yellow-400/50 text-yellow-900 dark:text-yellow-300 font-extrabold px-3.5" title="Buka Menu Sidebar">
               <i data-lucide="menu" class="w-5 h-5 text-yellow-700 dark:text-yellow-300"></i>
               <span class="hidden sm:inline font-bold">Menu</span>
             </button>
-
           </div>
-
         </div>
       </header>
 
@@ -642,10 +605,9 @@
     </footer>
   </div>
 
-  <!-- ================= MODAL PANTAU & EDIT DATA RIWAYAT ================= -->
+  <!-- ================= MODAL PANTAU & EDIT DATA ================= -->
   <div id="pantauDataModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md hidden items-center justify-center z-50 p-3 md:p-6">
     <div class="glass-card w-full max-w-4xl md:max-w-5xl rounded-3xl overflow-hidden flex flex-col max-h-[92vh] shadow-2xl">
-      <!-- Header -->
       <div class="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 px-6 py-4 border-b border-slate-200/60 dark:border-white/10 flex justify-between items-center">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 flex items-center justify-center border border-yellow-500/30">
@@ -661,10 +623,7 @@
         </button>
       </div>
 
-      <!-- Controls Header: Dropdown Bulan, Dropdown Tanggal, Dropdown Kelas, Search Siswa -->
       <div class="p-4 bg-slate-50/50 dark:bg-white/5 border-b border-slate-200/60 dark:border-white/10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-        
-        <!-- 1. Dropdown Bulan -->
         <div>
           <label class="block text-xs font-bold text-p-theme mb-1">1. Pilih Bulan:</label>
           <select id="pantauSelectBulan" onchange="handlePantauBulanChange(this.value)" class="glass-input w-full px-3 py-2 rounded-xl text-xs font-bold cursor-pointer">
@@ -684,7 +643,6 @@
           </select>
         </div>
 
-        <!-- 2. Dropdown Tanggal -->
         <div>
           <label class="block text-xs font-bold text-p-theme mb-1">2. Pilih Tanggal Data:</label>
           <select id="pantauSelectTanggal" onchange="loadPantauData()" class="glass-input w-full px-3 py-2 rounded-xl text-xs font-bold cursor-pointer">
@@ -693,7 +651,6 @@
           <span id="pantauHariLabel" class="text-[11px] font-semibold text-gold mt-1 block"></span>
         </div>
 
-        <!-- 3. Dropdown Kelas -->
         <div>
           <label class="block text-xs font-bold text-p-theme mb-1">3. Pilih Kelas:</label>
           <select id="pantauSelectKelas" onchange="loadPantauData()" class="glass-input w-full px-3 py-2 rounded-xl text-xs font-bold cursor-pointer">
@@ -701,7 +658,6 @@
           </select>
         </div>
 
-        <!-- 4. Cari Nama / No Absen -->
         <div>
           <label class="block text-xs font-bold text-p-theme mb-1">4. Cari Nama Siswa:</label>
           <div class="relative">
@@ -709,10 +665,8 @@
             <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3 pointer-events-none"></i>
           </div>
         </div>
-
       </div>
 
-      <!-- Table Container -->
       <div class="p-4 overflow-y-auto flex-1">
         <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5">
           <table class="w-full text-left border-collapse">
@@ -725,14 +679,11 @@
                 <th class="p-3 text-center">Aksi Save</th>
               </tr>
             </thead>
-            <tbody id="pantauTableBody" class="divide-y divide-slate-200/60 dark:divide-white/10 text-xs font-medium">
-              <!-- Initial empty state rendered via JS -->
-            </tbody>
+            <tbody id="pantauTableBody" class="divide-y divide-slate-200/60 dark:divide-white/10 text-xs font-medium"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- Footer -->
       <div class="p-4 border-t border-slate-200/60 dark:border-white/10 flex flex-col sm:flex-row justify-between items-center gap-2">
         <span class="text-[11px] text-p-theme italic">💡 Pilih status baru (Sholat / Sakit / Izin / Alfa / Haid) lalu klik simpan. Data di Spreadsheet otomatis ter-update.</span>
         <button onclick="toggleModal('pantauDataModal', false)" class="glass-button-primary px-6 py-2 rounded-xl text-xs font-bold">Tutup</button>
@@ -768,10 +719,9 @@
     </div>
   </div>
 
-  <!-- ================= MODAL DATA MASUK (PELANGGARAN & HAID) ================= -->
+  <!-- ================= MODAL DATA MASUK ================= -->
   <div id="dataMasukModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-2xl md:max-w-3xl rounded-3xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl">
-      <!-- Header Modal -->
       <div class="bg-yellow-400/20 px-6 py-4 border-b border-slate-200/60 dark:border-white/10 flex justify-between items-center">
         <div>
           <h3 class="font-bold text-judul-theme text-base md:text-lg flex items-center gap-2">
@@ -784,7 +734,6 @@
         </button>
       </div>
 
-      <!-- Tab Switcher (Pelanggar vs Haid) -->
       <div class="flex bg-slate-100/60 dark:bg-white/5 p-2 border-b border-slate-200/60 dark:border-white/10 text-xs md:text-sm font-bold gap-2">
         <button onclick="switchDataMasukTab('pelanggaran')" id="tabBtnDataPelanggaran" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2">
           <i data-lucide="shield-alert" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Data Masuk Pelanggar
@@ -794,7 +743,6 @@
         </button>
       </div>
 
-      <!-- Controls: Date Select & WA Share -->
       <div class="p-4 bg-slate-50/50 dark:bg-white/5 border-b border-slate-200/60 dark:border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <label for="selectTanggalDataMasuk" class="text-xs font-bold text-p-theme whitespace-nowrap">Pilih Tanggal:</label>
@@ -808,22 +756,19 @@
         </button>
       </div>
 
-      <!-- Content Container -->
       <div id="containerDataMasukContent" class="p-6 overflow-y-auto flex-1 space-y-4 text-xs md:text-sm">
         <div class="text-center py-10 text-slate-400 font-semibold">Memuat data...</div>
       </div>
 
-      <!-- Footer -->
       <div class="p-4 border-t border-slate-200/60 dark:border-white/10 text-right">
         <button onclick="toggleModal('dataMasukModal', false)" class="glass-button-primary px-6 py-2 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
       </div>
     </div>
   </div>
 
-  <!-- ================= MODAL 1: PERINGATAN & ANOMALI ================= -->
+  <!-- ================= MODAL PERINGATAN ================= -->
   <div id="notificationModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden flex flex-col max-h-[85vh]">
-      
       <div class="bg-rose-500/10 px-6 py-4 border-b border-rose-500/20 flex justify-between items-center">
         <h3 class="font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 text-sm md:text-base">
           <i data-lucide="alert-triangle" class="w-5 h-5"></i> Pusat Peringatan Pelanggaran
@@ -853,11 +798,10 @@
         </div>
         <button onclick="toggleModal('notificationModal', false)" class="glass-button-primary w-full sm:w-auto px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold">Tutup</button>
       </div>
-
     </div>
   </div>
 
-  <!-- ================= MODAL 2: DETAIL DATA REKAP KELAS ================= -->
+  <!-- ================= MODAL DETAIL KELAS ================= -->
   <div id="classDetailModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-2xl md:max-w-4xl lg:max-w-5xl rounded-3xl overflow-hidden flex flex-col max-h-[90vh]">
       <div class="bg-yellow-400/20 px-6 py-4.5 border-b border-slate-200/60 dark:border-white/10 flex justify-between items-center">
@@ -1002,7 +946,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 3: TRACK BENTROK SHOLAT & HAID ================= -->
+  <!-- ================= MODAL BENTROK ================= -->
   <div id="bentrokTrackModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="glass-card w-full max-w-md md:max-w-lg rounded-3xl overflow-hidden flex flex-col max-h-[85vh] shadow-2xl">
       <div class="bg-rose-500/15 px-6 py-4.5 border-b border-rose-500/20 flex justify-between items-center">
@@ -1043,7 +987,7 @@
 
     let classDataStore = {};
     let availableDatesStore = [];
-    let allStudentsMaster = [];
+    let allStudentsMaster = JSON.parse(localStorage.getItem('kdi_students_master') || "[]");
     let selectedSiswaPelanggaran = null;
     let pendingPelanggaran = [];
     let selectedKategoriPelanggaran = "Telat";
@@ -1054,15 +998,12 @@
     let selectedBulanFilter = new Date().getMonth() + 1;
     let activeNotifTab = "today"; 
 
-    // DATA MASUK FITUR VARIABLES
     let currentDataMasukTab = "pelanggaran";
     let rawPelanggaranMasuk = [];
     let rawHaidMasuk = [];
     let selectedTanggalDataMasuk = "";
 
-    // PANTAU DATA VARIABLES
     let rawPantauStudents = [];
-
     let dismissedNotifs = JSON.parse(localStorage.getItem('kdi_dismissed_notifs') || "[]");
 
     function showCustomAlert(title, message) {
@@ -1079,15 +1020,11 @@
       m.classList.remove('flex');
     }
 
-    /* LOGIKA SIDEBAR MENU DRAWER (GARIS 3) */
     function toggleSidebarDrawer(show) {
       const drawer = document.getElementById('sidebarDrawer');
       if (!drawer) return;
-      if (show) {
-        drawer.classList.remove('hidden-drawer');
-      } else {
-        drawer.classList.add('hidden-drawer');
-      }
+      if (show) drawer.classList.remove('hidden-drawer');
+      else drawer.classList.add('hidden-drawer');
     }
 
     function openPantauDataFromDrawer() {
@@ -1150,12 +1087,7 @@
     });
 
     async function manualRefreshData() {
-      const icon = document.getElementById('refreshBtnIcon');
-      if (icon) icon.classList.add('animate-spin');
       await fetchRealDashboardData();
-      setTimeout(() => {
-        if (icon) icon.classList.remove('animate-spin');
-      }, 500);
     }
 
     function initPullToRefresh() {
@@ -1165,11 +1097,8 @@
       const ptrIcon = document.getElementById('ptr-icon');
 
       window.addEventListener('touchstart', (e) => {
-        if (window.scrollY === 0) {
-          touchStartY = e.touches[0].clientY;
-        } else {
-          touchStartY = 0;
-        }
+        if (window.scrollY === 0) touchStartY = e.touches[0].clientY;
+        else touchStartY = 0;
       }, { passive: true });
 
       window.addEventListener('touchmove', (e) => {
@@ -1191,9 +1120,7 @@
         if (pullDistance > 120 && window.scrollY === 0) {
           ptrSpinner.style.top = '20px';
           ptrIcon.classList.add('animate-spin');
-          
           await fetchRealDashboardData();
-
           setTimeout(() => {
             ptrSpinner.style.top = '-60px';
             ptrIcon.classList.remove('animate-spin');
@@ -1245,20 +1172,23 @@
       for (let i = 0; i < 30; i++) {
         let d = new Date(now);
         d.setDate(d.getDate() - i);
-        let isoStr = d.toISOString().slice(0, 10);
-        availableDatesStore.push(isoStr);
+        availableDatesStore.push(d.toISOString().slice(0, 10));
       }
     }
 
     function initMasterStudentsFromStore() {
-      allStudentsMaster = [];
+      let tempStudents = [];
       Object.keys(classDataStore).forEach(kelas => {
         if (classDataStore[kelas] && classDataStore[kelas].students) {
           classDataStore[kelas].students.forEach(s => {
-            allStudentsMaster.push({ id: s.id, nama: s.name, kelas: kelas, gender: s.gender });
+            tempStudents.push({ id: s.id, nama: s.name, kelas: kelas, gender: s.gender });
           });
         }
       });
+      if (tempStudents.length > 0) {
+        allStudentsMaster = tempStudents;
+        localStorage.setItem('kdi_students_master', JSON.stringify(allStudentsMaster));
+      }
     }
 
     function initTheme() {
@@ -1436,7 +1366,6 @@
 
       inputEl.value = "";
       selectedSiswaPelanggaran = null;
-
       renderPelanggaranList();
     }
 
@@ -1474,10 +1403,19 @@
       renderPelanggaranList();
     }
 
+    /* FUNGSI KIRIM DATA KEDISIPLINAN DENGAN ANTI DOUBLE-CLICK */
     async function kirimDaftarPelanggaran() {
       if (pendingPelanggaran.length === 0) {
         showCustomAlert("Perhatian", "Antrean daftar siswa masih kosong!");
         return;
+      }
+
+      const btn = document.getElementById('btnKirimPelanggaran');
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+        btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Mengirim Data...`;
+        lucide.createIcons();
       }
 
       setSyncState("loading", "Menyimpan ke Sheet...");
@@ -1506,13 +1444,16 @@
         console.error("Gagal menyimpan ke Sheet:", err);
         showCustomAlert("Koneksi Error", "Terjadi kesalahan koneksi jaringan.");
         setSyncState("offline", "Offline");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.remove('opacity-50', 'cursor-not-allowed');
+          btn.innerHTML = `Kirim Data Kedisiplinan`;
+        }
       }
     }
 
-    // ====================================================================
-    // LOGIKA PANTAU & EDIT DATA RIWAYAT ABSENSI
-    // ====================================================================
-
+    /* LOGIKA PANTAU & EDIT DATA RIWAYAT ABSENSI */
     function initPantauControls() {
       const bulanSelect = document.getElementById('pantauSelectBulan');
       if (bulanSelect) bulanSelect.value = ""; 
@@ -1717,7 +1658,6 @@
 
       tbody.innerHTML = list.map((st, idx) => {
         const safeNama = st.name.replace(/'/g, "\\'");
-
         const currentDhuha = getSelectedStatus(st.dhuha);
         const currentDzuhur = getSelectedStatus(st.dzuhur);
 
@@ -1762,16 +1702,14 @@
       lucide.createIcons();
     }
 
-    /* FUNGSI KOREKSI ABSENSI DENGAN VALIDASI HANYA KIRIM DATA YANG DIISI */
     async function simpanKoreksiAbsen(siswaId, namaSiswa) {
       const kelasVal = document.getElementById('pantauSelectKelas').value;
       const tglVal = document.getElementById('pantauSelectTanggal').value;
       const statusDhuha = document.getElementById(`selDhuha_${siswaId}`).value;
       const statusDzuhur = document.getElementById(`selDzuhur_${siswaId}`).value;
 
-      // Jika kedua opsi dibiarkan "-- Belum Ada Data --"
       if (!statusDhuha && !statusDzuhur) {
-        showCustomAlert("Perhatian", "Pilih setidaknya satu status (Sholat/Sakit/Izin/Alfa/Haid) sebelum menyimpan.");
+        showCustomAlert("Perhatian", "Pilih setidaknya satu status sebelum menyimpan.");
         return;
       }
 
@@ -1780,7 +1718,6 @@
       try {
         const requests = [];
 
-        // Hanya buat request Dhuha jika statusnya DIISI (tidak kosong)
         if (statusDhuha !== "") {
           const payloadDhuha = {
             action: "simpanAbsensi",
@@ -1789,12 +1726,9 @@
             ibadah: "Dhuha",
             data: [{ id: siswaId, name: namaSiswa, status: statusDhuha }]
           };
-          requests.push(
-            fetch(API_URL, { method: "POST", body: JSON.stringify(payloadDhuha) }).then(res => res.json())
-          );
+          requests.push(fetch(API_URL, { method: "POST", body: JSON.stringify(payloadDhuha) }).then(res => res.json()));
         }
 
-        // Hanya buat request Dzuhur jika statusnya DIISI (tidak kosong)
         if (statusDzuhur !== "") {
           const payloadDzuhur = {
             action: "simpanAbsensi",
@@ -1803,9 +1737,7 @@
             ibadah: "Dzuhur",
             data: [{ id: siswaId, name: namaSiswa, status: statusDzuhur }]
           };
-          requests.push(
-            fetch(API_URL, { method: "POST", body: JSON.stringify(payloadDzuhur) }).then(res => res.json())
-          );
+          requests.push(fetch(API_URL, { method: "POST", body: JSON.stringify(payloadDzuhur) }).then(res => res.json()));
         }
 
         const results = await Promise.all(requests);
@@ -1827,10 +1759,7 @@
       }
     }
 
-    // ====================================================================
-    // LOGIKA FITUR: LIHAT DATA MASUK (PELANGGARAN & HAID)
-    // ====================================================================
-
+    /* FITUR: LIHAT DATA MASUK DENGAN REKAP AKUMULASI */
     function openDataMasukModal(type = 'pelanggaran') {
       toggleModal('dataMasukModal', true);
       switchDataMasukTab(type);
@@ -1874,7 +1803,7 @@
         renderDataMasukContent();
       } catch (err) {
         console.error("Gagal memuat log data masuk:", err);
-        container.innerHTML = `<div class="text-center py-10 text-rose-500 font-semibold">Gagal terhubung ke Spreadsheet 2.</div>`;
+        container.innerHTML = `<div class="text-center py-10 text-rose-500 font-semibold">Gagal terhubung ke Spreadsheet.</div>`;
       }
     }
 
@@ -1909,6 +1838,22 @@
     function changeTanggalDataMasuk(val) {
       selectedTanggalDataMasuk = val;
       renderDataMasukContent();
+    }
+
+    // Helper untuk mengambil akumulasi pelanggaran siswa dari store
+    function getStudentAccumulation(nama, kelas) {
+      const kObj = classDataStore[kelas];
+      if (kObj && kObj.students) {
+        const st = kObj.students.find(s => s.name.toLowerCase() === nama.toLowerCase());
+        if (st) {
+          return {
+            telat: st.totalTelat || 0,
+            bercanda: st.totalBercanda || 0,
+            cabut: st.totalCabut || 0
+          };
+        }
+      }
+      return null;
     }
 
     function renderDataMasukContent() {
@@ -1961,9 +1906,15 @@
 
         items.forEach(it => {
           if (isPelanggaran) {
+            const acc = getStudentAccumulation(it.nama, kelas);
+            const accText = acc ? `${acc.telat}T / ${acc.bercanda}B / ${acc.cabut}C` : null;
+
             html += `
-              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/60 dark:bg-white/5 text-xs md:text-sm">
-                <span class="font-bold text-judul-theme">${it.nama}</span>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-xl bg-slate-100/60 dark:bg-white/5 text-xs md:text-sm gap-1.5">
+                <div>
+                  <span class="font-bold text-judul-theme">${it.nama}</span>
+                  ${accText ? `<div class="text-[10px] text-p-theme font-medium mt-0.5">Total Akumulasi: <strong class="text-gold">${accText}</strong></div>` : ''}
+                </div>
                 <div class="flex items-center gap-1.5">
                   <span class="text-[10px] font-bold text-blue-800 dark:text-blue-300 bg-blue-400/20 px-2 py-0.5 rounded-md border border-blue-400/30">${it.sesi || 'Dhuha'}</span>
                   <span class="text-[10px] font-bold text-yellow-800 dark:text-yellow-300 bg-yellow-400/20 px-2.5 py-0.5 rounded-md border border-yellow-400/30">${it.kategori || 'Telat'}</span>
@@ -2038,7 +1989,9 @@
         textWA += `🏫 *Kelas ${kelas}:*\n`;
         grouped[kelas].forEach(it => {
           if (isPelanggaran) {
-            textWA += `• *${it.nama}* (${it.sesi || 'Dhuha'} - ${it.kategori || 'Telat'})\n`;
+            const acc = getStudentAccumulation(it.nama, kelas);
+            const accInfo = acc ? ` (Akumulasi: ${acc.telat}T/${acc.bercanda}B/${acc.cabut}C)` : '';
+            textWA += `• *${it.nama}* [${it.sesi || 'Dhuha'} - ${it.kategori || 'Telat'}]${accInfo}\n`;
           } else {
             textWA += `• *${it.nama}* (${it.keterangan || 'Haid'})\n`;
           }
@@ -2052,10 +2005,6 @@
       const encodedURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(textWA)}`;
       window.open(encodedURL, '_blank');
     }
-
-    // ====================================================================
-    // LAPORAN WA DAN DETAIL KELAS
-    // ====================================================================
 
     function kirimLaporanWASholat(kelas, sesi) {
       let dataKelas = classDataStore[kelas];
@@ -2184,6 +2133,7 @@
       document.getElementById('statAnomaliCount').innerText = anomaliesCount;
     }
 
+    /* RENDER CARD KELAS DENGAN STATUS TOGGLE LENGKAP */
     function renderClassList() {
       const container = document.getElementById('classListContainer');
       container.innerHTML = '';
@@ -2192,7 +2142,7 @@
       if (searchQuery) keys = keys.filter(k => k.toLowerCase().includes(searchQuery));
 
       if (keys.length === 0) {
-        container.innerHTML = `<div class="glass-card p-6 col-span-full text-center text-p-theme font-semibold text-xs rounded-2xl">Kelas tidak ditemukan / Data memuat...</div>`;
+        container.innerHTML = `<div class="glass-card p-6 col-span-full text-center text-p-theme font-semibold text-xs rounded-2xl">Kelas tidak ditemukan / Memuat data...</div>`;
         return;
       }
 
@@ -2223,7 +2173,7 @@
               <span class="font-extrabold text-judul-theme text-xs md:text-sm tracking-tight group-hover:text-gold transition">
                 Kelas ${className}
               </span>
-              <span class="w-2 h-2 rounded-full ${c.dhuhaSubmitted && c.dzuhurSubmitted ? 'bg-emerald-500' : 'bg-amber-400'}"></span>
+              <span class="w-2.5 h-2.5 rounded-full ${c.dhuhaSubmitted && c.dzuhurSubmitted ? 'bg-emerald-500' : 'bg-amber-400'}" title="${c.dhuhaSubmitted && c.dzuhurSubmitted ? 'Lengkap' : 'Belum Lengkap'}"></span>
             </div>
 
             <div class="flex flex-wrap gap-1">
@@ -2662,7 +2612,6 @@
 
         let maxKewajibanSholat = Math.max(1, (targetHariSholatBulanan - haidDays) * 2);
         let totalSholatDiikuti = totDhuha + totDzuhur;
-        
         let percentage = Math.min(100, Math.round((totalSholatDiikuti / maxKewajibanSholat) * 100));
 
         let badgeColor = "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30";
@@ -2704,36 +2653,26 @@
           .catch(err => console.error('Gagal registrasi Service Worker:', err));
       });
     }
-    function kirimNotifikasi(judul, pesan) {
-  // 1. Cek apakah browser mendukung notifikasi
-  if (!("Notification" in window)) {
-    console.log("Browser tidak mendukung notifikasi.");
-    return;
-  }
 
-  // 2. Minta izin ke pengguna
-  Notification.requestPermission().then(function (permission) {
-    if (permission === "granted") {
-      // 3. Kirim notifikasi lewat Service Worker
-      if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-        navigator.serviceWorker.ready.then(function (reg) {
-          reg.showNotification(judul, {
-            body: pesan,
-            icon: "logo-kdi.png", // Path ikon aplikasi kamu
-            badge: "logo-kdi.png",
-            vibrate: [200, 100, 200]
-          });
-        });
-      } else {
-        // Fallback jika SW belum siap
-        new Notification(judul, {
-          body: pesan,
-          icon: "logo-kdi.png"
-        });
-      }
+    function kirimNotifikasi(judul, pesan) {
+      if (!("Notification" in window)) return;
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+            navigator.serviceWorker.ready.then(function (reg) {
+              reg.showNotification(judul, {
+                body: pesan,
+                icon: "logo-kdi.png",
+                badge: "logo-kdi.png",
+                vibrate: [200, 100, 200]
+              });
+            });
+          } else {
+            new Notification(judul, { body: pesan, icon: "logo-kdi.png" });
+          }
+        }
+      });
     }
-  });
-}
   </script>
 </body>
 </html>
