@@ -21,6 +21,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
+    /* PROTEKSI SELEKSI TEKS & DRAG */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* IZINKAN SELEKSI TEKS KHUSUS DI ELEMEN INPUT/TEXTAREA */
+    input, select, textarea {
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      user-select: text !important;
+    }
+
     :root {
       --bg-body: #f1f5f9;
       --text-judul: #0f172a;
@@ -50,8 +69,6 @@
       --card-item-bg: rgba(255, 215, 0, 0.06);
       --pattern-opacity: 0.08;
     }
-
-    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
     body {
       background: var(--bg-body);
@@ -429,14 +446,21 @@
   <!-- ================= PAGE 3: CATAT PELANGGARAN ================= -->
   <div id="viewCatatPelanggaran" class="hidden flex-1 flex-col items-center justify-center p-4 pt-12 pb-8 max-w-sm sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
     <div class="glass-card w-full p-6 md:p-10 rounded-3xl space-y-6 text-left">
-      <div class="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 pb-4">
+      <div class="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 pb-4 gap-2">
         <div>
           <h2 class="font-bold text-judul-theme text-lg md:text-xl flex items-center gap-2.5">
             <i data-lucide="shield-alert" class="w-6 h-6 text-yellow-600 dark:text-yellow-400"></i> Catat Kedisiplinan Siswa
           </h2>
           <p class="text-xs md:text-sm text-p-theme hidden sm:block mt-1">Catat data pelanggaran siswa hari ini</p>
         </div>
-        <button onclick="goToView('viewHome')" class="glass-button-secondary text-xs md:text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-200/50 transition">Kembali</button>
+        <div class="flex items-center gap-2">
+          <!-- INDIKATOR SYNC DI CARD CATAT KEDISIPLINAN -->
+          <div class="header-pill text-xs shadow-sm">
+            <div id="statusDotCatat" class="status-dot"></div>
+            <span id="statusTextCatat">Terhubung</span>
+          </div>
+          <button onclick="goToView('viewHome')" class="glass-button-secondary text-xs md:text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-200/50 transition">Kembali</button>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
@@ -972,8 +996,43 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <!-- ================= JAVASCRIPT LOGIC & PROTECTIONS ================= -->
   <script>
+    // ====================================================================
+    // FITUR KEAMANAN: ANTI-INSPECT, ANTI-DOWNLOAD & ANTI-SHORTCUT
+    // ====================================================================
+    // 1. Disable Klik Kanan
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // 2. Disable Shortcut Developer Tools & Save Page
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+      }
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+        e.preventDefault();
+        return false;
+      }
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // 3. Anti-Debugger Trap
+    setInterval(() => {
+      const startTime = performance.now();
+      debugger;
+      const endTime = performance.now();
+      if (endTime - startTime > 100) {
+        window.location.reload();
+      }
+    }, 1000);
+
+    // ====================================================================
+    // KONFIGURASI GLOBAL & URL APPS SCRIPT
+    // ====================================================================
     const API_URL = "https://script.google.com/macros/s/AKfycbyxJqB21sfGOrXqpD9OIKTM83yb6Et1PEymXJdT0rhidN1FW8vvgGuBG5ZnxUO8ff7ofg/exec";
 
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 111.41 1.41L6.05 7.34a1 1 0 01-1.41-1.41l1.35-1.35zm12.02 12.02a1 1 0 111.41 1.41l-1.35 1.35a1 1 0 11-1.41-1.41l1.35 1.35zM5.99 19.42a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35zm12.02-12.02a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35z"/></svg>`;
@@ -1230,8 +1289,9 @@
       if (iconDash) iconDash.innerHTML = isDark ? moonIcon : sunIcon;
     }
 
+    // UPDATE FUNGSI SET SYNC STATE TERMASUK STATUS DOT DI CARD CATAT KEDISIPLINAN
     function setSyncState(state, text) {
-      ['statusDotHome', 'statusDotDash', 'statusDotDrawer'].forEach(id => {
+      ['statusDotHome', 'statusDotDash', 'statusDotDrawer', 'statusDotCatat'].forEach(id => {
         const dot = document.getElementById(id);
         if (dot) {
           dot.classList.remove("loading", "offline");
@@ -1240,7 +1300,7 @@
         }
       });
 
-      ['statusTextHome', 'statusTextDash', 'statusTextDrawer'].forEach(id => {
+      ['statusTextHome', 'statusTextDash', 'statusTextDrawer', 'statusTextCatat'].forEach(id => {
         const txt = document.getElementById(id);
         if (txt) txt.innerText = text;
       });
@@ -1258,17 +1318,43 @@
       lucide.createIcons();
     }
 
-    function handleLogin(e) {
+    // VERIFIKASI LOGIN OTORISASI SERVER-SIDE
+    async function handleLogin(e) {
       e.preventDefault();
       const pwd = document.getElementById('passwordInput').value.trim();
       const err = document.getElementById('loginError');
-      if (pwd === "oooo") {
-        err.classList.add('hidden');
-        document.getElementById('passwordInput').value = "";
-        goToView('viewDashboard');
-        fetchRealDashboardData();
-      } else {
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+
+      if (!pwd) return;
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Memverifikasi...";
+      }
+
+      try {
+        const url = `${API_URL}?action=checkPassword&app=kdi&pass=${encodeURIComponent(pwd)}`;
+        const res = await fetch(url);
+        const result = await res.json();
+
+        if (result && result.success) {
+          err.classList.add('hidden');
+          document.getElementById('passwordInput').value = "";
+          goToView('viewDashboard');
+          fetchRealDashboardData();
+        } else {
+          err.innerText = "⚠️ " + (result.message || "Password salah, coba lagi.");
+          err.classList.remove('hidden');
+        }
+      } catch (error) {
+        console.error("Gagal otentikasi login:", error);
+        err.innerText = "⚠️ Terjadi kesalahan koneksi saat memverifikasi password.";
         err.classList.remove('hidden');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Masuk";
+        }
       }
     }
 
@@ -1403,7 +1489,7 @@
       renderPelanggaranList();
     }
 
-    /* FUNGSI KIRIM DATA KEDISIPLINAN DENGAN ANTI DOUBLE-CLICK */
+    /* KIRIM DATA KEDISIPLINAN DENGAN VISUAL SYNC LOADING */
     async function kirimDaftarPelanggaran() {
       if (pendingPelanggaran.length === 0) {
         showCustomAlert("Perhatian", "Antrean daftar siswa masih kosong!");
@@ -1840,7 +1926,6 @@
       renderDataMasukContent();
     }
 
-    /* HITUNG AKUMULASI LANGSUNG DARI LOG SPREADSHEET 2 (rawPelanggaranMasuk) */
     function getStudentAccumulation(nama, kelas) {
       if (!nama || !rawPelanggaranMasuk || rawPelanggaranMasuk.length === 0) {
         return { telat: 0, bercanda: 0, cabut: 0 };
@@ -1854,7 +1939,6 @@
       rawPelanggaranMasuk.forEach(item => {
         const itemNama = String(item.nama || '').trim().toLowerCase();
         
-        // Pencocokan nama fleksibel (fuzzy match)
         if (itemNama === cleanNama || itemNama.includes(cleanNama) || cleanNama.includes(itemNama)) {
           const kat = String(item.kategori || '').trim().toLowerCase();
           
@@ -2144,7 +2228,6 @@
       document.getElementById('statAnomaliCount').innerText = anomaliesCount;
     }
 
-    /* RENDER CARD KELAS DENGAN STATUS TOGGLE LENGKAP */
     function renderClassList() {
       const container = document.getElementById('classListContainer');
       container.innerHTML = '';
