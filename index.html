@@ -18,6 +18,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- html2pdf.js CDN (Ekspor PDF Laporan Pembiasaan) -->
+  <!-- jsPDF & AutoTable CDN (Ekspor PDF Vektor Laporan Pembiasaan) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
@@ -304,6 +308,17 @@
             </div>
           </button>
 
+          <!-- TOMBOL LAPORAN PEMBIASAAN (DRAWER) -->
+          <button onclick="openLaporanPembiasaanFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-amber-400 hover:bg-amber-400/10 text-left">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
+              <i data-lucide="file-text" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-judul-theme">Laporan Pembiasaan</div>
+              <div class="text-[10px] text-p-theme font-medium">Rekap Q1-Q4, Semester & Cetak PDF</div>
+            </div>
+          </button>
+
           <button onclick="manualRefreshFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/30">
               <i data-lucide="refresh-cw" id="drawerRefreshIcon" class="w-5 h-5"></i>
@@ -360,7 +375,7 @@
             </div>
             <div>
               <div class="text-judul-theme">Tentang Aplikasi</div>
-              <div class="text-[10px] text-p-theme font-medium">Informasi versi & pengembang</div>
+              <div class="text-[10px] text-p-theme font-medium">Informasi versi & petunjuk</div>
             </div>
           </button>
         </div>
@@ -385,11 +400,11 @@
   <!-- ================= PAGE 1: HOME ================= -->
   <div id="viewHome" class="flex-1 flex flex-col items-center justify-center p-4 pt-16 pb-8 text-center max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto w-full my-auto relative z-10 transition-all duration-300">
     <div class="fixed top-4 left-0 right-0 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto px-4 flex justify-between items-center z-50 pointer-events-none">
-      <div class="header-pill pointer-events-auto shadow-sm">
+      <div id="status-pill-home" class="header-pill pointer-events-auto shadow-sm">
         <div id="statusDotHome" class="status-dot"></div>
         <span id="statusTextHome">Terhubung</span>
       </div>
-      <div class="header-pill cursor-pointer pointer-events-auto hover:scale-105 shadow-sm" onclick="toggleTheme()">
+      <div id="theme-pill-home" class="header-pill cursor-pointer pointer-events-auto hover:scale-105 shadow-sm" onclick="toggleTheme()">
         <span id="theme-text-home">Mode Terang</span>
         <div id="theme-icon-home"></div>
       </div>
@@ -408,16 +423,16 @@
       </div>
 
       <div class="space-y-3.5 pt-2 max-w-xs sm:max-w-sm md:max-w-md mx-auto w-full">
-        <button onclick="goToView('viewLogin')" class="glass-button-primary w-full py-3.5 px-5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2.5 transition transform active:scale-95 shadow-lg">
+        <button id="btn-dash-home" onclick="goToView('viewLogin')" class="glass-button-primary w-full py-3.5 px-5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2.5 transition transform active:scale-95 shadow-lg">
           <i data-lucide="log-in" class="w-4 h-4 md:w-5 md:h-5"></i> Masuk Dashboard
         </button>
-        <button onclick="goToView('viewCatatPelanggaran')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2.5 transition hover:bg-yellow-400/10">
+        <button id="btn-catat-home" onclick="goToView('viewCatatPelanggaran')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2.5 transition hover:bg-yellow-400/10">
           <i data-lucide="shield-alert" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Catat Kedisiplinan
         </button>
-        <button onclick="openDataMasukModal('pelanggaran')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2.5 transition hover:bg-yellow-400/10">
+        <button id="btn-datamasuk-home" onclick="openDataMasukModal('pelanggaran')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-semibold text-xs md:text-sm flex items-center justify-center gap-2.5 transition hover:bg-yellow-400/10">
           <i data-lucide="inbox" class="w-4 h-4 md:w-5 md:h-5 text-yellow-600 dark:text-yellow-400"></i> Lihat Data Masuk
         </button>
-        <button onclick="goToView('viewTentang')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-medium text-xs md:text-sm flex items-center justify-center gap-2.5 transition">
+        <button id="btn-tentang-home" onclick="goToView('viewTentang')" class="glass-button-secondary w-full py-3 md:py-3.5 px-5 rounded-2xl font-medium text-xs md:text-sm flex items-center justify-center gap-2.5 transition">
           <i data-lucide="info" class="w-4 h-4 text-slate-400"></i> Tentang KDI Center
         </button>
       </div>
@@ -454,7 +469,6 @@
           <p class="text-xs md:text-sm text-p-theme hidden sm:block mt-1">Catat data pelanggaran siswa hari ini</p>
         </div>
         <div class="flex items-center gap-2">
-          <!-- INDIKATOR SYNC DI CARD CATAT KEDISIPLINAN -->
           <div class="header-pill text-xs shadow-sm">
             <div id="statusDotCatat" class="status-dot"></div>
             <span id="statusTextCatat">Terhubung</span>
@@ -545,6 +559,11 @@
         </div>
       </div>
 
+      <!-- TOMBOL MULAI PETUNJUK INTERAKTIF -->
+      <button onclick="startKdiTour()" class="w-full py-3.5 px-4 rounded-2xl bg-amber-500/20 text-yellow-800 dark:text-yellow-300 border border-yellow-500/40 font-bold text-xs md:text-sm transition flex items-center justify-center gap-2 hover:bg-yellow-400/30 mb-3 shadow-md">
+        <i data-lucide="compass" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Mulai Petunjuk Interaktif
+      </button>
+
       <button onclick="goToView('viewHome')" class="glass-button-primary w-full py-3 rounded-2xl text-xs md:text-sm font-bold max-w-xs mx-auto">Tutup</button>
       <div class="text-[10px] md:text-xs font-bold text-slate-400 mt-6 tracking-wider uppercase">SUPPORT BY RAZUHFGKRUAY</div>
     </div>
@@ -566,6 +585,12 @@
           </div>
           
           <div class="flex items-center gap-2">
+            <!-- TOMBOL LAPORAN PEMBIASAAN (HEADER DASHBOARD) -->
+            <button onclick="openLaporanPembiasaanModal()" id="btnLaporanPembiasaanDash" class="header-pill hover:scale-105 bg-amber-500/20 border-amber-500/40 text-amber-800 dark:text-amber-300 font-bold hidden sm:flex" title="Laporan Pembiasaan & Cetak PDF">
+              <i data-lucide="file-text" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
+              <span>Laporan Pembiasaan</span>
+            </button>
+
             <button onclick="openPantauDataModal()" class="header-pill hover:scale-105 bg-yellow-500/20 border-yellow-500/40 text-yellow-800 dark:text-yellow-300 font-bold hidden sm:flex" title="Pantau & Edit Data Riwayat">
               <i data-lucide="calendar-search" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
               <span>Pantau Data</span>
@@ -996,43 +1021,17 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT LOGIC & PROTECTIONS ================= -->
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
-    // ====================================================================
-    // FITUR KEAMANAN: ANTI-INSPECT, ANTI-DOWNLOAD & ANTI-SHORTCUT
-    // ====================================================================
-    // 1. Disable Klik Kanan
+    // FITUR KEAMANAN: ANTI-INSPECT (DENGAN SAFEGUARDS MOUNT)
     document.addEventListener('contextmenu', e => e.preventDefault());
-
-    // 2. Disable Shortcut Developer Tools & Save Page
     document.addEventListener('keydown', e => {
-      if (e.key === 'F12') {
-        e.preventDefault();
-        return false;
-      }
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
-        e.preventDefault();
-        return false;
-      }
-      if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) {
-        e.preventDefault();
-        return false;
-      }
+      if (e.key === 'F12') e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) e.preventDefault();
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) e.preventDefault();
     });
 
-    // 3. Anti-Debugger Trap
-    setInterval(() => {
-      const startTime = performance.now();
-      debugger;
-      const endTime = performance.now();
-      if (endTime - startTime > 100) {
-        window.location.reload();
-      }
-    }, 1000);
-
-    // ====================================================================
     // KONFIGURASI GLOBAL & URL APPS SCRIPT
-    // ====================================================================
     const API_URL = "https://script.google.com/macros/s/AKfycbyxJqB21sfGOrXqpD9OIKTM83yb6Et1PEymXJdT0rhidN1FW8vvgGuBG5ZnxUO8ff7ofg/exec";
 
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 111.41 1.41L6.05 7.34a1 1 0 01-1.41-1.41l1.35-1.35zm12.02 12.02a1 1 0 111.41 1.41l-1.35 1.35a1 1 0 11-1.41-1.41l1.35 1.35zM5.99 19.42a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35zm12.02-12.02a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35z"/></svg>`;
@@ -1064,6 +1063,16 @@
 
     let rawPantauStudents = [];
     let dismissedNotifs = JSON.parse(localStorage.getItem('kdi_dismissed_notifs') || "[]");
+
+    // HELPER UNTUK BUKA MODAL PEMBIASAAN DARI DRAWER
+    function openLaporanPembiasaanFromDrawer() {
+      toggleSidebarDrawer(false);
+      if (typeof openLaporanPembiasaanModal === 'function') {
+        openLaporanPembiasaanModal();
+      } else {
+        showCustomAlert("Informasi", "Fitur Laporan Pembiasaan sedang disiapkan...");
+      }
+    }
 
     function showCustomAlert(title, message) {
       document.getElementById('customAlertTitle').innerText = title;
@@ -1289,7 +1298,6 @@
       if (iconDash) iconDash.innerHTML = isDark ? moonIcon : sunIcon;
     }
 
-    // UPDATE FUNGSI SET SYNC STATE TERMASUK STATUS DOT DI CARD CATAT KEDISIPLINAN
     function setSyncState(state, text) {
       ['statusDotHome', 'statusDotDash', 'statusDotDrawer', 'statusDotCatat'].forEach(id => {
         const dot = document.getElementById(id);
@@ -1318,7 +1326,6 @@
       lucide.createIcons();
     }
 
-    // VERIFIKASI LOGIN OTORISASI SERVER-SIDE
     async function handleLogin(e) {
       e.preventDefault();
       const pwd = document.getElementById('passwordInput').value.trim();
@@ -1489,7 +1496,6 @@
       renderPelanggaranList();
     }
 
-    /* KIRIM DATA KEDISIPLINAN DENGAN VISUAL SYNC LOADING */
     async function kirimDaftarPelanggaran() {
       if (pendingPelanggaran.length === 0) {
         showCustomAlert("Perhatian", "Antrean daftar siswa masih kosong!");
@@ -1539,7 +1545,6 @@
       }
     }
 
-    /* LOGIKA PANTAU & EDIT DATA RIWAYAT ABSENSI */
     function initPantauControls() {
       const bulanSelect = document.getElementById('pantauSelectBulan');
       if (bulanSelect) bulanSelect.value = ""; 
@@ -1845,7 +1850,6 @@
       }
     }
 
-    /* FITUR: LIHAT DATA MASUK DENGAN REKAP AKUMULASI */
     function openDataMasukModal(type = 'pelanggaran') {
       toggleModal('dataMasukModal', true);
       switchDataMasukTab(type);
@@ -2739,7 +2743,6 @@
       else { m.classList.add('hidden'); m.classList.remove('flex'); }
     }
 
-    // Registrasi Service Worker PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
@@ -2747,26 +2750,10 @@
           .catch(err => console.error('Gagal registrasi Service Worker:', err));
       });
     }
-
-    function kirimNotifikasi(judul, pesan) {
-      if (!("Notification" in window)) return;
-      Notification.requestPermission().then(function (permission) {
-        if (permission === "granted") {
-          if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-            navigator.serviceWorker.ready.then(function (reg) {
-              reg.showNotification(judul, {
-                body: pesan,
-                icon: "logo-kdi.png",
-                badge: "logo-kdi.png",
-                vibrate: [200, 100, 200]
-              });
-            });
-          } else {
-            new Notification(judul, { body: pesan, icon: "logo-kdi.png" });
-          }
-        }
-      });
-    }
   </script>
+
+  <!-- PANGGIL SCRIPT PEMBIASAAN & PETUNJUK INTERAKTIF -->
+  <script src="laporanpembiasaan.js"></script>
+  <script src="petunjuk.js"></script>
 </body>
 </html>
