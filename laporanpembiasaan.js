@@ -54,7 +54,7 @@ function setupLaporanUI() {
             <i data-lucide="file-text" class="w-5 h-5"></i>
           </div>
           <div>
-            <h3 class="font-bold text-white text-base md:text-lg tracking-wide">Cetak Laporan KDI</h3>
+            <h3 class="font-bold text-white text-base md:text-lg tracking-wide">Cetak Laporan Pembiasaan</h3>
             <p class="text-xs text-slate-400 font-medium">Monitoring & Evaluasi Ibadah</p>
           </div>
         </div>
@@ -425,7 +425,7 @@ async function buatPDFVektor(kelas, periodeTeks, listSiswa) {
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(8); doc.setFont("helvetica", "italic"); doc.setTextColor(148, 163, 184); 
-    doc.text("KDI Center System - SMAN 2 Depok", 12, doc.internal.pageSize.getHeight() - 10);
+    doc.text("KDI Center System - SMA Muhammadiyah 2 Depok", 12, doc.internal.pageSize.getHeight() - 10);
     doc.text(`Halaman ${i} / ${pageCount}`, pageWidth - 12, doc.internal.pageSize.getHeight() - 10, { align: "right" });
   }
 
@@ -436,6 +436,6 @@ async function buatPDFVektor(kelas, periodeTeks, listSiswa) {
   
   setTimeout(() => {
     closeLaporanPembiasaanModal();
-    showCustomAlert("Sukses", `Laporan KDI Kelas ${kelas} berhasil diunduh!`);
+    showCustomAlert("Sukses", `Laporan Pembiasaan Kelas ${kelas} berhasil diunduh!`);
   }, 1000);
 }
