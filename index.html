@@ -18,10 +18,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- html2pdf.js CDN (Ekspor PDF Laporan Pembiasaan) -->
   <!-- jsPDF & AutoTable CDN (Ekspor PDF Vektor Laporan Pembiasaan) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
@@ -793,14 +792,25 @@
       </div>
 
       <div class="p-4 bg-slate-50/50 dark:bg-white/5 border-b border-slate-200/60 dark:border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <label for="selectTanggalDataMasuk" class="text-xs font-bold text-p-theme whitespace-nowrap">Pilih Tanggal:</label>
-          <select id="selectTanggalDataMasuk" onchange="changeTanggalDataMasuk(this.value)" class="glass-input px-3 py-2 rounded-xl text-xs font-bold cursor-pointer w-full sm:w-auto min-w-[170px]">
-            <option value="">Memuat tanggal...</option>
-          </select>
+        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <label for="selectTanggalDataMasuk" class="text-xs font-bold text-p-theme whitespace-nowrap">Pilih Tanggal:</label>
+            <select id="selectTanggalDataMasuk" onchange="changeTanggalDataMasuk(this.value)" class="glass-input px-3 py-2 rounded-xl text-xs font-bold cursor-pointer w-full sm:w-auto min-w-[150px]">
+              <option value="">Memuat tanggal...</option>
+            </select>
+          </div>
+
+          <!-- SUB OPSI FILTER SESI UNTUK PELANGGARAN -->
+          <div id="containerFilterSesiDataMasuk" class="flex items-center gap-2">
+            <label class="text-xs font-bold text-p-theme whitespace-nowrap">Opsi Sesi:</label>
+            <div class="flex items-center gap-1 bg-slate-200/60 dark:bg-white/10 p-1 rounded-xl">
+              <button type="button" id="btnFilterSesiDhuha" onclick="changeSesiDataMasuk('Dhuha')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition">Dhuha</button>
+              <button type="button" id="btnFilterSesiDzuhur" onclick="changeSesiDataMasuk('Dzuhur')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition">Dzuhur</button>
+            </div>
+          </div>
         </div>
 
-        <button onclick="shareDataMasukWA()" class="glass-button-wa w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md">
+        <button onclick="shareDataMasukWA()" class="glass-button-wa w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shrink-0">
           <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan ke WA
         </button>
       </div>
@@ -1057,6 +1067,7 @@
     let activeNotifTab = "today"; 
 
     let currentDataMasukTab = "pelanggaran";
+    let selectedSesiDataMasuk = "Dhuha"; // OPSI FILTER SESI DATA MASUK PELANGGARAN
     let rawPelanggaranMasuk = [];
     let rawHaidMasuk = [];
     let selectedTanggalDataMasuk = "";
@@ -1859,16 +1870,41 @@
       currentDataMasukTab = type;
       const btnP = document.getElementById('tabBtnDataPelanggaran');
       const btnH = document.getElementById('tabBtnDataHaid');
+      const containerFilterSesi = document.getElementById('containerFilterSesiDataMasuk');
 
       if (type === 'pelanggaran') {
         btnP.className = "flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-2";
         btnH.className = "flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2";
+        if (containerFilterSesi) containerFilterSesi.classList.remove('hidden');
+        updateSesiDataMasukButtonsUI();
       } else {
         btnH.className = "flex-1 py-2.5 px-3 rounded-xl bg-purple-400/30 text-purple-900 dark:text-purple-300 text-center transition font-bold flex items-center justify-center gap-2";
         btnP.className = "flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-2";
+        if (containerFilterSesi) containerFilterSesi.classList.add('hidden');
       }
 
       await loadDataMasuk();
+    }
+
+    function changeSesiDataMasuk(sesi) {
+      selectedSesiDataMasuk = sesi;
+      updateSesiDataMasukButtonsUI();
+      renderDataMasukContent();
+    }
+
+    function updateSesiDataMasukButtonsUI() {
+      const btnDhuha = document.getElementById('btnFilterSesiDhuha');
+      const btnDzuhur = document.getElementById('btnFilterSesiDzuhur');
+
+      if (btnDhuha && btnDzuhur) {
+        if (selectedSesiDataMasuk === 'Dhuha') {
+          btnDhuha.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-yellow-400 text-slate-900 shadow-sm transition";
+          btnDzuhur.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-p-theme hover:text-judul-theme transition";
+        } else {
+          btnDzuhur.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-yellow-400 text-slate-900 shadow-sm transition";
+          btnDhuha.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-p-theme hover:text-judul-theme transition";
+        }
+      }
     }
 
     async function loadDataMasuk() {
@@ -1965,10 +2001,19 @@
         return;
       }
 
-      const filtered = rawList.filter(item => item.tanggal === selectedTanggalDataMasuk);
+      let filtered = rawList.filter(item => item.tanggal === selectedTanggalDataMasuk);
+
+      // FILTER DATA PELANGGARAN BERDASARKAN SESI DHUHA / DZUHUR
+      if (isPelanggaran && selectedSesiDataMasuk) {
+        filtered = filtered.filter(item => {
+          const itemSesi = (item.sesi || 'Dhuha').toString().trim().toLowerCase();
+          return itemSesi === selectedSesiDataMasuk.toLowerCase();
+        });
+      }
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center py-10 text-slate-400 font-semibold">Tidak ada catatan data pada tanggal ini.</div>`;
+        const infoSesi = isPelanggaran ? ` untuk Sesi ${selectedSesiDataMasuk}` : '';
+        container.innerHTML = `<div class="text-center py-10 text-slate-400 font-semibold">Tidak ada catatan data pada tanggal ini${infoSesi}.</div>`;
         return;
       }
 
@@ -2049,9 +2094,17 @@
         return;
       }
 
-      const filtered = rawList.filter(item => item.tanggal === selectedTanggalDataMasuk);
+      let filtered = rawList.filter(item => item.tanggal === selectedTanggalDataMasuk);
+
+      if (isPelanggaran && selectedSesiDataMasuk) {
+        filtered = filtered.filter(item => {
+          const itemSesi = (item.sesi || 'Dhuha').toString().trim().toLowerCase();
+          return itemSesi === selectedSesiDataMasuk.toLowerCase();
+        });
+      }
+
       if (filtered.length === 0) {
-        showCustomAlert("Informasi", "Tidak ada data pada tanggal yang dipilih.");
+        showCustomAlert("Informasi", "Tidak ada data pada tanggal / sesi yang dipilih.");
         return;
       }
 
@@ -2078,7 +2131,7 @@
         return idxA - idxB;
       });
 
-      let title = isPelanggaran ? "*DATA MASUK KEDISIPLINAN SISWA*" : "*DATA MASUK ABSENSI HAID SISWI*";
+      let title = isPelanggaran ? `*DATA MASUK KEDISIPLINAN SISWA (${selectedSesiDataMasuk.toUpperCase()})*` : "*DATA MASUK ABSENSI HAID SISWI*";
       let textWA = `${title}\n`;
       textWA += `📅 *Tanggal:* ${tglFormatted}\n`;
       textWA += `📊 *Total:* ${filtered.length} Catatan Masuk\n`;
