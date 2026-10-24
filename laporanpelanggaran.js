@@ -101,12 +101,12 @@ async function generatePDFLaporanPelanggaran() {
     docPage.setFont("helvetica", "bold");
     docPage.setFontSize(15);
     docPage.setTextColor(15, 23, 42);
-    docPage.text("LAPORAN REKAPITULASI KEDISIPLINAN SISWA", 105, 22, { align: "center" });
+    docPage.text("LAPORAN REKAPITULASI KEDISIPLINAN IBADAH SISWA", 105, 22, { align: "center" });
 
     docPage.setFontSize(10);
     docPage.setFont("helvetica", "bold");
     docPage.setTextColor(184, 134, 11);
-    docPage.text("KDI CENTER • SMA MUHAMMADIYAH 2 DEPOK", 105, 27, { align: "center" });
+    docPage.text("KDI CENTER • PR IPM SMA MUHAMMADIYAH 2 DEPOK", 105, 27, { align: "center" });
 
     docPage.setFontSize(8);
     docPage.setFont("helvetica", "normal");
