@@ -18,7 +18,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- jsPDF & AutoTable CDN (Ekspor PDF Vektor Laporan Pembiasaan) -->
+  <!-- jsPDF & AutoTable CDN (Ekspor PDF Vektor Laporan Pembiasaan & Pelanggaran) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -275,7 +275,7 @@
     </div>
   </div>
 
-  <!-- ================= SIDEBAR MENU DRAWER ================= -->
+  <!-- ================= SIDEBAR MENU DRAWER (SAMPING) ================= -->
   <div id="sidebarDrawer" class="hidden-drawer fixed inset-0 z-50 pointer-events-none">
     <div id="sidebarDrawerOverlay" onclick="toggleSidebarDrawer(false)" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm pointer-events-auto"></div>
     
@@ -296,7 +296,8 @@
           </button>
         </div>
 
-        <div class="space-y-2">
+        <div class="space-y-2.5">
+          <!-- 1. PANTAU & EDIT DATA -->
           <button onclick="openPantauDataFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 flex items-center justify-center shrink-0 border border-yellow-500/30">
               <i data-lucide="calendar-search" class="w-5 h-5"></i>
@@ -307,7 +308,7 @@
             </div>
           </button>
 
-          <!-- TOMBOL LAPORAN PEMBIASAAN (DRAWER) -->
+          <!-- 2. LAPORAN PEMBIASAAN -->
           <button onclick="openLaporanPembiasaanFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-amber-400 hover:bg-amber-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
               <i data-lucide="file-text" class="w-5 h-5"></i>
@@ -318,7 +319,19 @@
             </div>
           </button>
 
-          <button onclick="manualRefreshFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
+          <!-- 3. PDF REKAP PELANGGARAN -->
+          <button onclick="toggleSidebarDrawer(false); generatePDFLaporanPelanggaran();" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-rose-400 hover:bg-rose-400/10 text-left">
+            <div class="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/30">
+              <i data-lucide="file-text" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-judul-theme">PDF Rekap Pelanggaran</div>
+              <div class="text-[10px] text-p-theme font-medium">Cetak PDF pelanggaran siswa (10.1 - 12.6)</div>
+            </div>
+          </button>
+
+          <!-- 4. REFRESH DATA -->
+          <button onclick="manualRefreshFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-blue-400 hover:bg-blue-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/30">
               <i data-lucide="refresh-cw" id="drawerRefreshIcon" class="w-5 h-5"></i>
             </div>
@@ -328,7 +341,8 @@
             </div>
           </button>
 
-          <button onclick="openDataMasukFromDrawer('pelanggaran')" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
+          <!-- 5. LOG DATA MASUK -->
+          <button onclick="openDataMasukFromDrawer('pelanggaran')" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-amber-400 hover:bg-amber-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
               <i data-lucide="inbox" class="w-5 h-5"></i>
             </div>
@@ -338,6 +352,7 @@
             </div>
           </button>
 
+          <!-- 6. PREVIEW SPREADSHEET -->
           <button onclick="openPreviewSheetFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-emerald-400 hover:bg-emerald-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
               <i data-lucide="table" class="w-5 h-5"></i>
@@ -348,6 +363,7 @@
             </div>
           </button>
 
+          <!-- 7. BUKA SPREADSHEET FULL -->
           <a href="https://docs.google.com/spreadsheets/d/1nDu_wrmuT9lStA8MGjRnUcg8laPr5qizPK1o0bd_CQo" target="_blank" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-emerald-400 hover:bg-emerald-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
               <i data-lucide="external-link" class="w-5 h-5"></i>
@@ -358,6 +374,7 @@
             </div>
           </a>
 
+          <!-- 8. CATAT KEDISIPLINAN -->
           <button onclick="openCatatPelanggaranFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/30">
               <i data-lucide="shield-alert" class="w-5 h-5"></i>
@@ -368,7 +385,8 @@
             </div>
           </button>
 
-          <button onclick="openTentangFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-yellow-400 hover:bg-yellow-400/10 text-left">
+          <!-- 9. TENTANG APLIKASI -->
+          <button onclick="openTentangFromDrawer()" class="w-full p-3.5 rounded-2xl glass-button-secondary flex items-center gap-3.5 text-xs md:text-sm font-bold transition hover:border-purple-400 hover:bg-purple-400/10 text-left">
             <div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/30">
               <i data-lucide="info" class="w-5 h-5"></i>
             </div>
@@ -568,7 +586,7 @@
     </div>
   </div>
 
-  <!-- ================= PAGE 5: DASHBOARD MONITORING ================= -->
+  <!-- ================= PAGE 5: DASHBOARD MONITORING (BERSIH & RAPI) ================= -->
   <div id="viewDashboard" class="hidden flex-col min-h-screen justify-between relative z-10 w-full">
     <div>
       <header class="glass-card sticky top-0 z-30 border-b border-slate-200/60 dark:border-white/10 rounded-b-2xl shadow-sm">
@@ -584,17 +602,6 @@
           </div>
           
           <div class="flex items-center gap-2">
-            <!-- TOMBOL LAPORAN PEMBIASAAN (HEADER DASHBOARD) -->
-            <button onclick="openLaporanPembiasaanModal()" id="btnLaporanPembiasaanDash" class="header-pill hover:scale-105 bg-amber-500/20 border-amber-500/40 text-amber-800 dark:text-amber-300 font-bold hidden sm:flex" title="Laporan Pembiasaan & Cetak PDF">
-              <i data-lucide="file-text" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
-              <span>Laporan Pembiasaan</span>
-            </button>
-
-            <button onclick="openPantauDataModal()" class="header-pill hover:scale-105 bg-yellow-500/20 border-yellow-500/40 text-yellow-800 dark:text-yellow-300 font-bold hidden sm:flex" title="Pantau & Edit Data Riwayat">
-              <i data-lucide="calendar-search" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
-              <span>Pantau Data</span>
-            </button>
-
             <div class="header-pill hidden md:flex">
               <div id="statusDotDash" class="status-dot"></div>
               <span id="statusTextDash" class="text-xs">Terhubung</span>
@@ -609,6 +616,7 @@
               <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden animate-bounce">0</span>
             </button>
 
+            <!-- TOMBOL UTAMA BUKA DRAWER MENU Samping -->
             <button onclick="toggleSidebarDrawer(true)" class="header-pill hover:scale-105 bg-yellow-400/20 border-yellow-400/50 text-yellow-900 dark:text-yellow-300 font-extrabold px-3.5" title="Buka Menu Sidebar">
               <i data-lucide="menu" class="w-5 h-5 text-yellow-700 dark:text-yellow-300"></i>
               <span class="hidden sm:inline font-bold">Menu</span>
@@ -839,7 +847,7 @@
         <button onclick="switchNotifTab('today')" id="btnNotifTabToday" class="flex-1 py-2.5 px-3 rounded-xl bg-yellow-400/30 text-yellow-900 dark:text-yellow-300 text-center transition font-bold flex items-center justify-center gap-1.5">
           <i data-lucide="calendar" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i> Hari Ini (<span id="countNotifToday">0</span>)
         </button>
-        <button onclick="switchNotifTab('overall')" id="btnNotifTabOverall" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition font-semibold flex items-center justify-center gap-1.5">
+        <button onclick="switchNotifTab('overall')" id="btnNotifTabOverall" class="flex-1 py-2.5 px-3 rounded-xl text-p-theme hover:text-judul-theme text-center transition flex items-center justify-center gap-1.5">
           <i data-lucide="shield-alert" class="w-4 h-4 text-rose-500"></i> Keseluruhan (<span id="countNotifOverall">0</span>)
         </button>
       </div>
@@ -1054,6 +1062,8 @@
     ];
 
     let classDataStore = {};
+    window.classDataStore = classDataStore;
+
     let availableDatesStore = [];
     let allStudentsMaster = JSON.parse(localStorage.getItem('kdi_students_master') || "[]");
     let selectedSiswaPelanggaran = null;
@@ -1067,7 +1077,7 @@
     let activeNotifTab = "today"; 
 
     let currentDataMasukTab = "pelanggaran";
-    let selectedSesiDataMasuk = "Dhuha"; // OPSI FILTER SESI DATA MASUK PELANGGARAN
+    let selectedSesiDataMasuk = "Dhuha";
     let rawPelanggaranMasuk = [];
     let rawHaidMasuk = [];
     let selectedTanggalDataMasuk = "";
@@ -1226,6 +1236,7 @@
 
         if (result && result.status === "success" && result.data) {
           classDataStore = result.data;
+          window.classDataStore = result.data; // Sinkronkan ke objek window
           
           if (result.availableDates && Array.isArray(result.availableDates)) {
             availableDatesStore = result.availableDates;
@@ -2003,7 +2014,6 @@
 
       let filtered = rawList.filter(item => item.tanggal === selectedTanggalDataMasuk);
 
-      // FILTER DATA PELANGGARAN BERDASARKAN SESI DHUHA / DZUHUR
       if (isPelanggaran && selectedSesiDataMasuk) {
         filtered = filtered.filter(item => {
           const itemSesi = (item.sesi || 'Dhuha').toString().trim().toLowerCase();
@@ -2805,8 +2815,9 @@
     }
   </script>
 
-  <!-- PANGGIL SCRIPT PEMBIASAAN & PETUNJUK INTERAKTIF -->
+  <!-- PANGGIL SCRIPT PEMBIASAAN, PELANGGARAN, DAN PETUNJUK INTERAKTIF -->
   <script src="laporanpembiasaan.js"></script>
+  <script src="laporanpelanggaran.js"></script>
   <script src="petunjuk.js"></script>
 </body>
 </html>
